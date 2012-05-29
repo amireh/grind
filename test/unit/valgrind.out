@@ -1,0 +1,6 @@
+==8978== Memcheck, a memory error detector
+==8978== Copyright (C) 2002-2011, and GNU GPL'd, by Julian Seward et al.
+==8978== Using Valgrind-3.7.0 and LibVEX; rerun with -h for copyright info
+==8978== Command: ./hello_world.lua
+==8978== Parent PID: 8977
+==8978== 

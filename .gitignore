@@ -1,0 +1,11 @@
+bin
+build
+
+log
+
+exclude
+
+lib/
+lib*.so
+
+bin/grind.cfg
