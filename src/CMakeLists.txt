@@ -1,6 +1,7 @@
 SET(GRIND_SRCS
   main.cpp
   kernel.cpp
+  watcher.cpp
   message.cpp
   dispatcher.cpp
   connection.cpp
@@ -12,6 +13,7 @@ SET(GRIND_SRCS
 
   configurator.cpp
   configurable.cpp
+  script_engine.cpp
 )
 
 ADD_EXECUTABLE(grind ${GRIND_SRCS})

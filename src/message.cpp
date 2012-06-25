@@ -28,7 +28,7 @@ namespace grind {
 
   using utility::stringify;
 
-  const char* message::footer = "\r\n\r\n";
+  const char* message::footer = "\n";
   const uint32_t message::max_length = 65563;
   const string_t message::null_property_ = "";
 

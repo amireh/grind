@@ -35,6 +35,7 @@
 #include "grind.hpp"
 #include "dispatcher.hpp"
 #include "message.hpp"
+#include "script_engine.hpp"
 
 namespace grind {
 
@@ -54,7 +55,7 @@ namespace grind {
     // : public logger
   {
   public:
-    explicit connection(boost::asio::io_service& io_service);
+    explicit connection(boost::asio::io_service& io_service, script_engine&);
     virtual ~connection();
 
     boost::asio::ip::tcp::socket& socket();
@@ -67,7 +68,7 @@ namespace grind {
      *
      * The message's feedback field will be set to message_feedback::ok if it's unassigned.
      */
-    virtual void send(message&);
+    // virtual void send(message&);
 
     /**
      * The dispatcher responsible for notifying listeners to incoming messages.
@@ -82,9 +83,11 @@ namespace grind {
   protected:
     boost::asio::ip::tcp::socket socket_;
     boost::asio::strand           strand_;
-    boost::asio::mutable_buffer   body_;
-    boost::asio::streambuf        request_;
-    boost::asio::streambuf        response_;
+    // boost::asio::mutable_buffer   body_;
+    // boost::asio::streambuf        request_;
+    // boost::asio::streambuf        response_;
+    script_engine                 &se_;
+    char data_[1024];
 
     dispatcher  dispatcher_;
     message     outbound_, inbound_;
@@ -97,7 +100,7 @@ namespace grind {
     virtual void read();
     virtual void on_read( const boost::system::error_code& error, std::size_t bytes_transferred);
 
-    virtual void do_send(message&);
+    // virtual void do_send(message&);
   };
 
   /** @} */

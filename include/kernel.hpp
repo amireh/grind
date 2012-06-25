@@ -27,6 +27,8 @@
 #include "grind.hpp"
 #include "logger.hpp"
 #include "configurable.hpp"
+#include "watcher.hpp"
+#include "script_engine.hpp"
 
 #include <string>
 #include <vector>
@@ -51,6 +53,7 @@ namespace grind {
     struct {
       string_t  listen_interface; /* default: 0.0.0.0 */
       string_t  port;             /* default: 11142 */
+      string_t  watched_file;
     } cfg;
 
     explicit kernel();
@@ -60,7 +63,7 @@ namespace grind {
 
     void init();
 
-    void configure(string_t const& path_to_config);
+    virtual void configure(string_t const& path_to_config);
 
     /**
      * Starts the kernel, launches the Watcher, and begins accepting watcher
@@ -102,6 +105,10 @@ namespace grind {
 
     bool running_; /** set to TRUE when the kernel is online and accepting connections */
     bool init_; /** set to TRUE when the kernel has allocated its resources properly */
+
+    std::vector<watcher*> watchers_;
+
+    script_engine se_;
   };
 
 

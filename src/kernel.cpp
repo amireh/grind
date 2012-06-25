@@ -85,6 +85,8 @@ namespace grind {
   {
     info() << "grind running on: " << cfg.listen_interface << ":" << cfg.port;
 
+    se_.start();
+
     init_ = true;
 
     // open the client acceptor with the option to reuse the address (i.e. SO_REUSEADDR).
@@ -102,9 +104,16 @@ namespace grind {
       accept();
     }
 
+    running_ = true;
+
+    if (!cfg.watched_file.empty()) {
+      watchers_.push_back(new watcher(cfg.watched_file));
+      workers_.create_thread(boost::bind(&watcher::watch, watchers_.back()));
+      // watchers_.back()->watch();
+    }
+
     workers_.create_thread(boost::bind(&kernel::work, boost::ref(this)));
 
-    running_ = true;
 
     // wait for all threads in the pool to exit
     workers_.join_all();
@@ -123,6 +132,16 @@ namespace grind {
 
     new_connection_.reset();
     connections_.clear();
+
+    for (auto watcher : watchers_)
+      watcher->stop();
+
+    while (!watchers_.empty()) {
+      delete watchers_.back();
+      watchers_.pop_back();
+    }
+
+    se_.stop();
 
     log_manager::singleton().cleanup();
     delete &log_manager::singleton();
@@ -168,7 +187,7 @@ namespace grind {
 	 *	main routines
 	 * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ */
    void kernel::accept() {
-      new_connection_.reset(new connection(io_service_));
+      new_connection_.reset(new connection(io_service_, se_));
       new_connection_->assign_close_handler(boost::bind(&kernel::close, this, _1));
       acceptor_.async_accept(new_connection_->socket(),
           boost::bind(&kernel::on_accept, this,
@@ -203,8 +222,8 @@ namespace grind {
       cfg.listen_interface = value;
     else if (key == "port")
       cfg.port = value;
-    // else if (key == "nr_workers" || key == "workers")
-      // config_.nr_workers = utility::convertTo<int>(value);
+    else if (key == "watch file")
+      cfg.watched_file = value;
     else {
       log_->warnStream() << "unknown grind config setting '"
         << key << "' => '" << value << "', discarding";

@@ -27,6 +27,7 @@
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
 #include <boost/bind.hpp>
+#include <boost/regex.hpp>
 
 #include <pthread.h>
 #include <signal.h>
