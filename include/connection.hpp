@@ -42,13 +42,16 @@ namespace grind {
   class connection;
   typedef boost::shared_ptr<connection> connection_ptr;
   typedef boost::function<void(connection_ptr)> close_handler_t;
+  typedef boost::asio::ip::tcp::socket socket_t;
+  typedef boost::asio::strand strand_t;
+
+  typedef char buf_t;
 
   /**
    * \addtogroup Console
    * @{
    * @class connection
-   * A privileged admin connection from a system administrator used
-   * by the Console.
+   * Represents a stream connection from a log providor.
    **/
   class connection
     : public boost::enable_shared_from_this<connection>
@@ -63,44 +66,21 @@ namespace grind {
     virtual void start();
     virtual void stop();
 
-    /**
-     * Send a message to the client.
-     *
-     * The message's feedback field will be set to message_feedback::ok if it's unassigned.
-     */
-    // virtual void send(message&);
-
-    /**
-     * The dispatcher responsible for notifying listeners to incoming messages.
-     *
-     * This handle is necessary for you to
-     */
-    dispatcher& get_dispatcher();
-
     /** Register a callback that will be called when this connection has stopped. */
     void assign_close_handler(close_handler_t);
 
   protected:
-    boost::asio::ip::tcp::socket socket_;
-    boost::asio::strand           strand_;
-    // boost::asio::mutable_buffer   body_;
-    // boost::asio::streambuf        request_;
-    // boost::asio::streambuf        response_;
-    script_engine                 &se_;
-    char data_[1024];
+    enum { BUFSZ = 1024 };
 
-    dispatcher  dispatcher_;
-    message     outbound_, inbound_;
-
+    socket_t          socket_;
+    strand_t          strand_;
+    script_engine     &se_;
+    char              data_[BUFSZ];
     close_handler_t   close_handler_;
 
   protected:
-    friend class console;
-
     virtual void read();
     virtual void on_read( const boost::system::error_code& error, std::size_t bytes_transferred);
-
-    // virtual void do_send(message&);
   };
 
   /** @} */

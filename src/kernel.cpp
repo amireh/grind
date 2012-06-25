@@ -106,11 +106,11 @@ namespace grind {
 
     running_ = true;
 
-    if (!cfg.watched_file.empty()) {
-      watchers_.push_back(new watcher(cfg.watched_file));
-      workers_.create_thread(boost::bind(&watcher::watch, watchers_.back()));
+    // if (!cfg.watched_file.empty()) {
+      // watchers_.push_back(new watcher(cfg.watched_file));
+      // workers_.create_thread(boost::bind(&watcher::watch, watchers_.back()));
       // watchers_.back()->watch();
-    }
+    // }
 
     workers_.create_thread(boost::bind(&kernel::work, boost::ref(this)));
 
@@ -133,13 +133,13 @@ namespace grind {
     new_connection_.reset();
     connections_.clear();
 
-    for (auto watcher : watchers_)
-      watcher->stop();
+    // for (auto watcher : watchers_)
+      // watcher->stop();
 
-    while (!watchers_.empty()) {
-      delete watchers_.back();
-      watchers_.pop_back();
-    }
+    // while (!watchers_.empty()) {
+      // delete watchers_.back();
+      // watchers_.pop_back();
+    // }
 
     se_.stop();
 
@@ -171,7 +171,7 @@ namespace grind {
 
     info() << "shutting down gracefully, waiting for current terminals to disengage, please wait";
 
-    for (connection_ptr conn : connections_)
+    for (auto conn : connections_)
       conn->stop();
 
     connections_.clear();
@@ -208,8 +208,10 @@ namespace grind {
   }
 
   void kernel::close(connection_ptr conn) {
-    scoped_lock lock(conn_mtx_);
-    connections_.remove(conn);
+    strand_.post([&, conn]() -> void {
+      scoped_lock lock(conn_mtx_);
+      connections_.remove(conn);
+    });
   }
 
   bool kernel::is_running() const {

@@ -1,9 +1,9 @@
 SET(GRIND_SRCS
   main.cpp
   kernel.cpp
-  watcher.cpp
-  message.cpp
-  dispatcher.cpp
+  # watcher.cpp
+  # message.cpp
+  # dispatcher.cpp
   connection.cpp
 
   log_manager.cpp

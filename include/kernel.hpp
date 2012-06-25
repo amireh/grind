@@ -27,7 +27,7 @@
 #include "grind.hpp"
 #include "logger.hpp"
 #include "configurable.hpp"
-#include "watcher.hpp"
+// #include "watcher.hpp"
 #include "script_engine.hpp"
 
 #include <string>
@@ -106,7 +106,7 @@ namespace grind {
     bool running_; /** set to TRUE when the kernel is online and accepting connections */
     bool init_; /** set to TRUE when the kernel has allocated its resources properly */
 
-    std::vector<watcher*> watchers_;
+    // std::vector<watcher*> watchers_;
 
     script_engine se_;
   };

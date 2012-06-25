@@ -22,36 +22,15 @@
  */
 
 #include "connection.hpp"
-// #include <pcrecpp.h>
-#include <boost/regex.hpp>
 
 namespace grind {
 
-  // static pcrecpp::RE* re_ = nullptr;
-  static boost::regex regex_;
   connection::connection(boost::asio::io_service& io_service, script_engine& se)
   : socket_(io_service),
     strand_(io_service),
-    // request_(message::max_length),
-    // response_(message::max_length),
     se_(se),
-    dispatcher_(io_service),
     close_handler_()
   {
-    // regex_ = boost::regex("([A-Z]{1}[a-z}{2}) ([0-9]+) ([0-9]{2}:[0-9]{2}:[0-9]{2})");
-    // if (!re_) {
-    //   pcrecpp::RE_Options opts_;
-    //   string_t pattern = "([A-Z]{1}[a-z}{2}) ([0-9]+) ([0-9]{2}:[0-9]{2}:[0-9]{2})";
-    //   re_ = new pcrecpp::RE(pattern, opts_);
-
-    //   if (!re_->error().empty())
-    //   {
-    //     string_t msg = "PCRE compilation failed for pattern '" + pattern + "', error: " + re_->error();
-    //     delete re_;
-    //     re_ = nullptr;
-    //     throw std::runtime_error(msg);
-    //   }
-    // }
   }
 
   connection::~connection() {
@@ -59,10 +38,6 @@ namespace grind {
 
   boost::asio::ip::tcp::socket& connection::socket() {
     return socket_;
-  }
-
-  dispatcher& connection::get_dispatcher() {
-    return dispatcher_;
   }
 
   void connection::assign_close_handler(close_handler_t in_cb)
@@ -90,19 +65,11 @@ namespace grind {
   }
 
   void connection::read() {
-    inbound_.reset();
-    // request_.consume(request_.size());
     for (char& c : data_)
       c = '\0';
 
     socket_.async_read_some(
-      boost::asio::buffer(data_, 1024),
-    // async_read_until(
-      // socket_,
-      // request_,
-      // regex_,
-      // "Jun 25 12:31:48",
-    //   // 4096,
+      boost::asio::buffer(data_, BUFSZ),
       boost::bind(
         &connection::on_read,
         this,
@@ -119,22 +86,9 @@ namespace grind {
   {
     if (!e) {
       std::cout << "Received " << bytes_transferred << " bytes\n";
-      // we use a loop since a buffer might hold more than 1 msg
-      // std::ostringstream s;
-      // s << &request_;
-      // std::istream is(&request_);
-      // s << is;
-      // for (int i = 0; i < bytes_transferred; ++i)
-        // s << is.get();
-      // string_t data_ = s.str();
 
       // std::cout << "Message[" << ++msg_id << "] received: '" << data_ << "'";
       string_t data(data_);
-      std::cout << "Message[" << ++msg_id << "] received: '" << string_t(data) << "'";
-      fflush(stdout);
-      // while (request_.size() > 0 && inbound_.from_stream(request_)) {
-        // dispatcher_.deliver(inbound_);
-      // }
       se_.relay(data);
 
       // read next message
@@ -145,26 +99,5 @@ namespace grind {
     }
   }
 
-  // void connection::send(message &msg) {
-  //   strand_.post(boost::bind(&connection::do_send, this, msg));
-  // }
-
-  // void connection::do_send(message& msg)
-  // {
-  //   outbound_ = message(msg);
-
-  //   if (outbound_.feedback == message_feedback::unassigned)
-  //     outbound_.feedback = message_feedback::ok;
-
-  //   outbound_.to_stream(response_);
-
-  //   boost::system::error_code ec;
-  //   size_t n = boost::asio::write(socket_, response_.data(), boost::asio::transfer_all(), ec);
-
-  //   if (!ec) {
-  //     response_.consume(n);
-  //   } else
-  //     stop();
-  // }
 
 } // namespace grind
