@@ -35,10 +35,10 @@
 namespace grind {
 
   typedef boost::filesystem::path path_t;
-
+  class kernel;
   class script_engine : public configurable, public logger {
   public:
-    script_engine();
+    script_engine(kernel&);
     virtual ~script_engine();
 
     struct {
@@ -59,11 +59,13 @@ namespace grind {
     virtual void set_option(const string_t&, const string_t&);
   private:
     void push_userdata(void* data, string_t type);
-    bool pass_to_lua(const char* inFunc, int argc, ...);
+    bool pass_to_lua(const char* inFunc, std::function<void()> = nullptr, int argc = 0, ...);
     void handle_error();
 
     lua_State  *lua_;
     int         id_;
+    bool        stopping_;
+    kernel      &kernel_;
 
     boost::interprocess::interprocess_mutex mtx_;
 

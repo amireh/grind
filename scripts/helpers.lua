@@ -1,5 +1,6 @@
 require 'lfs'
 require 'rex_pcre'
+require 'logging'
 
 -- Locates the function identified by @name and passes it
 -- the arguments. This is used by the C/C++ wrapper.
@@ -39,23 +40,29 @@ end
 
 -- Splits a string by the delimiter @pat.
 -- Returns a table of all the delimited parts.
-function split(str, pat)
-   local t = {}  -- NOTE: use {n = 0} in Lua-5.0
-   local fpat = "(.-)" .. pat
-   local last_end = 1
-   local s, e, cap = str:find(fpat, 1)
-   while s do
-      if s ~= 1 or cap ~= "" then
-   table.insert(t,cap)
-      end
-      last_end = e+1
-      s, e, cap = str:find(fpat, last_end)
-   end
-   if last_end <= #str then
-      cap = str:sub(last_end)
-      table.insert(t, cap)
-   end
-   return t
+function split(str, pat, nr_occurences, keep_last)
+  local t = {}  -- NOTE: use {n = 0} in Lua-5.0
+  local fpat = "(.-)" .. pat
+  local last_end = 1
+  local s, e, cap = str:find(fpat, 1)
+  local curr_count = 0
+  while s do
+    if nr_occurences and nr_occurences <= curr_count then break end
+
+    if s ~= 1 or cap ~= "" then
+      table.insert(t,cap)
+    end
+    curr_count = curr_count + 1
+    last_end = e+1
+    s, e, cap = str:find(fpat, last_end)
+  end
+
+  if last_end <= #str and (not nr_occurences or keep_last) then
+    cap = str:sub(last_end)
+    table.insert(t, cap)
+  end
+
+  return t
 end
 
 -- A multi-char delimiter string splitting routine.
@@ -100,6 +107,13 @@ end
 function capitalize(str)
   if not str then return nil end
   return (str:gsub("^%l", string.upper))
+end
+
+function find_by_key(t, key)
+  for k,v in pairs(t) do
+    if k == key then return v end
+  end
+  return nil
 end
 
 function find_by_cond(in_table, functor)
@@ -195,15 +209,21 @@ end
 function create_regex(ptrn)
   local regex = rex_pcre.new(ptrn)
   if not regex then
-    return log("Invalid PCRE regex pattern '" .. ptrn .. "'", Log.Error)
+    return log("Invalid PCRE regex pattern '" .. ptrn .. "'", log_level.error)
   end
 
   -- test the pattern just in case there's a capture error
   local str = "test_string"
   local res, msg = pcall( rex_pcre.gsub, str, regex, "foobar" )
   if not res then
-    return log( "Invalid PCRE regex '" .. ptrn .."'. Cause: " .. msg, Log.Error)
+    return log( "Invalid PCRE regex '" .. ptrn .."'. Cause: " .. msg, log_level.error)
   end
 
   return regex
+end
+
+function load_script(script)
+  script = script:gsub(".lua", "")
+  package.loaded[script] = nil
+  return require(script)
 end

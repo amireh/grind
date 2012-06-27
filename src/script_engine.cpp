@@ -1,5 +1,6 @@
 #include "script_engine.hpp"
 #include "utility.hpp"
+#include "kernel.hpp"
 
 extern "C" {
   // #include "script_engine/swigluaruntime.h"
@@ -17,10 +18,12 @@ extern "C" {
 
 namespace grind {
 
-  script_engine::script_engine()
+  script_engine::script_engine(kernel& kernel)
   : configurable({ "script_engine" }),
     logger("script_engine"),
-    lua_(nullptr)
+    kernel_(kernel),
+    lua_(nullptr),
+    stopping_(false)
   {
     config.error_handling = CATCH_AND_DIE;
     config.error_handling = CATCH_AND_THROW;
@@ -66,23 +69,7 @@ namespace grind {
       return handle_error();
     }
 
-    lua_getglobal(lua_, "arbitrator");
-    if(!lua_isfunction(lua_, -1))
-    {
-      log_->errorStream() << "could not find Lua arbitrator functor! Corrupt state?";
-      return handle_error();
-    }
-
-    lua_pushfstring(lua_, "grind.start");
-    ec = lua_pcall(lua_, 1, 1, 0);
-    if (ec != 0)
-    {
-      // there was a lua error, dump the state and shut down the instance
-      return handle_error();
-    }
-
-    bool result = lua_toboolean(lua_, lua_gettop(lua_));
-    lua_remove(lua_, lua_gettop(lua_));
+    pass_to_lua("grind.start", 0);
 
     log_->infoStream() << "grind Lua engine has started.";
   }
@@ -100,28 +87,22 @@ namespace grind {
   }
 
   void script_engine::stop() {
-    if (!lua_) {
+    if (!lua_ || stopping_) {
       return;
     }
 
+    stopping_ = true;
+
     log_->infoStream() << "grind Lua is stopping...";
 
-    lua_getglobal(lua_, "arbitrator");
-    if(lua_isfunction(lua_, -1)) {
-      lua_pushfstring(lua_, "grind.stop");
-      int ec = lua_pcall(lua_, 1, 1, 0);
-      if (ec != 0) {
-        bool result = lua_toboolean(lua_, lua_gettop(lua_));
-        lua_remove(lua_, lua_gettop(lua_));
-      }
-    } else {
-      log_->errorStream() << "could not find Lua's arbitrator! Corrupt state?";
-    }
+    pass_to_lua("grind.stop", 0);
 
     lua_close(lua_);
     lua_ = nullptr;
 
     log_->infoStream() << "grind Lua is off.";
+
+    stopping_ = false;
   }
 
   void script_engine::handle_error() {
@@ -172,7 +153,7 @@ namespace grind {
   //       (type + " *").c_str()),0);
   // }
 
-  bool script_engine::pass_to_lua(const char* in_func, int argc, ...) {
+  bool script_engine::pass_to_lua(const char* in_func, std::function<void()> arg_extractor, int argc, ...) {
     va_list argp;
 
     lua_getfield(lua_, LUA_GLOBALSINDEX, "arbitrator");
@@ -202,20 +183,30 @@ namespace grind {
       handle_error();
     }
 
-    bool result = lua_toboolean(lua_, lua_gettop(lua_));
-    lua_remove(lua_, lua_gettop(lua_));
+    if (arg_extractor)
+      arg_extractor();
 
-    return result;
+    return true;
   }
 
   void script_engine::relay(string_t const& buf) {
 
     mtx_.lock();
 
-    bool result =
-      pass_to_lua("grind.handle",
-                  1,
-                  "std::string", &buf);
+
+    string_t result;
+    pass_to_lua("grind.handle",
+                [&]() -> void {
+                  result = lua_tostring(lua_, lua_gettop(lua_));
+                  lua_remove(lua_, lua_gettop(lua_));
+                },
+                1,
+                "std::string", &buf);
+
+    std::cout << "Result: \n" << result << '\n';
+    if (result != "[]") {
+      kernel_.broadcast(result);
+    }
 
     mtx_.unlock();
   }

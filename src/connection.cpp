@@ -25,10 +25,12 @@
 
 namespace grind {
 
-  connection::connection(boost::asio::io_service& io_service, script_engine& se)
+  connection::connection(boost::asio::io_service& io_service, script_engine& se, int type)
   : socket_(io_service),
     strand_(io_service),
     se_(se),
+    logger("connection"),
+    type_(type),
     close_handler_()
   {
   }
@@ -50,7 +52,8 @@ namespace grind {
     boost::asio::socket_base::non_blocking_io command(true);
     socket_.io_control(command);
 
-    read();
+    // if (type_ == RECEIVER_CONNECTION)
+      read();
   }
 
   void connection::stop() {
@@ -62,6 +65,10 @@ namespace grind {
 
     if (close_handler_)
       close_handler_(shared_from_this());
+  }
+
+  void connection::set_type(int type) {
+    type_ = type;
   }
 
   void connection::read() {
@@ -85,7 +92,11 @@ namespace grind {
   connection::on_read( const boost::system::error_code& e, std::size_t bytes_transferred)
   {
     if (!e) {
-      std::cout << "Received " << bytes_transferred << " bytes\n";
+      
+      if (type_ != RECEIVER_CONNECTION)
+        return;
+
+      info() << "Received " << bytes_transferred << " bytes";
 
       // std::cout << "Message[" << ++msg_id << "] received: '" << data_ << "'";
       string_t data(data_);
@@ -99,5 +110,31 @@ namespace grind {
     }
   }
 
+  void connection::send(string_t const& msg) {
+    strand_.post(boost::bind(&connection::do_send, this, msg));
+  }
 
+  void connection::do_send(string_t const& msg)
+  {
+    if (type_ != WATCHER_CONNECTION)
+      return;
+
+    // outbound_ = message(msg);
+
+    // if (outbound_.feedback == message_feedback::unassigned)
+    //   outbound_.feedback = message_feedback::ok;
+
+    // outbound_.to_stream(response_);
+    std::ostream stream(&response_);
+    stream << msg;
+
+    boost::system::error_code ec;
+    size_t n = boost::asio::write(socket_, response_.data(), boost::asio::transfer_all(), ec);
+
+    if (ec) {
+      return stop();
+    }
+
+    response_.consume(n);
+  }
 } // namespace grind

@@ -33,8 +33,7 @@
 #include <boost/enable_shared_from_this.hpp>
 
 #include "grind.hpp"
-#include "dispatcher.hpp"
-#include "message.hpp"
+#include "logger.hpp"
 #include "script_engine.hpp"
 
 namespace grind {
@@ -44,6 +43,7 @@ namespace grind {
   typedef boost::function<void(connection_ptr)> close_handler_t;
   typedef boost::asio::ip::tcp::socket socket_t;
   typedef boost::asio::strand strand_t;
+  typedef boost::asio::streambuf streambuf_t;
 
   typedef char buf_t;
 
@@ -54,17 +54,27 @@ namespace grind {
    * Represents a stream connection from a log providor.
    **/
   class connection
-    : public boost::enable_shared_from_this<connection>
-    // : public logger
+    : public boost::enable_shared_from_this<connection>,
+      public logger
   {
   public:
-    explicit connection(boost::asio::io_service& io_service, script_engine&);
+    
+    enum {
+      RECEIVER_CONNECTION,
+      WATCHER_CONNECTION
+    };
+
+    explicit connection(boost::asio::io_service& io_service, script_engine&, int type);
     virtual ~connection();
 
     boost::asio::ip::tcp::socket& socket();
 
-    virtual void start();
-    virtual void stop();
+    void set_type(int);
+    
+    void start();
+    void stop();
+    
+    void send(string_t const&);
 
     /** Register a callback that will be called when this connection has stopped. */
     void assign_close_handler(close_handler_t);
@@ -76,11 +86,14 @@ namespace grind {
     strand_t          strand_;
     script_engine     &se_;
     char              data_[BUFSZ];
+    streambuf_t       response_;
     close_handler_t   close_handler_;
+    int               type_;
 
   protected:
-    virtual void read();
-    virtual void on_read( const boost::system::error_code& error, std::size_t bytes_transferred);
+    void read();
+    void on_read( const boost::system::error_code& error, std::size_t bytes_transferred);
+    void do_send(string_t const&);
   };
 
   /** @} */

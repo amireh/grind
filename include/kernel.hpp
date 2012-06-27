@@ -52,8 +52,9 @@ namespace grind {
   public:
     struct {
       string_t  listen_interface; /* default: 0.0.0.0 */
+      string_t  watcher_interface; /* default: 0.0.0.0 */
       string_t  port;             /* default: 11142 */
-      string_t  watched_file;
+      string_t  watcher_port;     /* default: 11144 */
     } cfg;
 
     explicit kernel();
@@ -82,23 +83,29 @@ namespace grind {
     void set_option(string_t const& key, string_t const& value);
 
   protected:
-    // marks the connection as dead and will be removed sometime later
-    void close(connection_ptr);
+    friend class script_engine;
+    void broadcast(string_t const& msg);
 
   private:
+    // marks the connection as dead and will be removed sometime later
+    void close(connection_ptr);
     // a thread handling io_service::run()
     void work();
 
     void accept();
+    void accept_watcher();
     void on_accept(const boost::system::error_code &e);
+    void on_watcher_accepted(const boost::system::error_code &e);
 
     boost::asio::io_service io_service_;
     boost::asio::strand strand_;
     boost::thread_group workers_;
     boost::asio::ip::tcp::acceptor acceptor_;
+    boost::asio::ip::tcp::acceptor watcher_acceptor_;
 
     // the next connection to be accepted
     connection_ptr new_connection_;
+    connection_ptr new_watcher_connection_;
     std::list<connection_ptr> connections_;
     std::list<connection_ptr> paused_connections_;
     boost::interprocess::interprocess_mutex conn_mtx_;

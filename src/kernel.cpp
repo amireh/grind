@@ -37,13 +37,17 @@ namespace grind {
     io_service_(),
     strand_(io_service_),
     acceptor_(io_service_),
+    watcher_acceptor_(io_service_),
     new_connection_(),
-
+    new_watcher_connection_(),
     running_(false),
-    init_(false)
+    init_(false),
+    se_(*this)
   {
     cfg.listen_interface = "0.0.0.0";
+    cfg.watcher_interface = "0.0.0.0";
     cfg.port = "11142";
+    cfg.watcher_port = "11144";
   }
 
   kernel::~kernel()
@@ -83,7 +87,8 @@ namespace grind {
 
   void kernel::start()
   {
-    info() << "grind running on: " << cfg.listen_interface << ":" << cfg.port;
+    info() << "accepting logs on: " << cfg.listen_interface << ":" << cfg.port;
+    info() << "accepting watchers on: " << cfg.watcher_interface << ":" << cfg.watcher_port;
 
     se_.start();
 
@@ -102,6 +107,21 @@ namespace grind {
 
       // accept connections
       accept();
+    }
+
+    // open the client acceptor with the option to reuse the address (i.e. SO_REUSEADDR).
+    {
+      // boost::asio::ip::tcp::resolver resolver(io_service_pool_.get_io_service());
+      boost::asio::ip::tcp::resolver resolver(io_service_);
+      boost::asio::ip::tcp::resolver::query query(cfg.watcher_interface, cfg.watcher_port);
+      boost::asio::ip::tcp::endpoint endpoint = *resolver.resolve(query);
+      watcher_acceptor_.open(endpoint.protocol());
+      watcher_acceptor_.set_option(boost::asio::ip::tcp::acceptor::reuse_address(true));
+      watcher_acceptor_.bind(endpoint);
+      watcher_acceptor_.listen();
+
+      // accept connections
+      accept_watcher();
     }
 
     running_ = true;
@@ -131,6 +151,7 @@ namespace grind {
     info() << "cleaning up";
 
     new_connection_.reset();
+    new_watcher_connection_.reset();
     connections_.clear();
 
     // for (auto watcher : watchers_)
@@ -187,7 +208,7 @@ namespace grind {
 	 *	main routines
 	 * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ */
    void kernel::accept() {
-      new_connection_.reset(new connection(io_service_, se_));
+      new_connection_.reset(new connection(io_service_, se_, connection::RECEIVER_CONNECTION));
       new_connection_->assign_close_handler(boost::bind(&kernel::close, this, _1));
       acceptor_.async_accept(new_connection_->socket(),
           boost::bind(&kernel::on_accept, this,
@@ -201,6 +222,26 @@ namespace grind {
       new_connection_->start();
 
       accept();
+    } else {
+      error() << "couldn't accept connection! " << e;
+      throw std::runtime_error("unable to accept connection, see log for more info");
+    }
+  }
+   void kernel::accept_watcher() {
+      new_watcher_connection_.reset(new connection(io_service_, se_, connection::WATCHER_CONNECTION));
+      new_watcher_connection_->assign_close_handler(boost::bind(&kernel::close, this, _1));
+      watcher_acceptor_.async_accept(new_watcher_connection_->socket(),
+          boost::bind(&kernel::on_watcher_accepted, this,
+            boost::asio::placeholders::error));
+   }
+
+   void kernel::on_watcher_accepted(const boost::system::error_code &e) {
+    if (!e)
+    {
+      connections_.push_back(new_watcher_connection_);
+      new_watcher_connection_->start();
+
+      accept_watcher();
     } else {
       error() << "couldn't accept connection! " << e;
       throw std::runtime_error("unable to accept connection, see log for more info");
@@ -220,15 +261,28 @@ namespace grind {
 
   void kernel::set_option(string_t const& key, string_t const& value)
   {
-    if (key == "listen_interface" || key == "interface")
+    if (key == "listen_interface")
       cfg.listen_interface = value;
     else if (key == "port")
       cfg.port = value;
-    else if (key == "watch file")
-      cfg.watched_file = value;
+    else if (key == "watcher_interface")
+      cfg.watcher_interface = value;
+    else if (key == "watcher_port")
+      cfg.watcher_port = value;
+
     else {
       log_->warnStream() << "unknown grind config setting '"
         << key << "' => '" << value << "', discarding";
     }
   }
+
+  void kernel::broadcast(string_t const& msg) {
+    conn_mtx_.lock();
+
+    for (auto c : connections_)
+      c->send(msg);
+
+    conn_mtx_.unlock();
+  }
+
 } // namespace grind
