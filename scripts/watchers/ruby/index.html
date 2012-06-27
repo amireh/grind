@@ -1,0 +1,63 @@
+<html>
+  <head>
+    <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js'></script>
+    <script>
+      $(document).ready(function(){
+        function debug(str){ $("#debug").append("<p>"+str+"</p>"); };
+
+        ws = new WebSocket("ws://127.0.0.1:8181/websocket");
+        ws.onmessage = function(evt) {
+          var messages = null;
+          try {
+            messages = JSON.parse(evt.data)
+          } catch(err) {
+            console.log("BAD DATA: " + err)
+            return;
+          }
+
+          console.log(messages);
+          for (var i =0; i < messages.length; ++i) {
+            var msg = messages[i];
+            $("table tbody").append("<tr></tr>");
+            var tr = $("table tbody tr:last");
+            tr.append("<td>" + msg.meta.timestamp + "</td>");
+            tr.append("<td>" + msg.meta.fqdn + "</td>");
+            tr.append("<td>" + msg.meta.app + "</td>");
+            tr.append("<td>" + msg.meta.context + "</td>");
+            tr.append("<td>" + msg.meta.uuid + "</td>");
+            tr.append("<td>" + msg.meta.module + "</td>");
+            tr.append("<td>" + msg.body + "</td>");
+            // $("#msg").append("<p>"+evt.data+"</p>");
+            
+          }
+        };
+        ws.onclose = function() { debug("socket closed"); };
+        ws.onopen = function() {
+          debug("connected...");
+          ws.send("hello server");
+        };
+      });
+    </script>
+  </head>
+  <body>
+    <div id="debug"></div>
+    <div id="msg"></div>
+    <table>
+      <thead>
+        <tr>
+          <th>Timestamp</th>
+          <th>FQDN</th>
+          <th>Application</th>
+          <th>Context</th>
+          <th>UUID</th>
+          <th>Module</th>
+          <th>Message</th>
+        </tr>
+      </thead>
+      <tbody>
+
+      </tbody>
+    </table>
+
+  </body>
+</html>

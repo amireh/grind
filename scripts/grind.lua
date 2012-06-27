@@ -47,7 +47,7 @@ function grind.stop()
 end
 
 function grind.handle(text)
-  -- print("Handling '" .. text .. "'")
+  log("Handling '" .. text .. "'")
 
   text = leftovers .. text
   local entries = {}
@@ -76,7 +76,8 @@ function grind.handle(text)
         assert(type(body) == "string", "Group " .. group.label .. "'s extractor returned no message.body string!")
 
         for k,v in pairs(meta) do entry.meta[k] = v end
-        entry.content = content
+        entry.body = body
+        entry.meta.raw = nil
 
         table.insert(entries, entry)
 
