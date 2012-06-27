@@ -279,9 +279,14 @@ namespace grind {
   void kernel::broadcast(string_t const& msg) {
     conn_mtx_.lock();
 
-    for (auto c : connections_)
+    int nr_watchers = 0;
+    for (auto c : connections_) {
       c->send(msg);
+      if (c->is_watcher())
+        ++nr_watchers;      
+    }
 
+    info() << "broadcasting to " << nr_watchers << " watchers";
     conn_mtx_.unlock();
   }
 

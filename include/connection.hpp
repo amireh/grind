@@ -70,6 +70,9 @@ namespace grind {
     boost::asio::ip::tcp::socket& socket();
 
     void set_type(int);
+    int type();
+    bool is_watcher() const;
+    bool is_receiver() const;
     
     void start();
     void stop();

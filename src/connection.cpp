@@ -137,4 +137,14 @@ namespace grind {
 
     response_.consume(n);
   }
+
+  int connection::type() {
+    return type_;
+  }
+  bool connection::is_watcher() const {
+    return type_ == WATCHER_CONNECTION;
+  }
+  bool connection::is_receiver() const {
+    return type_ == RECEIVER_CONNECTION;
+  }
 } // namespace grind
