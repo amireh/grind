@@ -99,6 +99,7 @@ namespace grind {
       info() << "Received " << bytes_transferred << " bytes";
 
       // std::cout << "Message[" << ++msg_id << "] received: '" << data_ << "'";
+      data_[BUFSZ] = '\0';
       string_t data(data_);
       se_.relay(data);
 
