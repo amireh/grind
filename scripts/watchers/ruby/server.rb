@@ -85,16 +85,18 @@ EventMachine.run {
     
     def receive_data(data)
       @mtx.synchronize do
+        puts "Chunk received: #{data.size}: \n<<!#{data}!>>"
+        # puts "--\n Buffer was: \n<<!#{@data}!>>"
         @data << data
-        puts data
         @parser.parse(@data)
       end
     end
     
     def object_parsed(obj)
       # @mtx.synchronize do
-        puts "Sometimes one pays most for the things one gets for nothing. - Albert Einstein"
-        puts obj.inspect
+        # puts "Sometimes one pays most for the things one gets for nothing. - Albert Einstein"
+        # puts "\tObject created: #{@data.size}: \n<<!#{obj.to_json}!>>"
+        # puts obj.inspect
         @data = ""
         @@channel.push obj.to_json
       # end
@@ -124,6 +126,7 @@ EventMachine.run {
       }
 
       ws.onclose {
+        debug("closing")
         @channel.unsubscribe(sid)
       }
     }

@@ -1,63 +1,112 @@
 <html>
   <head>
-    <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js'></script>
+    <link rel="stylesheet" href="./watcher.css" type="text/css" />
+    <script src='jquery.1.7.1.min.js'></script>
     <script>
+      var ws = null;
+
+      ws_onmessage = function(evt) {
+        var messages = null;
+        try {
+          messages = JSON.parse(evt.data)
+        } catch(err) {
+          console.log("BAD DATA: " + err)
+          return;
+        }
+
+        console.log(messages);
+        for (var i =0; i < messages.length; ++i) {
+          var msg = messages[i];
+          $("table tbody").append("<tr></tr>");
+          var tr = $("table tbody tr:last");
+          tr.append("<td>" + msg.meta.timestamp + "</td>");
+          tr.append("<td>" + msg.meta.fqdn + "</td>");
+          tr.append("<td>" + msg.meta.app + "</td>");
+          tr.append("<td>" + msg.meta.context + "</td>");
+          tr.append("<td>" + msg.meta.uuid + "</td>");
+          tr.append("<td>" + msg.meta.module + "</td>");
+          tr.append("<td>" + msg.body + "</td>");
+          // $("#msg").append("<p>"+evt.data+"</p>");
+          
+        }
+      };
+      ws_onclose = function() { toggle_alterable($("#status")) };
+      ws_onopen = function() {
+        // debug("connected...");
+        toggle_alterable($("#status"));
+
+        ws.send("hello server");
+      };
+    
+      toggle_alterable = function(el) {
+        var el = $(el);
+
+        if (el.attr("data-alt-text")) {
+          var val = el.html();
+          el.html(el.attr("data-alt-text"));
+          el.attr("data-alt-text", val);
+        }
+
+        if (el.attr("data-alt-class")) {
+          var old_classes = el.attr("class");
+          el.removeClass(old_classes);
+          el.addClass(el.attr("data-alt-class"));
+          el.attr("data-alt-class", old_classes);
+        }
+      }
       $(document).ready(function(){
-        function debug(str){ $("#debug").append("<p>"+str+"</p>"); };
 
-        ws = new WebSocket("ws://127.0.0.1:8181/websocket");
-        ws.onmessage = function(evt) {
-          var messages = null;
-          try {
-            messages = JSON.parse(evt.data)
-          } catch(err) {
-            console.log("BAD DATA: " + err)
-            return;
+        $("#toggle_feed").click(function() {
+          if ($(this).attr("data-toggled") == "true") {
+            $(this).attr("data-toggled", null);
+            ws.close();
+          } else {
+            $(this).attr("data-toggled", "true");
+            ws = new WebSocket("ws://127.0.0.1:8181/websocket");
+            ws.onopen = ws_onopen;            
+            ws.onclose = ws_onclose;            
+            ws.onmessage = ws_onmessage;            
           }
 
-          console.log(messages);
-          for (var i =0; i < messages.length; ++i) {
-            var msg = messages[i];
-            $("table tbody").append("<tr></tr>");
-            var tr = $("table tbody tr:last");
-            tr.append("<td>" + msg.meta.timestamp + "</td>");
-            tr.append("<td>" + msg.meta.fqdn + "</td>");
-            tr.append("<td>" + msg.meta.app + "</td>");
-            tr.append("<td>" + msg.meta.context + "</td>");
-            tr.append("<td>" + msg.meta.uuid + "</td>");
-            tr.append("<td>" + msg.meta.module + "</td>");
-            tr.append("<td>" + msg.body + "</td>");
-            // $("#msg").append("<p>"+evt.data+"</p>");
-            
-          }
-        };
-        ws.onclose = function() { debug("socket closed"); };
-        ws.onopen = function() {
-          debug("connected...");
-          ws.send("hello server");
-        };
+          toggle_alterable($(this));
+        }).click();
       });
     </script>
   </head>
   <body>
-    <div id="debug"></div>
-    <div id="msg"></div>
-    <table>
-      <thead>
-        <tr>
-          <th>Timestamp</th>
-          <th>FQDN</th>
-          <th>Application</th>
-          <th>Context</th>
-          <th>UUID</th>
-          <th>Module</th>
-          <th>Message</th>
-        </tr>
-      </thead>
-      <tbody>
+    <header>
+      <hgroup>
+        <h1>grind HTML5 Watcher</h1>
+        <h2></h2>
+      <hgroup>
+    </header>
 
-      </tbody>
-    </table>
+    <section id="status_bar">
+      <button data-alt-text="Stop accepting" id="toggle_feed">Start accepting</button>
+      <span>STATUS:</span>
+      <span id="status" data-alt-text="ONLINE" data-alt-class="online" class="offline">OFFLINE</span>
+    </section>
+
+    <div id="debug"></div>
+    <section>
+      <h1>Entries</h1>
+      <table style="text-align: left">
+        <thead>
+          <tr>
+            <th width="10%">Timestamp</th>
+            <th width="10%">FQDN</th>
+            <th width="10%">Application</th>
+            <th width="5%">Context</th>
+            <th width="10%">UUID</th>
+            <th width="15%">Module</th>
+            <th>Message</th>
+          </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+      </table>
+    </section>
 
   </body>
 </html>
