@@ -60,7 +60,7 @@ EventMachine.run {
       }
 
       ws.onclose {
-        debug("closing")
+        puts "Channel closing"
         @channel.unsubscribe(sid)
       }
     }
