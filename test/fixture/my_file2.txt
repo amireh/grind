@@ -1,2 +1,0 @@
-Jun 25 12:31:44 cornholio dakapi: [I] Channel[translations]: closing ADOOKEN
-Jun 25 12:31:46 cornholio dakapi: [I] Channel[translations]: closing2

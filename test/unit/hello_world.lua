@@ -1,5 +1,6 @@
 #!/usr/bin/env lua
 
+package.cpath = "/usr/local/lib/?.so;" .. package.cpath
 local ncurses = require "lua_ncurses"
 
 local printw = ncurses.printw
