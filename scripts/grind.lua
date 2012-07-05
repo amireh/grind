@@ -1,5 +1,5 @@
 require 'rex_pcre'
-json = require 'json'
+json = require 'dkjson'
 
 grind = grind or { config = {}, paths = {} }
 
@@ -26,7 +26,9 @@ function grind.start()
   require 'entry'
   require 'parser'
 
-  for dir in ilist({ "groups", "groups/parsers" }) do
+  log("Delimiter pattern: " .. grind.config.delimiter, log_level.info)
+
+  for dir in ilist({ "groups", "views" }) do
     for filename in dirtree(grind.paths.root .. '/' .. dir) do
       if filename:find(".lua") then
         load_script(filename)
@@ -47,7 +49,7 @@ function grind.stop()
 end
 
 function grind.handle(text)
-  -- print("Handling '" .. text .. "'")
+  log("Handling '" .. text .. "'")
 
   text = leftovers .. text
   local entries = {}
@@ -57,7 +59,7 @@ function grind.handle(text)
     b,e,c = delimiter_rex:find(text,e)
     b2,e2,c2 = delimiter_rex:find(text,e)
 
-    if not b or not b2 then
+    if b == nil or b2 == nil then
       break
     end
 
@@ -76,9 +78,26 @@ function grind.handle(text)
         assert(type(body) == "string", "Group " .. group.label .. "'s extractor returned no message.body string!")
 
         for k,v in pairs(meta) do entry.meta[k] = v end
-        entry.content = content
+        entry.body = body
+        entry.meta.raw = nil
 
-        table.insert(entries, entry)
+        -- any views defined?
+        for __,view in pairs(group.views) do
+          if view.matcher(entry) then
+            for ___,vgroup in pairs(view.groups) do
+              local res, formatted_entry = vgroup.formatter(vgroup.context, entry)
+              if res and formatted_entry then
+                log("Committing an entry! : " .. tostring(json.encode(formatted_entry)))
+                table.insert(entries, { 
+                  group = group.label, 
+                  view = view.label, 
+                  view_group = vgroup.label,
+                  entry = formatted_entry })
+                vgroup.context = {}
+              end
+            end
+          end
+        end
 
         if group.exclusive then
           log("Group is exclusive, will discard entry now.")
@@ -112,12 +131,15 @@ function grind.define_group(glabel, options)
     formatter = nil,
     extractor = nil,
     exclusive = false,
-    parsers = {}
+    parsers = {},
+    views = {}
   }
 
   if options then
     for k,v in pairs(options) do grind.groups[glabel][k] = v end
   end
+
+  log("Application group defined: " .. glabel)
 end
 
 function grind.define_format(glabel, ptrn)
@@ -141,26 +163,96 @@ function grind.define_format(glabel, ptrn)
   end
 end
 
---[[
-define_extractor():
-  This method needs to define the metadata (if any) and the content
-  from the raw message. 
-
-  Arguments:
-    1. the application group this extractor applies to
-    2. the actual extractor method
-
-  The extractor's arguments:
-    1. the message's timestamp
-    2. the subpatterns captured by the group capturer in define_group()
-
-  Two values are expected to be returned:
-    1) a table to be used as the message's meta
-    2) the message content
-]]
+-- define_extractor():
+--
+-- An extractor is a function exclusive to an application group
+-- that locates and defines the metadata (if any) and the content
+-- from the raw entry. 
+--
+-- @param glabel the application group this extractor applies to
+-- @param extractor the extractor function, see below
+--
+-- The extractor's arguments:
+--   1. the message's timestamp
+--   2. the subpatterns captured by the group capturer in define_group()
+--
+-- Two values are expected to be returned:
+--   1. a table to be used as the message's meta
+--   2. the message content
 function grind.define_extractor(glabel, extractor)
   local group = grind.groups[glabel]
   assert(group, "No application group called '" .. glabel .. "' is defined, can not define extractor!")
 
   grind.groups[glabel].extractor = extractor
+end
+
+-- grind.define_view():
+--
+-- Views contain a subset of the collective entries by defining
+-- a general filter applied on the extracted entries. If the entry
+-- passes the filteration, it will be passed on to the view's
+-- groups for the final point of processing.
+--
+-- @param glabel the application group label
+-- @param vlabel a unique label to identify this view (referenced by the view groups)
+-- @param matcher a function that accepts the current entry and is expected
+--                to return a boolean indicating whether the entry should be
+--                passed on to the view groups or not
+function grind.define_view(glabel, vlabel, matcher)
+  local group = grind.groups[glabel]
+  assert(group, "No application group called '" .. glabel .. "' is defined, can not define extractor!")
+
+  grind.groups[glabel].views[vlabel] = { label = vlabel, matcher = matcher, groups = {} }
+  log("  View defined: " .. glabel .. "[" .. vlabel .. "]")
+end
+
+-- grind.define_view_group():
+--
+-- A view group is meant to combine very specific entries to be presented
+-- by the watcher interface as a group/listing.
+--
+-- @param glabel the application group label
+-- @param vlabel the view label
+-- @param vglabel a unique label to identify this view group
+-- @param formatter a function that accepts the view group's context and the entry
+--                  as arguments and is expected to return (at some point) a formatted version
+--                  of the original entry to be committed.
+--
+-- @note the view group's context is reset everytime an entry is committed by that group
+function grind.define_view_group(glabel, vlabel, vglabel, formatter)
+  local group = grind.groups[glabel]
+  assert(group, "No application group called '" .. glabel .. "' is defined, can not define extractor!")
+
+  local view = group.views[vlabel]
+  assert(view, 
+    "No view called '" .. vlabel .. "' is defined for the application group " .. 
+    glabel .. ", can not define view entry!")
+
+  grind.groups[glabel].views[vlabel].groups[vglabel] = { label = vglabel, context = {}, formatter = formatter }
+
+  log("    View group defined: " .. glabel .. "[" ..  vlabel .. "][" .. vglabel .. "]")
+end
+
+
+function grind.handle_cmd(buf)
+  local cmd = json.decode(buf)
+  if not cmd then
+    log("Unable to decode command, aborting")
+    return "nil"
+  end
+
+  local res = nil
+  if cmd["id"] == "list_groups" then
+    res = {}
+    for _, group in pairs(grind.groups) do
+      table.insert(res, group.label)
+    end
+  elseif cmd["id"] == "list_views" then
+    res = {}
+    for _, view in pairs(grind.groups[cmd.args.group].views) do
+      table.insert(res, view.label)
+    end
+  end
+
+  return json.encode({ command = cmd["id"], args = cmd.args or nil, result = res })
 end

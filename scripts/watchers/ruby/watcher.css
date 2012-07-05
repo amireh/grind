@@ -1,0 +1,42 @@
+body {
+  margin: 10px;
+}
+section#status_bar {
+  width: 100%;
+  /*background: #ddd;*/
+  /*color: #fff;*/
+  height: 40px;
+}
+
+input,
+textarea,
+button {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+span#status {
+  line-height: 40px;
+  /*padding: 0 20px;*/
+  font-weight: bold;
+  letter-spacing: 1px;
+  width: 80px;
+  display: inline-block;
+}
+span#status.online {
+  color: green;
+}
+span#status.offline {
+  color: red;
+}
+section#status_bar button {
+  /*padding: 10px;*/
+  /*border: 1px solid orange;*/
+  /*height: 40px;*/
+  line-height: 30px;
+  max-height: 40px;
+  cursor: pointer;
+  width: 130px;
+}
+

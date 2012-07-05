@@ -1,0 +1,137 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="./watcher.css" type="text/css" />
+    <script src='jquery.1.7.1.min.js'></script>
+    <script>
+      var ws = null;
+      groups = {};
+
+      send_cmd = function(cmd) {
+        ws.send(JSON.stringify(cmd));
+      }
+      handle_cmd = function(msg) {
+        switch(msg.command) {
+          case "list_groups":
+            for (var i=0; i < msg.result.length; ++i) {
+              var group = msg.result[i];
+              groups[group] = {}
+              send_cmd({ id: "list_views", args: { group: group } })
+            }
+            break;
+          case "list_views":
+            groups[msg.args.group].groups = msg.result;
+            break;
+        }
+      }
+
+      ws_onmessage = function(evt) {
+        var messages = null;
+        try {
+          messages = JSON.parse(evt.data)
+        } catch(err) {
+          console.log("BAD DATA: " + err)
+          return;
+        }
+
+        console.log(messages);
+        if (typeof(messages) == "object" && messages.command) {
+          handle_cmd(messages);
+          return;
+        }
+
+        for (var i =0; i < messages.length; ++i) {
+          var msg = messages[i];
+          $("table tbody").append("<tr></tr>");
+          var tr = $("table tbody tr:last");
+          tr.append("<td>" + msg.meta.timestamp + "</td>");
+          tr.append("<td>" + msg.meta.fqdn + "</td>");
+          tr.append("<td>" + msg.meta.app + "</td>");
+          tr.append("<td>" + msg.meta.context + "</td>");
+          tr.append("<td>" + msg.meta.uuid + "</td>");
+          tr.append("<td>" + msg.meta.module + "</td>");
+          tr.append("<td>" + msg.body + "</td>");
+          // $("#msg").append("<p>"+evt.data+"</p>");
+          
+        }
+      };
+      ws_onclose = function() { toggle_alterable($("#status")) };
+      ws_onopen = function() {
+        // debug("connected...");
+        toggle_alterable($("#status"));
+
+        ws.send(JSON.stringify({ id: "list_groups" }) );
+      };
+    
+      toggle_alterable = function(el) {
+        var el = $(el);
+
+        if (el.attr("data-alt-text")) {
+          var val = el.html();
+          el.html(el.attr("data-alt-text"));
+          el.attr("data-alt-text", val);
+        }
+
+        if (el.attr("data-alt-class")) {
+          var old_classes = el.attr("class");
+          el.removeClass(old_classes);
+          el.addClass(el.attr("data-alt-class"));
+          el.attr("data-alt-class", old_classes);
+        }
+      }
+      $(document).ready(function(){
+
+        $("#toggle_feed").click(function() {
+          if ($(this).attr("data-toggled") == "true") {
+            $(this).attr("data-toggled", null);
+            ws.close();
+          } else {
+            $(this).attr("data-toggled", "true");
+            ws = new WebSocket("ws://127.0.0.1:8181/websocket");
+            ws.onopen = ws_onopen;            
+            ws.onclose = ws_onclose;            
+            ws.onmessage = ws_onmessage;            
+          }
+
+          toggle_alterable($(this));
+        }).click();
+
+      });
+    </script>
+  </head>
+  <body>
+    <header>
+      <hgroup>
+        <h1>grind HTML5 Watcher</h1>
+        <h2></h2>
+      <hgroup>
+    </header>
+
+    <section id="status_bar">
+      <button data-alt-text="Stop accepting" id="toggle_feed">Start accepting</button>
+      <span>STATUS:</span>
+      <span id="status" data-alt-text="ONLINE" data-alt-class="online" class="offline">OFFLINE</span>
+    </section>
+
+    <div id="debug"></div>
+    <section>
+      <h1>Entries</h1>
+      <table style="text-align: left">
+        <thead>
+          <tr>
+            <th width="10%">Timestamp</th>
+            <th width="10%">FQDN</th>
+            <th width="10%">Application</th>
+            <th width="5%">Context</th>
+            <th width="10%">UUID</th>
+            <th width="15%">Module</th>
+            <th>Message</th>
+          </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+      </table>
+    </section>
+
+  </body>
+</html>

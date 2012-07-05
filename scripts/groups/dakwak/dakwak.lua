@@ -1,5 +1,5 @@
 grind.define_group("dakwak", { exclusive = true })
-grind.define_format("dakwak", "(\\w+) (\\w+): (\\[\\w{1}\\])(?: )?( {\\w+})? (.*): (.*)")
+grind.define_format("dakwak", "(\\w+) (\\w+): (\\[\\w{1}\\])(?: )?(\\s+{\\w+})?(\\s+[\\S]+): ((?sm).*)")
 grind.define_extractor("dakwak", 
   function(timestamp, fqdn, app, context, uuid, module, content)
     print("\tFQDN: " .. fqdn)
@@ -26,3 +26,5 @@ grind.define_extractor("dakwak",
 -- -- grind.define_parser("dakwak", "dakapi", function(gctx, pctx, msg)
 --   -- here you have msg.meta and msg.content ready for parsing!
 -- -- end)
+
+-- cornholio dakapi: [D] {012345678} connection: closed (elapsed: 7ms)

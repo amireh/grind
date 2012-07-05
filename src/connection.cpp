@@ -36,6 +36,7 @@ namespace grind {
   }
 
   connection::~connection() {
+    std::cout << "connection being destroyed\n";
   }
 
   boost::asio::ip::tcp::socket& connection::socket() {
@@ -53,7 +54,7 @@ namespace grind {
     socket_.io_control(command);
 
     // if (type_ == RECEIVER_CONNECTION)
-      read();
+    read();
   }
 
   void connection::stop() {
@@ -92,15 +93,23 @@ namespace grind {
   connection::on_read( const boost::system::error_code& e, std::size_t bytes_transferred)
   {
     if (!e) {
-      
-      if (type_ != RECEIVER_CONNECTION)
-        return;
 
-      info() << "Received " << bytes_transferred << " bytes";
-
-      // std::cout << "Message[" << ++msg_id << "] received: '" << data_ << "'";
+      info() << "Received " << bytes_transferred << " bytes"; 
+      data_[BUFSZ] = '\0';
       string_t data(data_);
-      se_.relay(data);
+
+      if (type_ == WATCHER_CONNECTION) {
+        
+        script_engine::cmd_rc_t rc = se_.handle_cmd(data);
+
+        if (rc.success) {
+          info() << "returning command response: " << rc.result;
+          do_send(rc.result, true);
+        }
+
+      } else {
+        se_.relay(data);
+      }
 
       // read next message
       read();
@@ -111,30 +120,38 @@ namespace grind {
   }
 
   void connection::send(string_t const& msg) {
-    strand_.post(boost::bind(&connection::do_send, this, msg));
+    strand_.post(boost::bind(&connection::do_send, this, msg, false));
   }
 
-  void connection::do_send(string_t const& msg)
+  void connection::do_send(string_t const& msg, bool single_buffer)
   {
-    if (type_ != WATCHER_CONNECTION)
-      return;
-
-    // outbound_ = message(msg);
-
-    // if (outbound_.feedback == message_feedback::unassigned)
-    //   outbound_.feedback = message_feedback::ok;
-
-    // outbound_.to_stream(response_);
-    std::ostream stream(&response_);
-    stream << msg;
-
     boost::system::error_code ec;
-    size_t n = boost::asio::write(socket_, response_.data(), boost::asio::transfer_all(), ec);
+    size_t n;
+    if (single_buffer) {
+      n = boost::asio::write(socket_, boost::asio::buffer(msg.c_str(), msg.size()), boost::asio::transfer_all(), ec);
+    } else {
+      std::ostream stream(&response_);
+      stream << msg;
+
+      n = boost::asio::write(socket_, response_.data(), boost::asio::transfer_all(), ec);
+      response_.consume(n);
+    }
+
+    debug() << "wrote " << n << " out of " << msg.size() << " bytes";
 
     if (ec) {
       return stop();
     }
 
-    response_.consume(n);
+  }
+
+  int connection::type() {
+    return type_;
+  }
+  bool connection::is_watcher() const {
+    return type_ == WATCHER_CONNECTION;
+  }
+  bool connection::is_receiver() const {
+    return type_ == RECEIVER_CONNECTION;
   }
 } // namespace grind
