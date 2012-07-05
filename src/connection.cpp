@@ -126,16 +126,16 @@ namespace grind {
   void connection::do_send(string_t const& msg, bool single_buffer)
   {
     boost::system::error_code ec;
-    size_t n;
-    if (single_buffer) {
+    size_t n = 0;
+    //if (single_buffer) {
       n = boost::asio::write(socket_, boost::asio::buffer(msg.c_str(), msg.size()), boost::asio::transfer_all(), ec);
-    } else {
-      std::ostream stream(&response_);
-      stream << msg;
+    //} else {
+      //std::ostream stream(&response_);
+      //stream << msg;
 
-      n = boost::asio::write(socket_, response_.data(), boost::asio::transfer_all(), ec);
-      response_.consume(n);
-    }
+      //n = boost::asio::write(socket_, response_.data(), boost::asio::transfer_all(), ec);
+      //response_.consume(n);
+    //}
 
     debug() << "wrote " << n << " out of " << msg.size() << " bytes";
 

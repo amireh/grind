@@ -281,9 +281,10 @@ namespace grind {
 
     int nr_watchers = 0;
     for (auto c : connections_) {
-      c->send(msg);
-      if (c->is_watcher())
+      if (c->is_watcher()) {
+      	c->send(msg);
         ++nr_watchers;      
+			}
     }
 
     info() << "broadcasting to " << nr_watchers << " watchers";
