@@ -15,7 +15,7 @@ IF (Lua_LIBRARIES AND Lua_INCLUDE_DIR)
 
   # Already in cache, be silent
   SET(Lua_FOUND TRUE)
-  SET(Lua_FIND_QUIETLY TRUE) 
+  SET(Lua_FIND_QUIETLY TRUE)
 #  MESSAGE(STATUS "Lua was found.")
 
 ELSE (Lua_LIBRARIES AND Lua_INCLUDE_DIR)
@@ -31,16 +31,19 @@ ELSE (Lua_LIBRARIES AND Lua_INCLUDE_DIR)
     /usr/pack/lua-5.0.3-sd/include)
 
   FIND_LIBRARY(Lua_LIBRARY_51 NAMES lua5.1 lua PATHS
+    /usr/lib/x86_64-linux-gnu
     /usr/lib
     /usr/local/lib
     ../libs/lua-5.1.3/lib)
 
   FIND_LIBRARY(Lua_LIBRARY_1_50 NAMES lua50 lua PATHS
+    /usr/lib/x86_64-linux-gnu
     /usr/pack/lua-5.0.3-sd/i686-debian-linux3.1/lib #tardis
     /usr/lib
     /usr/local/lib)
 
   FIND_LIBRARY(Lua_LIBRARY_2_50 NAMES lualib50 lualib PATHS
+    /usr/lib/x86_64-linux-gnu
     /usr/pack/lua-5.0.3-sd/i686-debian-linux3.1/lib #tardis
     /usr/lib
     /usr/local/lib)
@@ -65,7 +68,7 @@ ELSE (Lua_LIBRARIES AND Lua_INCLUDE_DIR)
     SET(Lua_LIBRARY_NAMES "lua50 lua, lualib50 lualib")
 
   ENDIF (Lua_INCLUDE_DIR_51 AND Lua_LIBRARY_51)
-	
+
 
   IF (Lua_FOUND)
     MESSAGE(STATUS "Lua was found.")
