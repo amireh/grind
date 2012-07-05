@@ -96,7 +96,7 @@ namespace grind {
   protected:
     void read();
     void on_read( const boost::system::error_code& error, std::size_t bytes_transferred);
-    void do_send(string_t const&);
+    void do_send(string_t const&, bool single_buffer = false);
   };
 
   /** @} */

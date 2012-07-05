@@ -4,13 +4,14 @@ require 'em-websocket'
 require 'json'
 require 'socket'
 require 'yajl'
+require 'yaml'
 
 EventMachine.run {
   @channel = EM::Channel.new
 
   module Watcher 
-    def self.set_channel(c)
-      @@channel = c
+    def set_channel(c)
+      @channel = c
     end
 
     def post_init
@@ -33,7 +34,8 @@ EventMachine.run {
       # puts "\tObject created: #{@data.size}: \n<<!#{obj.to_json}!>>"
       # puts obj.inspect
       @data = ""
-      @@channel.push obj.to_json
+      @channel.push obj.to_json
+      puts "Publishing #{obj.to_yaml}"
     end    
 
     def connection_completed
@@ -47,8 +49,8 @@ EventMachine.run {
     end
   end
 
-  EventMachine::connect '127.0.0.1', 11144, Watcher
-  Watcher.set_channel(@channel)
+  @comlink = EventMachine::connect '127.0.0.1', 11144, Watcher
+  @comlink.set_channel(@channel)
   EventMachine::WebSocket.start(:host => "0.0.0.0", :port => 8181, :debug => true) do |ws|
 
     ws.onopen {
@@ -56,7 +58,9 @@ EventMachine.run {
       # @channel.push "#{sid} connected!"
 
       ws.onmessage { |msg|
-        # @channel.push "<#{sid}>: #{msg}"
+        puts "Message received from <#{sid}>: #{msg}"
+        # @comlink.send_data(msg.to_json)
+        @comlink.send_data(msg)
       }
 
       ws.onclose {

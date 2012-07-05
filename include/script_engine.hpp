@@ -53,6 +53,13 @@ namespace grind {
 
     void relay(string_t const& buffer);
 
+    struct cmd_rc_t {
+      bool      success;
+      string_t  result;
+    };
+
+    cmd_rc_t handle_cmd(string_t const&);
+
     /** Destroys the Lua state, turning off the Lua engine. */
     void stop();
 

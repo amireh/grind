@@ -2,20 +2,6 @@
 #include "utility.hpp"
 #include "kernel.hpp"
 
-extern "C" {
-  // #include "script_engine/swigluaruntime.h"
-
-  // void luaopen_lua_libxml2(lua_State*);
-  // void luaopen_lua_dakwak(lua_State*);
-  // void luaopen_lua_script_engine(lua_State*);
-
-  // struct swig_module_info;
-  // struct swig_type_info;
-  // swig_module_info *SWIG_Lua_GetModule(lua_State* L);
-  // swig_type_info *SWIG_TypeQueryModule(swig_module_info *start,swig_module_info *end,const char *name);
-  // void SWIG_Lua_NewPointerObj(lua_State* L,void* ptr,swig_type_info *type, int own);
-}
-
 namespace grind {
 
   script_engine::script_engine(kernel& kernel)
@@ -40,9 +26,6 @@ namespace grind {
 
     lua_ = lua_open();
     luaL_openlibs(lua_);
-    // luaopen_lua_libxml2(lua_);
-    // luaopen_lua_dakwak(lua_);
-    // luaopen_lua_script_engine(lua_);
     log_->infoStream() << "scripts path set to: " << config.scripts_path;
     string_t entry_script = (path_t(config.scripts_path) / "grind.lua").string();
 
@@ -51,8 +34,6 @@ namespace grind {
       return handle_error();
     }
     lua_remove(lua_, lua_gettop(lua_));
-
-
 
     lua_getglobal(lua_, "set_paths");
     if(!lua_isfunction(lua_, -1))
@@ -141,18 +122,6 @@ namespace grind {
     }
   }
 
-
-  // void script_engine::push_userdata(void* data, string_t type)
-  // {
-  //   SWIG_Lua_NewPointerObj(
-  //     lua_,
-  //     data,
-  //     SWIG_TypeQueryModule(
-  //       SWIG_Lua_GetModule(lua_),
-  //       SWIG_Lua_GetModule(lua_),
-  //       (type + " *").c_str()),0);
-  // }
-
   bool script_engine::pass_to_lua(const char* in_func, std::function<void()> arg_extractor, int argc, ...) {
     va_list argp;
 
@@ -209,6 +178,33 @@ namespace grind {
     }
 
     mtx_.unlock();
+  }
+
+  script_engine::cmd_rc_t script_engine::handle_cmd(string_t const& buf) {
+    mtx_.lock();
+
+    cmd_rc_t rc;
+    rc.success = false;
+
+    string_t result;
+    pass_to_lua("grind.handle_cmd",
+                [&]() -> void {
+                  result = lua_tostring(lua_, lua_gettop(lua_));
+                  lua_remove(lua_, lua_gettop(lua_));
+                },
+                1,
+                "std::string", &buf);
+
+    // std::cout << "Result: \n" << result << '\n';
+
+    if (result != "nil") {
+      rc.success = true;
+      rc.result = result;
+    }
+
+    mtx_.unlock();
+
+    return rc;
   }
 
 }

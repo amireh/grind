@@ -4,6 +4,25 @@
     <script src='jquery.1.7.1.min.js'></script>
     <script>
       var ws = null;
+      groups = {};
+
+      send_cmd = function(cmd) {
+        ws.send(JSON.stringify(cmd));
+      }
+      handle_cmd = function(msg) {
+        switch(msg.command) {
+          case "list_groups":
+            for (var i=0; i < msg.result.length; ++i) {
+              var group = msg.result[i];
+              groups[group] = {}
+              send_cmd({ id: "list_views", args: { group: group } })
+            }
+            break;
+          case "list_views":
+            groups[msg.args.group].groups = msg.result;
+            break;
+        }
+      }
 
       ws_onmessage = function(evt) {
         var messages = null;
@@ -15,6 +34,11 @@
         }
 
         console.log(messages);
+        if (typeof(messages) == "object" && messages.command) {
+          handle_cmd(messages);
+          return;
+        }
+
         for (var i =0; i < messages.length; ++i) {
           var msg = messages[i];
           $("table tbody").append("<tr></tr>");
@@ -35,7 +59,7 @@
         // debug("connected...");
         toggle_alterable($("#status"));
 
-        ws.send("hello server");
+        ws.send(JSON.stringify({ id: "list_groups" }) );
       };
     
       toggle_alterable = function(el) {
@@ -70,6 +94,7 @@
 
           toggle_alterable($(this));
         }).click();
+
       });
     </script>
   </head>

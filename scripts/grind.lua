@@ -232,3 +232,27 @@ function grind.define_view_group(glabel, vlabel, vglabel, formatter)
 
   log("    View group defined: " .. glabel .. "[" ..  vlabel .. "][" .. vglabel .. "]")
 end
+
+
+function grind.handle_cmd(buf)
+  local cmd = json.decode(buf)
+  if not cmd then
+    log("Unable to decode command, aborting")
+    return "nil"
+  end
+
+  local res = nil
+  if cmd["id"] == "list_groups" then
+    res = {}
+    for _, group in pairs(grind.groups) do
+      table.insert(res, group.label)
+    end
+  elseif cmd["id"] == "list_views" then
+    res = {}
+    for _, view in pairs(grind.groups[cmd.args.group].views) do
+      table.insert(res, view.label)
+    end
+  end
+
+  return json.encode({ command = cmd["id"], args = cmd.args or nil, result = res })
+end
