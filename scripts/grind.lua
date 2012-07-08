@@ -1,7 +1,7 @@
 require 'rex_pcre'
 json = require 'dkjson'
 
-grind = grind or { config = {}, paths = {} }
+grind = grind or { config = {}, paths = {}, groups = {}, commands = {} }
 
 function set_paths(root)
   package.path = "?.lua;" .. package.path -- for absolute paths
@@ -20,9 +20,10 @@ local delimiter_rex = nil
 function grind.start()
   log("starting...", log_level.info)
 
-  grind.groups = {}
+  -- grind.groups = {}
 
   require 'grind_cfg'
+  require 'api'
   require 'entry'
 
   log("Delimiter pattern: " .. grind.config.delimiter, log_level.info)
@@ -231,52 +232,63 @@ function grind.define_view(glabel, clabel, vlabel, formatter)
   log("    View defined: " .. glabel .. "[" ..  clabel .. "][" .. vlabel .. "]")
 end
 
+--- grind.command():
+---
+--- Defines an API command.
+--- 
+--- @param name    the name of the command the handler is bound to
+--- @param handler a method that accepts a table containing the command id and arguments
+---                and is expected to return a result of any type
+---
+--- @note There can be only one handler for a certain command at any time.
+function grind.command(name, handler)
+  grind.commands[name] = handler
+end
+
+function grind.report_api_error(msg)
+  return json.encode({
+    success = false,
+    message = msg
+  })
+end
 
 function grind.handle_cmd(buf)
+  local res = {}
+
   local cmd = json.decode(buf)
   if not cmd then
-    log("Unable to decode command, aborting")
-    return "nil"
+    log("Unable to decode command, aborting", log_level.error)
+    return grind.report_api_error("Unable to decode command.")
   end
 
-  log("Command: " .. ( cmd.id or "unspecified" ))
+  if not cmd.id then
+    log("Invalid command structure; missing id", log_level.error)
+    return grind.report_api_error("Invalid command structure; missing 'id' field.")
+  end
+
+  log("Command: " .. cmd.id )
+
+  if not grind.commands[cmd.id] then
+    log("Unsupported command " .. cmd.id, log_level.error)
+    return grind.report_api_error("Unsupported command " .. cmd.id .. ".")
+  end
+
   table.dump(cmd)
 
-  local res = nil
-  if cmd.id == "list_groups" then
-    res = {}
-    for _, group in pairs(grind.groups) do
-      local entry = { 
-        label = group.label, 
-        klasses = {}
-      }
+  res, err = grind.commands[cmd.id](cmd)
 
-      for __, klass in pairs(group.klasses) do
-        table.insert(entry.klasses, klass.label)
-      end
-
-      table.insert(res, entry)
+  if not res then
+    if err then
+      return grind.report_api_error("Error: " .. err)
     end
-  elseif cmd.id == "list_klasses" then
-    res = {}
-  elseif cmd.id == "query_klass" then
-    res = {}
-    local group = grind.groups[cmd.args.group]
-    if not group then 
-      log("No such application group '" .. cmd.args.group .. "'.", log_level.error)
-      return "nil"
-    end
-
-    local klass = group.klasses[cmd.args.klass]
-    if not klass then 
-      log("No such klass '" .. cmd.args.klass .. "'.", log_level.error)
-      return "nil"
-    end
-
-    for _, view in pairs(klass.views) do
-      table.insert(res, view.label)
-    end
+    
+    log("Command " .. cmd.id .. " handling failed", log_level.notice)
+    return grind.report_api_error("Command " .. cmd.id .. " handling failed.")
   end
 
-  return json.encode({ command = cmd.id, args = cmd.args or nil, result = res })
+  return json.encode({ 
+    command = cmd.id, 
+    args = cmd.args or nil, 
+    result = res
+  })
 end
