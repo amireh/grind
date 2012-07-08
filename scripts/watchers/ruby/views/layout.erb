@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="/css/watcher.css" type="text/css" />
+    <script type="text/javascript" src='/js/jquery.1.7.1.min.js'></script>
+    <script type="text/javascript" src='/js/grind.js'></script>
+    <script type="text/javascript" src='/js/ui.js'></script>
+    <script>
+      grind = grind();
+      ui = grind_ui();
+      
+      grind.on_connected(function() {
+        toggle_alterable($("#status"));
+      });
+      grind.on_disconnected(function() {
+        toggle_alterable($("#status"));
+      });
+
+    </script>
+    <% yield_content :js %>
+  </head>
+  <body>
+    <header>
+      <hgroup>
+        <h1>grind HTML5 Watcher</h1>
+        <h2></h2>
+      <hgroup>
+    </header>
+
+    <section id="status_bar">
+      <button data-alt-text="Stop accepting" id="toggle_feed">Start accepting</button>
+      <span>STATUS:</span>
+      <span id="status" data-alt-text="ONLINE" data-alt-class="online" class="offline">OFFLINE</span>
+    </section>
+
+    <%= yield %>
+    
+  </body>
+</html>

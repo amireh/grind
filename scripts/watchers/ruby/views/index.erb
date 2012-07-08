@@ -1,0 +1,60 @@
+<% content_for :js do %>
+<script>
+  grind.on_connected(function() {
+    grind.dispatch("list_groups", {}, function(msg) {
+      // console.log(msg)
+      for (var i=0; i < msg.result.length; ++i) {
+        var group = msg.result[i];
+        html = "";
+        html += "<li>";
+        html += "<a href=\"/" + group.label + "\">";
+        html += group.label;
+        html += "</a>, views:";
+          html += "<ol>";
+          for (var i = 0; i < group.klasses.length; ++i) {
+            var klass = group.klasses[i];
+            html += "<li>";
+            html += "<a href=\"/" + group.label + "/" + klass + "\">" + klass + "</a>";
+            html += "</li>";
+          }
+          html += "</ol>";        
+        html += "</li>";
+        $("#groups").append(html)
+        // grind.send_cmd({ id: "list_views", args: { group: group } })
+      }
+    });
+  });
+
+  // grind.on_command("list_views", function(msg) {
+  //   groups[msg.args.group].views = msg.result;
+  //   list_views(msg.args.group);    
+  // });
+
+  // grind.dispatch("list_groups")
+
+</script>
+<% end %>
+
+<h2>Application groups</h2>
+<ul id="groups">
+</ul>
+<!--     <section>
+      <h1>Entries</h1>
+      <table style="text-align: left">
+        <thead>
+          <tr>
+            <th width="10%">Timestamp</th>
+            <th width="10%">FQDN</th>
+            <th width="10%">Application</th>
+            <th width="5%">Context</th>
+            <th width="10%">UUID</th>
+            <th width="15%">Module</th>
+            <th>Message</th>
+          </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+      </table>
+    </section>
+ -->

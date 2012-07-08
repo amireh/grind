@@ -1,0 +1,24 @@
+messages:
+  dakapi:
+    - <15>Jun 27 20:45:19 cornholio dakapi: [I] {012345678} handler: looking up website with APIKey: 4e23f3440517b513760000024e22bd6a0517b54b8b000005
+    - <15>Jun 27 20:45:19 cornholio dakapi: [I] {012345678} handler: website #pages: 1
+    - <15>Jun 27 20:45:19 cornholio dakapi: [I] {012345678} handler: website src language: ObjectId("4c320675d1748267bb000010")
+    - <15>Jun 27 20:45:19 cornholio dakapi: [I] {012345678} handler: target language: ObjectId("4c320675d1748267bb000003")
+    - <15>Jun 27 20:45:19 cornholio dakapi: [I] {012345678} db_manager[1]: looking up page: /
+    - <15>Jun 27 20:45:19 cornholio dakapi: [I] {012345678} handler: page: ObjectId("4fe0e91caa12e5084c000002")
+    - <15>Jun 27 20:45:19 cornholio dakapi: [I] {012345678} handler: page #phrases: 25
+    - <15>Jun 27 20:45:19 cornholio dakapi: [I] {012345678} handler: page status: 1
+    - <15>Jun 27 20:45:19 cornholio dakapi: [I] {012345678} handler: page trial status: 0
+    - <15>Jun 27 20:45:19 cornholio dakapi: [D] {012345678} handler: registering term boycott
+    - <15>Jun 27 20:45:19 cornholio dakapi: [I] {012345678} db_manager[2]: looking up term (digest(91131eb791da849a4998466885f7efa8))
+    - <15>Jun 27 20:45:19 cornholio dakapi: [I] {012345678} db_manager[2]: term: ObjectId("4edb702b49bd1361b6000007")
+    - <15>Jun 27 20:45:19 cornholio dakapi: [I] {012345678} db_manager[2]: website-scoped translation found: ObjectId("4fe0e993aa12e5084c000006")
+    - <15>Jun 27 20:45:19 cornholio dakapi: [I] {012345678} db_manager[2]: website published term: ObjectId("4fe0e993aa12e5084c000007")
+    - <15>Jun 27 20:45:19 cornholio dakapi: [I] {012345678} db_manager[2]: no page term record exists in contents.phrases, I will be proxying
+    - <15>Jun 27 20:45:19 cornholio dakapi: [D] {012345678} handler:  a translation was found
+    - <15>Jun 27 20:45:19 cornholio dakapi: [D] {012345678} handler:  term is not linked, going to proxy it
+    - <15>Jun 27 20:45:19 cornholio dakapi: [D] {012345678} handler: registering term boycott
+    - <15>Jun 27 20:45:19 cornholio dakapi: [I] {012345678} handler: skipping duplicate term 91131eb791da849a4998466885f7efa8
+    - <15>Jun 27 20:45:19 cornholio dakapi: [D] {012345678} xml_reader: successfully parsed XML stream
+    - <15>Jun 27 20:45:19 cornholio dakapi: [D] {012345678} connection: request content was read and processed...
+    - <15>Jun 27 20:45:19 cornholio dakapi: [I] {012345678} RabbitMQ_proxy: proxying digest(91131eb791da849a4998466885f7efa8)

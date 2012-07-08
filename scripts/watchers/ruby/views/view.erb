@@ -1,0 +1,84 @@
+<% content_for :js do %>
+<script>
+  var group = "<%= @group %>";
+  var klass = "<%= @klass %>";
+  var view = "<%= @view %>";
+
+  grind.on_connected(function() {
+    grind.dispatch("query_klass", { group: group, klass: klass}, function(msg) {
+      // console.log(msg)
+      for (var i=0; i < msg.result.length; ++i) {
+        var view = msg.result[i];
+        html = "";
+        html += "<li>";
+        html += "<a href=\"/" + group + '/' + klass + '/' + view + "\">";
+        html += view;
+        html += "</a>";
+        html += "</li>";
+        $("#views").append(html)
+        // grind.send_cmd({ id: "list_klasss", args: { group: group } })
+      }
+    });
+  });
+
+  var columns_defined = false;
+
+  grind.on_message(function(msg) {
+
+    if (msg.group != group || msg.klass != klass || msg.view != view) {
+      console.log("not a message for us, discarding");
+      return;
+    }
+
+    if (!columns_defined) {
+      html = "";
+      $.each(msg.entry, function(_,pair) {
+        html += "<th>" + pair[0] + "</th>";
+      });
+      $("table thead > tr:first").append(html);
+
+      columns_defined = true;
+    }
+
+    html = "<tr>";
+    $.each(msg.entry, function(_,pair) {
+      html += "<td data-name=\"" + pair[0] + "\">" + pair[1] + "</td>";
+    });
+    html += "</tr>"
+    $("table tbody").append(html);
+    ui.add_entry($("table tbody tr:last"));
+
+  });
+
+  // grind.on_command("list_klasss", function(msg) {
+  //   groups[msg.args.group].klasss = msg.result;
+  //   list_klasss(msg.args.group);    
+  // });
+
+  // grind.dispatch("list_groups")
+
+</script>
+<% end %>
+
+<h2><%= [ "<a href='/#{@group}'>#{@group}</a>", 
+          "<a href='/#{@group}/#{@klass}'>#{@klass}</a>", 
+          @view ].join(' >> ') %></h2>
+
+<section>
+  <table style="text-align: left">
+    <thead>
+      <tr>
+<!--         <th width="10%">Timestamp</th>
+        <th width="10%">FQDN</th>
+        <th width="10%">Application</th>
+        <th width="5%">Context</th> -->
+<!--         <th width="10%">UUID</th>
+        <th width="15%">Module</th>
+        <th>Message</th> -->
+      </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+  </table>
+</section>

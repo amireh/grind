@@ -40,3 +40,23 @@ section#status_bar button {
   width: 130px;
 }
 
+td.highlighted {
+  background: yellow;
+}
+
+table {
+  border-spacing: 10px 0;
+}
+
+th {
+  background: #33332d;
+  color: #eee;
+  /*padding: 0 10px;*/
+}
+td,th {
+  font-family: monospace;
+  font-size: 1.1em;
+}
+td:not(:last-child),th:not(:last-child) {
+  text-align: center;
+}

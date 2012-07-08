@@ -1,0 +1,29 @@
+<% content_for :js do %>
+<script>
+  var group = "<%= @group %>";
+  var klass = "<%= @klass %>";
+
+  grind.on_connected(function() {
+    grind.dispatch("query_klass", { group: group, klass: klass}, function(msg) {
+      // console.log(msg)
+      for (var i=0; i < msg.result.length; ++i) {
+        var view = msg.result[i];
+        html = "";
+        html += "<li>";
+        html += "<a href=\"/" + group + '/' + klass + '/' + view + "\">";
+        html += view;
+        html += "</a>";
+        html += "</li>";
+        $("#views").append(html)
+        // grind.send_cmd({ id: "list_klasss", args: { group: group } })
+      }
+    });
+  });
+
+
+</script>
+<% end %>
+
+<h2>Views</h2>
+<ul id="views">
+</ul>

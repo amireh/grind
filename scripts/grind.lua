@@ -28,7 +28,7 @@ function grind.start()
 
   log("Delimiter pattern: " .. grind.config.delimiter, log_level.info)
 
-  for dir in ilist({ "groups", "views" }) do
+  for dir in ilist({ "groups", "klasses", "views" }) do
     for filename in dirtree(grind.paths.root .. '/' .. dir) do
       if filename:find(".lua") then
         load_script(filename)
@@ -81,19 +81,19 @@ function grind.handle(text)
         entry.body = body
         entry.meta.raw = nil
 
-        -- any views defined?
-        for __,view in pairs(group.views) do
-          if view.matcher(entry) then
-            for ___,vgroup in pairs(view.groups) do
-              local res, formatted_entry = vgroup.formatter(vgroup.context, entry)
+        -- any klasses defined?
+        for __,klass in pairs(group.klasses) do
+          if klass.matcher(entry) then
+            for ___,view in pairs(klass.views) do
+              local res, formatted_entry, order_sensitive = view.formatter(view.context, entry)
               if res and formatted_entry then
                 log("Committing an entry! : " .. tostring(json.encode(formatted_entry)))
                 table.insert(entries, { 
                   group = group.label, 
-                  view = view.label, 
-                  view_group = vgroup.label,
+                  klass = klass.label, 
+                  view = view.label,
                   entry = formatted_entry })
-                vgroup.context = {}
+                view.context = {}
               end
             end
           end
@@ -132,7 +132,7 @@ function grind.define_group(glabel, options)
     extractor = nil,
     exclusive = false,
     parsers = {},
-    views = {}
+    klasses = {}
   }
 
   if options then
@@ -186,51 +186,51 @@ function grind.define_extractor(glabel, extractor)
   grind.groups[glabel].extractor = extractor
 end
 
--- grind.define_view():
+-- grind.define_klass():
 --
--- Views contain a subset of the collective entries by defining
--- a general filter applied on the extracted entries. If the entry
--- passes the filteration, it will be passed on to the view's
--- groups for the final point of processing.
+-- Classes contain an arbitrarily categorizes subset of the application
+-- group's entries. If an entry belongs to a klass (by being matched by
+-- the klass's filters), it will be passed on to the klass views
+-- for the final point of processing.
 --
 -- @param glabel the application group label
--- @param vlabel a unique label to identify this view (referenced by the view groups)
+-- @param clabel a unique label to identify this klass (referenced by the views)
 -- @param matcher a function that accepts the current entry and is expected
 --                to return a boolean indicating whether the entry should be
---                passed on to the view groups or not
-function grind.define_view(glabel, vlabel, matcher)
+--                passed on to the views or not
+function grind.define_klass(glabel, clabel, matcher)
   local group = grind.groups[glabel]
   assert(group, "No application group called '" .. glabel .. "' is defined, can not define extractor!")
 
-  grind.groups[glabel].views[vlabel] = { label = vlabel, matcher = matcher, groups = {} }
-  log("  View defined: " .. glabel .. "[" .. vlabel .. "]")
+  grind.groups[glabel].klasses[clabel] = { label = clabel, matcher = matcher, views = {} }
+  log("  Class defined: " .. glabel .. "[" .. clabel .. "]")
 end
 
--- grind.define_view_group():
+-- grind.define_view():
 --
--- A view group is meant to combine very specific entries to be presented
+-- A view is meant to combine very specific entries to be presented
 -- by the watcher interface as a group/listing.
 --
 -- @param glabel the application group label
--- @param vlabel the view label
--- @param vglabel a unique label to identify this view group
--- @param formatter a function that accepts the view group's context and the entry
+-- @param clabel the klass label
+-- @param vlabel a unique label to identify this view
+-- @param formatter a function that accepts the view's context and the entry
 --                  as arguments and is expected to return (at some point) a formatted version
 --                  of the original entry to be committed.
 --
--- @note the view group's context is reset everytime an entry is committed by that group
-function grind.define_view_group(glabel, vlabel, vglabel, formatter)
+-- @note the view's context is reset everytime an entry is committed by that group
+function grind.define_view(glabel, clabel, vlabel, formatter)
   local group = grind.groups[glabel]
   assert(group, "No application group called '" .. glabel .. "' is defined, can not define extractor!")
 
-  local view = group.views[vlabel]
-  assert(view, 
-    "No view called '" .. vlabel .. "' is defined for the application group " .. 
-    glabel .. ", can not define view entry!")
+  local klass = group.klasses[clabel]
+  assert(klass, 
+    "No klass called '" .. clabel .. "' is defined for the application group " .. 
+    glabel .. ", can not define view!")
 
-  grind.groups[glabel].views[vlabel].groups[vglabel] = { label = vglabel, context = {}, formatter = formatter }
+  grind.groups[glabel].klasses[clabel].views[vlabel] = { label = vlabel, context = {}, formatter = formatter }
 
-  log("    View group defined: " .. glabel .. "[" ..  vlabel .. "][" .. vglabel .. "]")
+  log("    View defined: " .. glabel .. "[" ..  clabel .. "][" .. vlabel .. "]")
 end
 
 
@@ -241,18 +241,44 @@ function grind.handle_cmd(buf)
     return "nil"
   end
 
+  log("Command: " .. ( cmd.id or "unspecified" ))
+  table.dump(cmd)
+
   local res = nil
-  if cmd["id"] == "list_groups" then
+  if cmd.id == "list_groups" then
     res = {}
     for _, group in pairs(grind.groups) do
-      table.insert(res, group.label)
+      local entry = { 
+        label = group.label, 
+        klasses = {}
+      }
+
+      for __, klass in pairs(group.klasses) do
+        table.insert(entry.klasses, klass.label)
+      end
+
+      table.insert(res, entry)
     end
-  elseif cmd["id"] == "list_views" then
+  elseif cmd.id == "list_klasses" then
     res = {}
-    for _, view in pairs(grind.groups[cmd.args.group].views) do
+  elseif cmd.id == "query_klass" then
+    res = {}
+    local group = grind.groups[cmd.args.group]
+    if not group then 
+      log("No such application group '" .. cmd.args.group .. "'.", log_level.error)
+      return "nil"
+    end
+
+    local klass = group.klasses[cmd.args.klass]
+    if not klass then 
+      log("No such klass '" .. cmd.args.klass .. "'.", log_level.error)
+      return "nil"
+    end
+
+    for _, view in pairs(klass.views) do
       table.insert(res, view.label)
     end
   end
 
-  return json.encode({ command = cmd["id"], args = cmd.args or nil, result = res })
+  return json.encode({ command = cmd.id, args = cmd.args or nil, result = res })
 end

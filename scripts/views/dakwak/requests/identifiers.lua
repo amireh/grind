@@ -1,13 +1,9 @@
-grind.define_view("dakwak", "requests", function(entry)
-  return entry.meta.uuid ~= false
-end)
-
 local extractors = {
   apikey = create_regex([[.*APIKey: (.*)]]),
   url = create_regex([[looking\sup\spage: (.*)]])
 }
 
-grind.define_view_group("dakwak", "requests", "identifiers", function(ctx, entry)
+grind.define_view("dakwak", "requests", "identifiers", function(ctx, entry)
   -- capture the APIKey
   local b,e,captured = nil,nil,nil
   
@@ -26,9 +22,9 @@ grind.define_view_group("dakwak", "requests", "identifiers", function(ctx, entry
   -- we're done, commit the entry
   else
     return true, {
-      uuid = ctx.uuid,
-      apikey = ctx.apikey,
-      url = ctx.url
+      { "uuid", ctx.uuid },
+      { "apikey", ctx.apikey },
+      { "url", ctx.url }
     }
   end
 

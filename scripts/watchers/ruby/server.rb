@@ -7,7 +7,7 @@ require 'yajl'
 require 'yaml'
 
 EventMachine.run {
-  @channel = EM::Channel.new
+  # @channel = EM::Channel.new
 
   module Watcher 
     def set_channel(c)
@@ -44,28 +44,33 @@ EventMachine.run {
       @parser.on_parse_complete = method(:object_parsed)
     end    
 
-    def unbind
-      EventMachine::stop_event_loop
-    end
+    # def unbind
+    #   EventMachine::stop_event_loop
+    # end
   end
 
-  @comlink = EventMachine::connect '127.0.0.1', 11144, Watcher
-  @comlink.set_channel(@channel)
   EventMachine::WebSocket.start(:host => "0.0.0.0", :port => 8181, :debug => true) do |ws|
 
     ws.onopen {
-      sid = @channel.subscribe { |msg| ws.send msg }
+      channel = EM::Channel.new
+      comlink = EventMachine::connect '127.0.0.1', 11144, Watcher
+      comlink.set_channel(channel)
+      sid = channel.subscribe { |msg| ws.send msg }
+      # t = Terminal.new
+      # @comlink.add_terminal(t)
       # @channel.push "#{sid} connected!"
 
       ws.onmessage { |msg|
         puts "Message received from <#{sid}>: #{msg}"
-        # @comlink.send_data(msg.to_json)
-        @comlink.send_data(msg)
+        comlink.send_data(msg)
       }
 
       ws.onclose {
         puts "Channel closing"
-        @channel.unsubscribe(sid)
+        channel.unsubscribe(sid)
+        channel = nil
+        comlink.close_connection
+        # @comlink.remove_terminal(t)
       }
     }
 

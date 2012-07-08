@@ -162,7 +162,7 @@ end
 
 function table.dump(t)
   print("Dumping table " .. tostring(t) .. " which has " .. #t .. " elements")
-  for k,v in ipairs(t) do
+  for k,v in pairs(t) do
     print(tostring(k) .. " => " .. tostring(v))
   end
 end
