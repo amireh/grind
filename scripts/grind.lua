@@ -24,7 +24,6 @@ function grind.start()
 
   require 'grind_cfg'
   require 'entry'
-  require 'parser'
 
   log("Delimiter pattern: " .. grind.config.delimiter, log_level.info)
 
@@ -131,7 +130,6 @@ function grind.define_group(glabel, options)
     formatter = nil,
     extractor = nil,
     exclusive = false,
-    parsers = {},
     klasses = {}
   }
 

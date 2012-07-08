@@ -18,13 +18,3 @@ grind.define_extractor("dakwak",
     }, content
   end
 )
-
--- grind.map("dakwak", "default", function(entry)
--- end)
--- grind.map("dakwak", is_meta_set("uuid"), function(entry)
--- end)
--- -- grind.define_parser("dakwak", "dakapi", function(gctx, pctx, msg)
---   -- here you have msg.meta and msg.content ready for parsing!
--- -- end)
-
--- cornholio dakapi: [D] {012345678} connection: closed (elapsed: 7ms)
