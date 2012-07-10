@@ -114,12 +114,13 @@ namespace grind {
 
       if (type_ == WATCHER_CONNECTION) {
         
-        script_engine::cmd_rc_t rc = se_.handle_cmd(data, this);
+        // script_engine::cmd_rc_t rc = se_.handle_cmd(data, this);
+        se_.handle_cmd(data, this);
 
-        if (rc.success) {
-          info() << "returning command response: " << rc.result;
-          do_send(rc.result, true);
-        }
+        // if (rc.success) {
+        //   info() << "returning command response: " << rc.result;
+        //   do_send(rc.result, true);
+        // }
 
       } else {
         se_.relay(data);

@@ -203,28 +203,29 @@ namespace grind {
 
   }
 
-  script_engine::cmd_rc_t script_engine::handle_cmd(string_t const& buf, void* watcher) {
-    cmd_rc_t rc;
-    rc.success = false;
+  void script_engine::handle_cmd(string_t const& buf, void* watcher) {
+    // cmd_rc_t rc;
+    // rc.success = false;
 
-    string_t result;
+    // string_t result;
     pass_to_lua("grind.handle_cmd",
-                [&]() -> void {
-                  result = lua_tostring(lua_, lua_gettop(lua_));
-                  lua_remove(lua_, lua_gettop(lua_));
-                },
+                nullptr,
+                // [&]() -> void {
+                //   result = lua_tostring(lua_, lua_gettop(lua_));
+                //   lua_remove(lua_, lua_gettop(lua_));
+                // },
                 2,
                 "std::string", &buf,
                 "grind::connection", watcher);
 
     // std::cout << "Result: \n" << result << '\n';
 
-    if (result != "nil") {
-      rc.success = true;
-      rc.result = result;
-    }
+    // if (result != "nil") {
+    //   rc.success = true;
+    //   rc.result = result;
+    // }
 
-    return rc;
+    // return rc;
   }
 
 }

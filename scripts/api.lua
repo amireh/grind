@@ -91,7 +91,7 @@ grind.command("subscribe", function(cmd, watcher)
   if cmd.args.group == "*" then
     grind.subscriptions[watcher:whois()] = { "*", "*", "*", watcher }
     log("Watcher#" .. watcher:whois() .. " has subscribed to *")
-    return true, "Subscribed."
+    return "Subscribed."
   end
 
 
@@ -112,5 +112,5 @@ grind.command("subscribe", function(cmd, watcher)
   grind.subscriptions[watcher:whois()] = { group.label, klass.label, view.label, watcher }
 
   log("Watcher#" .. watcher:whois() .. " has subscribed to " .. group.label .. ">>" .. klass.label .. ">>" .. view.label)
-  return true, "Subscribed."
+  return "Subscribed."
 end)

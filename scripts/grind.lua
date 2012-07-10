@@ -112,8 +112,8 @@ function grind.handle(text)
                 log("Committing an entry! : " .. encoded_entry)
 
                 -- broadcast to all subscribed watchers
-                log("looking for a viable subscription in " .. nr_subs() ..
-                  "for " .. group.label .. ">>" .. klass.label .. ">>" .. view.label)
+                log("looking for watchers subscribed to "..
+                    group.label .. ">>" .. klass.label .. ">>" .. view.label)
                 for w_id,s in pairs(grind.subscriptions) do
                   if s[1] == "*" or
                      (s[1] == group.label and
@@ -293,58 +293,52 @@ function grind.handle_cmd(buf, watcher)
   local cmd = json.decode(buf)
   if not cmd then
     log("Unable to decode command, aborting", log_level.error)
-    return grind.report_api_error("Unable to decode command.")
+    return watcher:send(report_api_error("Unable to decode command."))
   end
 
   if not cmd.id then
     log("Invalid command structure; missing id", log_level.error)
-    return grind.report_api_error("Invalid command structure; missing 'id' field.")
+    return watcher:send( report_api_error("Invalid command structure; missing 'id' field."))
   end
 
   log("Command: " .. cmd.id )
 
   if not grind.commands[cmd.id] then
     log("Unsupported command " .. cmd.id, log_level.error)
-    return grind.report_api_error("Unsupported command " .. cmd.id .. ".")
+    return watcher:send( report_api_error("Unsupported command " .. cmd.id .. ".") )
   end
 
-  table.dump(cmd)
+  -- table.dump(cmd)
 
   res, err = grind.commands[cmd.id](cmd, watcher)
 
   if not res then
     if err then
-      return grind.report_api_error("Error: " .. err)
+      return watcher:send(report_api_error("Error: " .. err))
     end
     
     log("Command " .. cmd.id .. " handling failed", log_level.notice)
-    return grind.report_api_error("Command " .. cmd.id .. " handling failed.")
+    return watcher:send( report_api_error("Command " .. cmd.id .. " handling failed.") )
   end
 
-  return json.encode({ 
+  watcher:send(json.encode({ 
     command = cmd.id, 
     args = cmd.args or nil, 
     result = res
-  })
+  }))
+
+  return true
 end
 
-function nr_subs()
-  i = 0
-  for _,__ in pairs(grind.subscriptions) do
-    i = i + 1
-  end
-  return i
-end
 function grind.add_watcher(watcher)
   table.insert(grind.watchers, watcher)
   log("Watcher added: " .. watcher:whois())
-  log("Watchers: " .. #grind.watchers .. " => " .. nr_subs())
+  log("Watchers: " .. #grind.watchers)
 end
 function grind.remove_watcher(watcher)
   remove_by_cond(grind.watchers, function(_,w) return w:whois() == watcher:whois() end)
-  -- remove_by_cond(grind.subscriptions, function(w,_) return w:whois() == watcher:whois() end)
   grind.subscriptions[watcher:whois()] = nil
   log("Watcher removed: " .. watcher:whois())
-  log("Watchers: " .. #grind.watchers .. " => " .. nr_subs())
+  log("Watchers: " .. #grind.watchers)
 end
 
