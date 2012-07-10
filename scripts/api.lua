@@ -94,7 +94,6 @@ grind.command("subscribe", function(cmd, watcher)
     return "Subscribed."
   end
 
-
   local group = grind.groups[cmd.args.group]
   if not group then return false, "No such application group '" .. cmd.args.group .. "'" end
 
@@ -112,5 +111,5 @@ grind.command("subscribe", function(cmd, watcher)
   grind.subscriptions[watcher:whois()] = { group.label, klass.label, view.label, watcher }
 
   log("Watcher#" .. watcher:whois() .. " has subscribed to " .. group.label .. ">>" .. klass.label .. ">>" .. view.label)
-  return "Subscribed."
+  return true
 end)

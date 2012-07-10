@@ -32,9 +32,9 @@ grind = function() {
       return;
     }
 
-    for (var i =0; i < feed.length; ++i) {
-      foreach(handlers.on_message, function(e) { e(feed[i]); });
-    }
+    // for (var i =0; i < feed.length; ++i) {
+      foreach(handlers.on_message, function(e) { e(feed); });
+    // }
 
 
     //   var msg = feed[i];
@@ -116,6 +116,10 @@ grind = function() {
     },
     on_message: function(handler) { 
       handlers.on_message.push(handler)
+    },
+
+    subscribe: function(group, klass, view, handler) {
+      grind.dispatch("subscribe", { group: group, klass: klass, view: view }, handler);
     },
 
     // command bindings

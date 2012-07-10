@@ -176,13 +176,16 @@ hgroup h1 {
   -webkit-transform: rotate(-1deg);
   -moz-transform: rotate(-1deg);
   background: orange;
-  padding: 5px 30px 15px 30px;
+  padding: 60px 30px 15px 30px;
   box-shadow: 0 -1px 0px 5px #222 inset;
+  margin-top: 3px;
 }
 hgroup h1 a,
 hgroup h1 a:visited {
   text-decoration: none;
   color: white;
+  position: relative;
+  top: -25px;
 }
 hgroup img#logo {
   /*float: left;*/
@@ -205,3 +208,12 @@ hgroup img#logo {
 }
 .right { float: right; }
 .left { float: left;}
+
+tr:nth-child(1) td {
+  padding-top: 10px;
+}
+#content h1:first-child,
+#content h2:first-child,
+#content h3:first-child {
+  margin-top: 0;
+}

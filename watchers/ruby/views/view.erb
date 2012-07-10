@@ -5,57 +5,60 @@
   var view = "<%= @view %>";
 
   grind.on_connected(function() {
-    grind.dispatch("query_klass", { group: group, klass: klass}, function(msg) {
-      // console.log(msg)
-      for (var i=0; i < msg.result.length; ++i) {
-        var view = msg.result[i];
-        html = "";
-        html += "<li>";
-        html += "<a href=\"/" + group + '/' + klass + '/' + view + "\">";
-        html += view;
-        html += "</a>";
-        html += "</li>";
-        $("#views").append(html)
-        // grind.send_cmd({ id: "list_klasss", args: { group: group } })
+    grind.subscribe(group, klass, view);
+      // grind.dispatch("query_klass", { group: group, klass: klass}, function(msg) {
+      //   // console.log(msg)
+      //   for (var i=0; i < msg.result.length; ++i) {
+      //     var view = msg.result[i];
+      //     html = "";
+      //     html += "<li>";
+      //     html += "<a href=\"/" + group + '/' + klass + '/' + view + "\">";
+      //     html += view;
+      //     html += "</a>";
+      //     html += "</li>";
+      //     $("#views").append(html)
+      //     // grind.send_cmd({ id: "list_klasss", args: { group: group } })
+      //   }
+      // });    
+
+    var columns_defined = false;
+
+    grind.on_message(function(msg) {
+
+      if (msg.group != group || msg.klass != klass || msg.view != view) {
+        console.log("not a message for us, discarding");
+        return;
       }
-    });
-  });
 
-  var columns_defined = false;
+      if (!columns_defined) {
+        console.log("defining columns")
+        html = "";
+        $.each(msg.entry, function(_,pair) {
+          html += "<th>" + pair[0] + "</th>";
+        });
+        $("table thead > tr:first").append(html);
 
-  grind.on_message(function(msg) {
+        columns_defined = true;
+      }
 
-    if (msg.group != group || msg.klass != klass || msg.view != view) {
-      console.log("not a message for us, discarding");
-      return;
-    }
-
-    if (!columns_defined) {
-      html = "";
+      html = "<tr>";
       $.each(msg.entry, function(_,pair) {
-        html += "<th>" + pair[0] + "</th>";
+        html += "<td data-name=\"" + pair[0] + "\">" + pair[1] + "</td>";
       });
-      $("table thead > tr:first").append(html);
+      html += "</tr>"
+      $("table tbody").append(html);
+      ui.add_entry($("table tbody tr:last"));
 
-      columns_defined = true;
-    }
-
-    html = "<tr>";
-    $.each(msg.entry, function(_,pair) {
-      html += "<td data-name=\"" + pair[0] + "\">" + pair[1] + "</td>";
     });
-    html += "</tr>"
-    $("table tbody").append(html);
-    ui.add_entry($("table tbody tr:last"));
+
+    // grind.on_command("list_klasss", function(msg) {
+    //   groups[msg.args.group].klasss = msg.result;
+    //   list_klasss(msg.args.group);    
+    // });
+
+    // grind.dispatch("list_groups")
 
   });
-
-  // grind.on_command("list_klasss", function(msg) {
-  //   groups[msg.args.group].klasss = msg.result;
-  //   list_klasss(msg.args.group);    
-  // });
-
-  // grind.dispatch("list_groups")
 
 </script>
 <% end %>
