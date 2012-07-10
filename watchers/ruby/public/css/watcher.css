@@ -1,20 +1,29 @@
 body {
-  margin: 10px;
-}
-section#status_bar {
-  width: 100%;
-  /*background: #ddd;*/
-  /*color: #fff;*/
-  height: 40px;
+  margin: 0px;
 }
 
-input,
-textarea,
-button {
+* {
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
           box-sizing: border-box;
 }
+
+#status_bar {
+  width: 100%;
+  background: #fff;
+  /*color: #fff;*/
+  /*height: 40px;*/
+  padding: 5px 10px;
+  position: fixed;
+  bottom: 0;
+  /*box-shadow: 0 0 10px 5px white;*/
+  font-size: 12px;
+  /*text-align: right;*/
+  border-top: 1px solid #ddd;
+  -webkit-transform: rotate(0.05deg);
+  -moz-transform: rotate(0.05deg);
+}
+
 
 span#status {
   line-height: 40px;
@@ -30,14 +39,54 @@ span#status.online {
 span#status.offline {
   color: red;
 }
-section#status_bar button {
+#status_bar button {
   /*padding: 10px;*/
   /*border: 1px solid orange;*/
   /*height: 40px;*/
-  line-height: 30px;
-  max-height: 40px;
+  /*line-height: 30px;*/
+  /*max-height: 40px;*/
   cursor: pointer;
-  width: 130px;
+  /*width: 130px;*/
+  font-weight: bold;
+  color: #fff;
+
+  background:#5CCD00;
+/*  background:-moz-linear-gradient(top,#5CCD00 0%,#4AA400 100%);
+  background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#5CCD00),color-stop(100%,#4AA400));
+  background:-webkit-linear-gradient(top,#5CCD00 0%,#4AA400 100%);
+  background:-o-linear-gradient(top,#5CCD00 0%,#4AA400 100%);
+  background:-ms-linear-gradient(top,#5CCD00 0%,#4AA400 100%);
+  background:linear-gradient(top,#5CCD00 0%,#4AA400 100%);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#5CCD00',endColorstr='#4AA400',GradientType=0);*/
+  padding:8px 20px;
+  /*color:#cfebf3;*/
+  font-family:'Helvetica Neue',sans-serif;
+  font-size:13px;
+  border-radius:5px;
+  -moz-border-radius:5px;
+  -webkit-border-radius:5px;
+  border:1px solid #459A00;  
+
+  /*-webkit-transition: background-color 0.2s ease 0s;*/
+  -webkit-transition: all 0.25s ease 0s;
+  -moz-transition: background-color 0.2s ease 0s;
+  -ms-transition: background-color 0.2s ease 0s;
+  -o-transition: background-color 0.2s ease 0s;
+  /*transition: background-color 0.2s ease 0s;  */
+  box-shadow: 0 0 0 1px #222 inset;
+  -webkit-transform: rotate(0.25deg);
+  -moz-transform: rotate(-1deg);  
+}
+#status_bar button:hover:not(:active),
+#status_bar button:focus:not(:active)
+ {
+  background: orange;
+  border-color: white;
+}
+#status_bar button:active {
+  background: white;
+  color: black;
+  border-color: black;
 }
 
 td.highlighted {
@@ -46,13 +95,27 @@ td.highlighted {
 
 table {
   border-spacing: 10px 0;
+  width: 100%;
 }
 
 th {
-  background: #33332d;
-  color: #eee;
+  /*background: #33332d;*/
+  /*color: #eee;*/
   /*padding: 0 10px;*/
+  background: #222;
+  color: #fff;
+  box-shadow: 0 0 0 1px white inset;
+  -webkit-transform: rotate(0.5deg);
+  -moz-transform: rotate(0.5deg);
+  padding: 10px;
+  border-radius: 0 5px 0 1p  
 }
+th:first-of-type,
+th:last-of-type {
+  -webkit-transform: rotate(-1deg);
+  -moz-transform: rotate(-1deg);
+}
+
 td,th {
   font-family: monospace;
   font-size: 1.1em;
@@ -60,3 +123,85 @@ td,th {
 td:not(:last-child),th:not(:last-child) {
   text-align: center;
 }
+
+hgroup {
+  padding: 0 10px;
+  /*background: #222;*/
+  /*color: #fff;*/
+}
+
+section#content {
+  margin-bottom: 80px;
+}
+section#content,
+nav {
+  padding: 0 10px;
+}
+nav {
+  padding: 10px;
+  padding-left: 20px;
+  position: absolute;
+  top: 26px;
+  left: 185px;
+  color: white;
+  box-shadow: 0 0 0 1px white inset;
+  width: 79%;
+  -webkit-transform: rotate(-1deg);
+  -moz-transform: rotate(-1deg);
+  background: #222;
+}
+nav h2 { margin: 0; }
+
+section#content table {
+  margin-left: -10px;
+}
+
+a, a:visited {
+  color: #00A0D1;
+}
+hgroup {
+  /*background: #111;*/
+  /*box-shadow: 0 -1px 0px 35px black inset;*/
+}
+
+hgroup h1 {
+  display: inline-block;
+  /*margin-left: 20px;*/
+  z-index: 100;
+  position: relative;
+  /*color: black;*/
+  text-shadow: 2px 2px 1px black;
+  /*text-decoration: underline;*/
+  font-size: 40px;
+  -webkit-transform: rotate(-1deg);
+  -moz-transform: rotate(-1deg);
+  background: orange;
+  padding: 5px 30px 15px 30px;
+  box-shadow: 0 -1px 0px 5px #222 inset;
+}
+hgroup h1 a,
+hgroup h1 a:visited {
+  text-decoration: none;
+  color: white;
+}
+hgroup img#logo {
+  /*float: left;*/
+  vertical-align: middle;
+  height: 60px;
+  position: absolute;
+  top: 15px;
+  z-index: 0;
+  opacity: 0.5;
+}
+
+.big_gear {
+  position: fixed;
+  right: -225px;
+  opacity: 0.05;
+  /*top: 190px;*/
+  bottom: 60px;
+  z-index: -100;
+  height: 480px;
+}
+.right { float: right; }
+.left { float: left;}

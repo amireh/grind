@@ -9,12 +9,22 @@
         html += "<li>";
         html += "<a href=\"/" + group.label + "\">";
         html += group.label;
-        html += "</a>, views:";
+        html += "</a>, classes:";
           html += "<ol>";
-          for (var i = 0; i < group.klasses.length; ++i) {
-            var klass = group.klasses[i];
+          for (var ki = 0; ki < group.klasses.length; ++ki) {
+            var klass = group.klasses[ki];
             html += "<li>";
-            html += "<a href=\"/" + group.label + "/" + klass + "\">" + klass + "</a>";
+            html += "<a href=\"/" + group.label + "/" + klass.label + "\">" + klass.label + "</a>, views:";
+
+            html += "<ol>";
+            for (var vi = 0; vi < klass.views.length; ++vi) {
+              var view = klass.views[vi];
+              html += "<li>";
+              html += "<a href=\"/" + group.label + "/" + klass.label + "/" + view + "\">" + view + "</a>";
+              html += "</li>";
+            }
+            html += "</ol>";  
+
             html += "</li>";
           }
           html += "</ol>";        
@@ -36,7 +46,7 @@
 <% end %>
 
 <h2>Application groups</h2>
-<ul id="groups">
+<ul id="groups" data-clearable>
 </ul>
 <!--     <section>
       <h1>Entries</h1>

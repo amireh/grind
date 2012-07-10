@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="110"
+   height="109.999"
+   id="svg2701"
+   sodipodi:version="0.32"
+   inkscape:version="0.46"
+   version="1.0"
+   sodipodi:docname="gear 8.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <defs
+     id="defs2703">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective2709" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     gridtolerance="10000"
+     guidetolerance="10"
+     objecttolerance="10"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35"
+     inkscape:cx="375"
+     inkscape:cy="520"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="672"
+     inkscape:window-height="718"
+     inkscape:window-x="600"
+     inkscape:window-y="249" />
+  <metadata
+     id="metadata2706">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/by-sa/3.0/" />
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>eugrafia</dc:title>
+          </cc:Agent>
+        </dc:creator>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/by-sa/3.0/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:requires
+           rdf:resource="http://creativecommons.org/ns#Notice" />
+        <cc:requires
+           rdf:resource="http://creativecommons.org/ns#Attribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://creativecommons.org/ns#ShareAlike" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-379.28571,-91.6484)">
+    <g
+       id="g31"
+       transform="translate(134.28571,-227.8376)">
+      <path
+         d="M 354.869,378.246 C 354.953,377.003 355,375.75 355,374.485 C 355,373.22 354.953,371.967 354.869,370.724 L 343.417,369.695 C 343.139,367.156 342.64,364.684 341.946,362.295 L 352.145,356.956 C 351.34,354.561 350.374,352.243 349.262,350.011 L 338.283,353.444 C 337.063,351.229 335.654,349.136 334.082,347.177 L 341.457,338.347 C 339.808,336.454 338.029,334.677 336.138,333.028 L 327.308,340.403 C 325.349,338.831 323.255,337.422 321.041,336.202 L 324.474,325.223 C 322.242,324.113 319.922,323.144 317.529,322.341 L 312.19,332.54 C 309.8,331.847 307.329,331.347 304.789,331.07 L 303.761,319.616 C 302.518,319.532 301.265,319.486 300,319.486 C 298.734,319.486 297.482,319.532 296.238,319.616 L 295.21,331.07 C 292.67,331.346 290.199,331.846 287.81,332.54 L 282.47,322.341 C 280.077,323.144 277.758,324.112 275.525,325.223 L 278.959,336.202 C 276.744,337.422 274.651,338.831 272.692,340.403 L 263.86,333.028 C 261.969,334.677 260.192,336.455 258.542,338.346 L 265.917,347.177 C 264.346,349.136 262.936,351.229 261.716,353.444 L 250.737,350.011 C 249.625,352.243 248.658,354.562 247.854,356.955 L 258.054,362.295 C 257.361,364.685 256.861,367.156 256.584,369.695 L 245.13,370.724 C 245.045,371.967 245,373.22 245,374.485 C 245,375.75 245.045,377.003 245.13,378.246 L 256.584,379.275 C 256.86,381.814 257.36,384.286 258.054,386.675 L 247.854,392.015 C 248.659,394.409 249.625,396.728 250.738,398.959 L 261.717,395.526 C 262.937,397.741 264.346,399.834 265.918,401.793 L 258.543,410.623 C 260.193,412.516 261.971,414.293 263.861,415.942 L 272.693,408.568 C 274.651,410.139 276.744,411.548 278.959,412.769 L 275.525,423.747 C 277.759,424.858 280.077,425.825 282.47,426.63 L 287.81,416.431 C 290.199,417.124 292.671,417.623 295.21,417.902 L 296.238,429.354 C 297.482,429.438 298.734,429.485 300,429.485 C 301.265,429.485 302.518,429.438 303.762,429.354 L 304.789,417.902 C 307.329,417.624 309.801,417.125 312.19,416.431 L 317.529,426.63 C 319.923,425.825 322.242,424.859 324.474,423.747 L 321.041,412.769 C 323.255,411.548 325.349,410.139 327.308,408.568 L 336.137,415.942 C 338.03,414.293 339.807,412.515 341.457,410.623 L 334.082,401.793 C 335.654,399.834 337.063,397.741 338.283,395.526 L 349.262,398.959 C 350.373,396.728 351.34,394.408 352.145,392.015 L 341.946,386.675 C 342.639,384.285 343.138,381.814 343.417,379.275 L 354.869,378.246 z M 300,402.247 C 284.667,402.247 272.238,389.817 272.238,374.485 C 272.238,359.153 284.667,346.724 300,346.724 C 315.331,346.724 327.761,359.153 327.761,374.485 C 327.761,389.817 315.331,402.247 300,402.247 z"
+         id="path33" />
+    </g>
+  </g>
+</svg>

@@ -1,5 +1,5 @@
 grind.define_group("dakwak", { exclusive = true })
-grind.define_format("dakwak", [[(\w+) (\w+): (\[\w{1}\])(?: )?\s+{([\w|-]+)}?\s+([\S]+):\s+((?sm).*)]])
+grind.define_format("dakwak", [[(\w+) (\w+): (\[\w{1}\])(?: )?\s+?(?:{([\w|-]+)}\s+){0,1}([\S]+):\s+((?sm).*)]])
 grind.define_extractor("dakwak", 
   function(timestamp, fqdn, app, context, uuid, module, content)
     print("\tFQDN: " .. fqdn)
@@ -18,3 +18,5 @@ grind.define_extractor("dakwak",
     }, content
   end
 )
+
+-- (?<=\{{1})([\w|-]+)(?=}{1})

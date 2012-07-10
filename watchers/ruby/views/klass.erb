@@ -24,6 +24,12 @@
 </script>
 <% end %>
 
+
+<% content_for :nav do %>
+<h2><%= [ "<a href='/#{@group}'>#{@group}</a>", 
+          @klass].join(' >> ') %></h2>
+<% end %>
+
 <h2>Views</h2>
-<ul id="views">
+<ul id="views" data-clearable>
 </ul>

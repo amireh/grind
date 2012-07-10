@@ -1,0 +1,32 @@
+<% content_for :js do %>
+<script>
+  var group = "<%= @group %>";
+
+  grind.on_connected(function() {
+    grind.dispatch("query_group", { group: group }, function(msg) {
+      // console.log(msg)
+      for (var i=0; i < msg.result.length; ++i) {
+        var klass = msg.result[i];
+        html = "";
+        html += "<li>";
+        html += "<a href=\"/" + group + '/' + klass + "\">";
+        html += klass;
+        html += "</a>";
+        html += "</li>";
+        $("#klasses").append(html)
+      }
+    });
+  });
+
+
+</script>
+<% end %>
+
+
+<% content_for :nav do %>
+<h2><%= [ @group ].join(' >> ') %></h2>
+<% end %>
+
+<h2>Classes</h2>
+<ul id="klasses">
+</ul>

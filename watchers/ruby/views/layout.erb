@@ -15,24 +15,35 @@
         toggle_alterable($("#status"));
       });
 
+      $(function() {
+        $("#clear").click(function() { $("[data-clearable]").empty(); })
+      });
+
     </script>
     <% yield_content :js %>
   </head>
   <body>
     <header>
       <hgroup>
-        <h1>grind HTML5 Watcher</h1>
-        <h2></h2>
-      <hgroup>
+        <!-- <img src="/images/gear.png" alt="grind" id="logo" /> -->
+        <h1><a href="/">grind</a></h1>
+        <del>|</del>
+        <del>|</del>
+      </hgroup>
     </header>
 
-    <section id="status_bar">
-      <button data-alt-text="Stop accepting" id="toggle_feed">Start accepting</button>
-      <span>STATUS:</span>
-      <span id="status" data-alt-text="ONLINE" data-alt-class="online" class="offline">OFFLINE</span>
-    </section>
+    <nav>
+      <% yield_content :nav %>
+    </nav>
 
-    <%= yield %>
+
+    <section id="content">
+      <img src="/images/big_gear.png" class="big_gear" alt="gear" />
+      <%= yield %>
+      <!-- <del id="bottom"></del> -->
+      <span id="bottom">&nbsp;</span>
+    </section>
     
+    <%= erb :"_statusbar", layout: false %>
   </body>
 </html>
