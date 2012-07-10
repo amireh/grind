@@ -2,7 +2,7 @@
 
 local args = nil
 do
-  local cli = require "cli"
+  local cli = require "cliargs"
   cli:set_name("grind_test.lua")
   cli:add_arg("grind_ROOT", "path to where grind/scripts can be found", "root_path")
   cli:add_opt("-i FILE", "path to a text file which will be grinded", "input_path")
@@ -27,7 +27,7 @@ report_mem_usage()
 log("Running " .. args["nr_requests"] .. " grind requests.", log_level.info)
 for i=1,tonumber(args["nr_requests"]) do
   local content = ""
-  if args["input_path"] ~= "" then
+  if args["input_path"] then
     fh = io.open(args["input_path"], "r")
     content = fh:read("*all")
     fh:close()

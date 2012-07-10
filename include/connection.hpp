@@ -77,7 +77,8 @@ namespace grind {
     void start();
     void stop();
     
-    void send(string_t const&);
+    void send(string_t);
+    string_t const& whois() const;
 
     /** Register a callback that will be called when this connection has stopped. */
     void assign_close_handler(close_handler_t);
@@ -92,11 +93,14 @@ namespace grind {
     streambuf_t       response_;
     close_handler_t   close_handler_;
     int               type_;
+    string_t          remote_host_;
+    ushort            remote_port_;
+    string_t          whois_;
 
   protected:
     void read();
     void on_read( const boost::system::error_code& error, std::size_t bytes_transferred);
-    void do_send(string_t const&, bool single_buffer = false);
+    void do_send(string_t, bool single_buffer = false);
   };
 
   /** @} */

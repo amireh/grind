@@ -22,6 +22,7 @@
  */
 
 #include "connection.hpp"
+#include "utility.hpp"
 
 namespace grind {
 
@@ -53,11 +54,24 @@ namespace grind {
     boost::asio::socket_base::non_blocking_io command(true);
     socket_.io_control(command);
 
-    // if (type_ == RECEIVER_CONNECTION)
+
+    if (type_ == WATCHER_CONNECTION) {
+      remote_host_ = socket_.remote_endpoint().address().to_string();
+      remote_port_ = socket_.remote_endpoint().port();
+      whois_ = remote_host_ + ":" + utility::stringify(remote_port_);
+
+      se_.pass_to_lua("grind.add_watcher", nullptr, 1, "grind::connection", this);
+    }
+
+    log_->infoStream() << "connection started from: " << whois();
     read();
   }
 
   void connection::stop() {
+    if (type_ == WATCHER_CONNECTION) {
+      se_.pass_to_lua("grind.remove_watcher", nullptr, 1, "grind::connection", this);
+    }
+    
     boost::system::error_code ignored_ec;
 
     // initiate graceful connection closure & stop all asynchronous ops
@@ -100,7 +114,7 @@ namespace grind {
 
       if (type_ == WATCHER_CONNECTION) {
         
-        script_engine::cmd_rc_t rc = se_.handle_cmd(data);
+        script_engine::cmd_rc_t rc = se_.handle_cmd(data, this);
 
         if (rc.success) {
           info() << "returning command response: " << rc.result;
@@ -119,11 +133,11 @@ namespace grind {
     }
   }
 
-  void connection::send(string_t const& msg) {
+  void connection::send(string_t msg) {
     strand_.post(boost::bind(&connection::do_send, this, msg, false));
   }
 
-  void connection::do_send(string_t const& msg, bool single_buffer)
+  void connection::do_send(string_t msg, bool single_buffer)
   {
     boost::system::error_code ec;
     size_t n = 0;
@@ -153,5 +167,9 @@ namespace grind {
   }
   bool connection::is_receiver() const {
     return type_ == RECEIVER_CONNECTION;
+  }
+
+  string_t const& connection::whois() const {
+    return  whois_;
   }
 } // namespace grind

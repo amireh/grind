@@ -58,15 +58,15 @@ namespace grind {
       string_t  result;
     };
 
-    cmd_rc_t handle_cmd(string_t const&);
+    cmd_rc_t handle_cmd(string_t const&, void* watcher);
 
     /** Destroys the Lua state, turning off the Lua engine. */
-    void stop();
+    void stop(bool valid_state = true);
 
     virtual void set_option(const string_t&, const string_t&);
+    bool pass_to_lua(const char* inFunc, std::function<void()> = nullptr, int argc = 0, ...);
   private:
     void push_userdata(void* data, string_t type);
-    bool pass_to_lua(const char* inFunc, std::function<void()> = nullptr, int argc = 0, ...);
     void handle_error();
 
     lua_State  *lua_;

@@ -140,6 +140,14 @@ function remove_by_value(inTable, inValue)
     i = i+1
   end
 end
+function remove_by_cond(in_table, functor)
+  i = 1
+  for k,v in pairs(in_table) do
+    if functor(k,v) then table.remove(in_table, i); break; end
+    i = i + 1
+  end
+
+end
 
 -- trim whitespace from both ends of string
 function trim(s)

@@ -63,7 +63,7 @@ namespace grind {
 
   void configurator::unsubscribe(configurable* cfg, string_t const& ctx) {
     if (subs_.find(ctx) == subs_.end()) {
-      GRIND_LOG->errorStream() << "unsubscribing from a non-existent context '" << ctx << '\'';
+      // GRIND_LOG->errorStream() << "unsubscribing from a non-existent context '" << ctx << '\'';
       return;
     }
 

@@ -2,6 +2,16 @@
 #include "utility.hpp"
 #include "kernel.hpp"
 
+extern "C" {
+  #include "dTE/swigluaruntime.h"
+
+  struct swig_module_info;
+  struct swig_type_info;
+  swig_module_info *SWIG_Lua_GetModule(lua_State* L);
+  swig_type_info *SWIG_TypeQueryModule(swig_module_info *start,swig_module_info *end,const char *name);
+  void SWIG_Lua_NewPointerObj(lua_State* L,void* ptr,swig_type_info *type, int own);
+}
+
 namespace grind {
 
   script_engine::script_engine(kernel& kernel)
@@ -67,7 +77,7 @@ namespace grind {
     log_->infoStream() << "Lua state has been restarted.";
   }
 
-  void script_engine::stop() {
+  void script_engine::stop(bool valid_state) {
     if (!lua_ || stopping_) {
       return;
     }
@@ -76,7 +86,9 @@ namespace grind {
 
     log_->infoStream() << "grind Lua is stopping...";
 
-    pass_to_lua("grind.stop", 0);
+    if (valid_state)
+      pass_to_lua("grind.stop", 0);
+
 
     lua_close(lua_);
     lua_ = nullptr;
@@ -96,7 +108,7 @@ namespace grind {
       lua_pop(lua_, -1);
     }
 
-    stop();
+    stop(false);
 
     switch(config.error_handling) {
       case CATCH_AND_THROW:
@@ -122,7 +134,19 @@ namespace grind {
     }
   }
 
+  void script_engine::push_userdata(void* data, string_t type)
+  {
+    SWIG_Lua_NewPointerObj(
+      lua_,
+      data,
+      SWIG_TypeQueryModule(
+        SWIG_Lua_GetModule(lua_),
+        SWIG_Lua_GetModule(lua_),
+        (type + " *").c_str()),0);
+  }
   bool script_engine::pass_to_lua(const char* in_func, std::function<void()> arg_extractor, int argc, ...) {
+    scoped_lock lock(mtx_);
+
     va_list argp;
 
     lua_getfield(lua_, LUA_GLOBALSINDEX, "arbitrator");
@@ -130,6 +154,7 @@ namespace grind {
     {
       log_->errorStream() << "could not find Lua arbitrator functor!";
       handle_error();
+      return false;
     }
 
     lua_pushfstring(lua_, in_func);
@@ -140,8 +165,8 @@ namespace grind {
       void* argv = (void*)va_arg(argp, void*);
       if (string_t(argtype) == "std::string")
         lua_pushfstring(lua_, ((string_t*)argv)->c_str());
-      // else
-        // push_userdata(argv, argtype);
+      else
+        push_userdata(argv, argtype);
     }
     va_end(argp);
 
@@ -150,6 +175,7 @@ namespace grind {
     {
       // there was a lua error, dump the state and shut down the instance
       handle_error();
+      return false;
     }
 
     if (arg_extractor)
@@ -160,29 +186,24 @@ namespace grind {
 
   void script_engine::relay(string_t const& buf) {
 
-    mtx_.lock();
-
-
-    string_t result;
+    // string_t result;
     pass_to_lua("grind.handle",
-                [&]() -> void {
-                  result = lua_tostring(lua_, lua_gettop(lua_));
-                  lua_remove(lua_, lua_gettop(lua_));
-                },
+                nullptr,
+                // [&]() -> void {
+                //   result = lua_tostring(lua_, lua_gettop(lua_));
+                //   lua_remove(lua_, lua_gettop(lua_));
+                // },
                 1,
                 "std::string", &buf);
 
-    std::cout << "Result: \n" << result << '\n';
-    if (result != "[]") {
-      kernel_.broadcast(result);
-    }
+    // std::cout << "Result: \n" << result << '\n';
+    // if (result != "[]") {
+    //   kernel_.broadcast(result);
+    // }
 
-    mtx_.unlock();
   }
 
-  script_engine::cmd_rc_t script_engine::handle_cmd(string_t const& buf) {
-    mtx_.lock();
-
+  script_engine::cmd_rc_t script_engine::handle_cmd(string_t const& buf, void* watcher) {
     cmd_rc_t rc;
     rc.success = false;
 
@@ -192,8 +213,9 @@ namespace grind {
                   result = lua_tostring(lua_, lua_gettop(lua_));
                   lua_remove(lua_, lua_gettop(lua_));
                 },
-                1,
-                "std::string", &buf);
+                2,
+                "std::string", &buf,
+                "grind::connection", watcher);
 
     // std::cout << "Result: \n" << result << '\n';
 
@@ -201,8 +223,6 @@ namespace grind {
       rc.success = true;
       rc.result = result;
     }
-
-    mtx_.unlock();
 
     return rc;
   }

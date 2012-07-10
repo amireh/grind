@@ -1,17 +1,26 @@
 require 'rex_pcre'
 json = require 'dkjson'
 
-grind = grind or { config = {}, paths = {}, groups = {}, commands = {} }
+grind = grind or { 
+  config = {}, 
+  paths = {}, 
+  groups = {}, 
+  commands = {}, 
+  watchers = {},
+  subscriptions = {}
+}
 
 function set_paths(root)
   package.path = "?.lua;" .. package.path -- for absolute paths
   package.path = root .. "/../?.lua;" .. package.path -- for relative paths
   package.path = root .. "/?.lua;" .. package.path
+  package.cpath = "/usr/local/lib/?.so;" .. package.cpath
 
   grind.paths.root = root
 
   require 'helpers'
   require 'logging'
+  require "lua_grind"
 end
 
 local leftovers = nil
@@ -87,12 +96,37 @@ function grind.handle(text)
             for ___,view in pairs(klass.views) do
               local res, formatted_entry, order_sensitive = view.formatter(view.context, entry)
               if res and formatted_entry then
-                log("Committing an entry! : " .. tostring(json.encode(formatted_entry)))
-                table.insert(entries, { 
+                -- table.insert(entries, { 
+                --   group = group.label, 
+                --   klass = klass.label, 
+                --   view = view.label,
+                --   entry = formatted_entry })
+
+                local encoded_entry = json.encode({ 
                   group = group.label, 
                   klass = klass.label, 
                   view = view.label,
-                  entry = formatted_entry })
+                  entry = formatted_entry
+                })
+
+                log("Committing an entry! : " .. encoded_entry)
+
+                -- broadcast to all subscribed watchers
+                log("looking for a viable subscription in " .. nr_subs() ..
+                  "for " .. group.label .. ">>" .. klass.label .. ">>" .. view.label)
+                for w_id,s in pairs(grind.subscriptions) do
+                  if s[1] == "*" or
+                     (s[1] == group.label and
+                     s[2] == klass.label and
+                     s[3] == view.label)
+                  then
+                    local w = s[4]
+                    log("Relaying to Watcher#" .. w:whois())
+                    w:send(encoded_entry)
+                  end
+                end
+
+                -- reset the context
                 view.context = {}
               end
             end
@@ -115,7 +149,8 @@ function grind.handle(text)
   --   print(k .. " " .. entry.meta.timestamp .. " " .. entry.content)
   -- end
 
-  return json.encode(entries)
+  -- return json.encode(entries)
+  return nil
 end
 
 function grind.define_group(glabel, options)
@@ -252,7 +287,7 @@ function grind.report_api_error(msg)
   })
 end
 
-function grind.handle_cmd(buf)
+function grind.handle_cmd(buf, watcher)
   local res = {}
 
   local cmd = json.decode(buf)
@@ -275,7 +310,7 @@ function grind.handle_cmd(buf)
 
   table.dump(cmd)
 
-  res, err = grind.commands[cmd.id](cmd)
+  res, err = grind.commands[cmd.id](cmd, watcher)
 
   if not res then
     if err then
@@ -292,3 +327,24 @@ function grind.handle_cmd(buf)
     result = res
   })
 end
+
+function nr_subs()
+  i = 0
+  for _,__ in pairs(grind.subscriptions) do
+    i = i + 1
+  end
+  return i
+end
+function grind.add_watcher(watcher)
+  table.insert(grind.watchers, watcher)
+  log("Watcher added: " .. watcher:whois())
+  log("Watchers: " .. #grind.watchers .. " => " .. nr_subs())
+end
+function grind.remove_watcher(watcher)
+  remove_by_cond(grind.watchers, function(_,w) return w:whois() == watcher:whois() end)
+  -- remove_by_cond(grind.subscriptions, function(w,_) return w:whois() == watcher:whois() end)
+  grind.subscriptions[watcher:whois()] = nil
+  log("Watcher removed: " .. watcher:whois())
+  log("Watchers: " .. #grind.watchers .. " => " .. nr_subs())
+end
+

@@ -75,3 +75,42 @@ grind.command("query_klass", function(cmd)
 
   return res
 end)
+
+grind.command("subscribe", function(cmd, watcher)
+  -- validate arguments
+  if not cmd.args then
+    return false, "Missing 2 required arguments, args.group and args.klass"
+  elseif not cmd.args.group then
+    return false, "Missing argument: args.group"
+  elseif not cmd.args.klass then
+    return false, "Missing argument: args.klass"
+  elseif not cmd.args.view then
+    return false, "Missing argument: args.view"
+  end
+
+  if cmd.args.group == "*" then
+    grind.subscriptions[watcher:whois()] = { "*", "*", "*", watcher }
+    log("Watcher#" .. watcher:whois() .. " has subscribed to *")
+    return true, "Subscribed."
+  end
+
+
+  local group = grind.groups[cmd.args.group]
+  if not group then return false, "No such application group '" .. cmd.args.group .. "'" end
+
+  local klass = group.klasses[cmd.args.klass]
+  if not klass then return false, "No such klass '" .. cmd.args.klass .. "'" end
+
+  local view = klass.views[cmd.args.view]
+  if not view then return false, "No such view '" .. cmd.args.view .. "'" end
+
+  local sub = grind.subscriptions[watcher:whois()]
+  if sub and sub[1] == group.label and sub[2] == klass.label and sub[3] == view.label then
+    return false, "Already subscribed."
+  end
+
+  grind.subscriptions[watcher:whois()] = { group.label, klass.label, view.label, watcher }
+
+  log("Watcher#" .. watcher:whois() .. " has subscribed to " .. group.label .. ">>" .. klass.label .. ">>" .. view.label)
+  return true, "Subscribed."
+end)
