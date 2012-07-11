@@ -1,12 +1,14 @@
 <footer id="status_bar">
-  <button data-alt-text="Disconnect" id="toggle_feed">Connect</button>
+  <button data-alt-text="Disconnect" id="toggle_feed" data-alt-class="connected" class="disconnected">Connect</button>
   <span>STATUS:</span>
   <span id="status" data-alt-text="ONLINE" data-alt-class="online" class="offline">OFFLINE</span>
 
   <div class="part right">
+    <% yield_content :actions %>
+
     <button  id="clear" title="Clear the view">&times; clear</button>
-    <a href="#bottom" title="Go to the bottom"><button>&darr;</button></a>
-    <a href="#top" title="Go to the top"><button>&uarr;</button></a>
+    <a href="#bottom" title="Go to the bottom" class="button">&darr;</a>
+    <a href="#top" title="Go to the top" class="button">&uarr;</a>
     <!-- <a href="#bottom">&darr;</button></a> -->
   </div>
 </footer>

@@ -39,51 +39,41 @@ span#status.online {
 span#status.offline {
   color: red;
 }
-#status_bar button {
-  /*padding: 10px;*/
-  /*border: 1px solid orange;*/
-  /*height: 40px;*/
-  /*line-height: 30px;*/
-  /*max-height: 40px;*/
+button,
+.button,
+.button:visited {
   cursor: pointer;
-  /*width: 130px;*/
   font-weight: bold;
   color: #fff;
-
+  text-decoration: none;
   background:#5CCD00;
-/*  background:-moz-linear-gradient(top,#5CCD00 0%,#4AA400 100%);
-  background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#5CCD00),color-stop(100%,#4AA400));
-  background:-webkit-linear-gradient(top,#5CCD00 0%,#4AA400 100%);
-  background:-o-linear-gradient(top,#5CCD00 0%,#4AA400 100%);
-  background:-ms-linear-gradient(top,#5CCD00 0%,#4AA400 100%);
-  background:linear-gradient(top,#5CCD00 0%,#4AA400 100%);
-  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#5CCD00',endColorstr='#4AA400',GradientType=0);*/
+  background:#789f00;
   padding:8px 20px;
-  /*color:#cfebf3;*/
   font-family:'Helvetica Neue',sans-serif;
   font-size:13px;
   border-radius:5px;
   -moz-border-radius:5px;
   -webkit-border-radius:5px;
-  border:1px solid #459A00;  
-
-  /*-webkit-transition: background-color 0.2s ease 0s;*/
+  border:1px solid #222;  
   -webkit-transition: all 0.25s ease 0s;
-  -moz-transition: background-color 0.2s ease 0s;
-  -ms-transition: background-color 0.2s ease 0s;
-  -o-transition: background-color 0.2s ease 0s;
-  /*transition: background-color 0.2s ease 0s;  */
+  -moz-transition: all 0.2s ease 0s;
+  -ms-transition: all 0.2s ease 0s;
+  -o-transition: all 0.2s ease 0s;
+  transition: all 0.2s ease 0s;  
   box-shadow: 0 0 0 1px #222 inset;
   -webkit-transform: rotate(0.25deg);
   -moz-transform: rotate(-1deg);  
 }
-#status_bar button:hover:not(:active),
-#status_bar button:focus:not(:active)
+button:hover:not(:active),
+button:focus:not(:active),
+.button:hover:not(:active),
+.button:focus:not(:active)
  {
   background: orange;
   border-color: white;
 }
-#status_bar button:active {
+button:active,
+.button:active {
   background: white;
   color: black;
   border-color: black;
@@ -138,7 +128,7 @@ nav {
   padding: 0 10px;
 }
 nav {
-  padding: 10px;
+  padding: 17px;
   padding-left: 20px;
   position: absolute;
   top: 26px;
@@ -158,6 +148,15 @@ section#content table {
 
 a, a:visited {
   color: #00A0D1;
+  -webkit-transition: color 0.25s ease 0s;
+  -moz-transition: color 0.2s ease 0s;
+  -ms-transition: color 0.2s ease 0s;
+  -o-transition: color 0.2s ease 0s;
+  transition: color 0.2s ease 0s;    
+}
+a:hover,a:focus {
+  color: orange;
+  outline: none;
 }
 hgroup {
   /*background: #111;*/
@@ -170,12 +169,12 @@ hgroup h1 {
   z-index: 100;
   position: relative;
   /*color: black;*/
-  text-shadow: 2px 2px 1px black;
+  /*text-shadow: 2px 2px 1px black;*/
   /*text-decoration: underline;*/
   font-size: 40px;
   -webkit-transform: rotate(-1deg);
   -moz-transform: rotate(-1deg);
-  background: orange;
+  /*background: orange;*/
   padding: 60px 30px 15px 30px;
   box-shadow: 0 -1px 0px 5px #222 inset;
   margin-top: 3px;
@@ -183,9 +182,12 @@ hgroup h1 {
 hgroup h1 a,
 hgroup h1 a:visited {
   text-decoration: none;
-  color: white;
+  color: black;
   position: relative;
   top: -25px;
+}
+hgroup h1 a:hover {
+  color: orange;
 }
 hgroup img#logo {
   /*float: left;*/
@@ -217,3 +219,84 @@ tr:nth-child(1) td {
 #content h3:first-child {
   margin-top: 0;
 }
+
+#status_bar button.connected:not(:active):not(:focus):not(:hover) {
+  background: red;
+}
+
+
+
+
+
+/* ---- ------
+ * text inputs
+ * ---- ------ */
+ fieldset {
+    /*-webkit-transform: rotate(-0.15deg);*/
+    /*-moz-transform: rotate(0.05deg);  */
+    /*width: 98%;*/
+    margin-right: 20px;
+ }
+  input[type^=text],
+  input[type^=email],
+  input[type^=password],
+  input[type^=number],
+  textarea,
+  select,
+  fieldset {
+    color:#000;
+    border: 1px solid #ddd;
+/*    -moz-border-bottom-colors: none;
+    -moz-border-image: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;*/
+    -webkit-transition: background-color 0.2s ease 0s;  /* Saf3.2+, Chrome */
+    -moz-transition: background-color 0.2s ease 0s;  /* FF4+ */
+    -ms-transition: background-color 0.2s ease 0s;  /* IE10 */
+    -o-transition: background-color 0.2s ease 0s;  /* Opera 10.5+ */
+    transition: background-color 0.2s ease 0s;
+    background: none repeat scroll 0 0 rgba(0,0,0, 0.025);
+    /*background: beige;*/
+    /*border-color: -moz-use-text-color #FFFFFF #FFFFFF -moz-use-text-color;*/
+    /*border-style: none solid solid none;*/
+    border-width: 1px 1px 1px 1px;/*
+    -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12) inset;
+    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12) inset;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12) inset;
+    -o-box-shadow:0 1px 2px rgba(0, 0, 0, 0.12) inset;
+    -khtml-box-shadow:0 1px 2px rgba(0, 0, 0, 0.12) inset;*/
+    border-radius: 3px;
+    padding: 10px;
+    line-height: 16px;
+    height: auto;
+    /*width: 100%;*/
+    font-size: 14px;
+  }
+  input[type^=text]:focus,
+  input[type^=password]:focus,
+  input[type^=email]:focus,
+  input[type^=number]:focus,
+  textarea:focus {
+    color:#7A7B7C;
+    background: none repeat scroll 0 0 #FFFFFF;
+    outline-width: 0;
+    -webkit-transition: all 0.25s ease-in-out;  /* Saf3.2+, Chrome */
+    -moz-transition: all 0.25s ease-in-out;  /* FF4+ */
+    -ms-transition: all 0.25s ease-in-out;  /* IE10 */
+    -o-transition: all 0.25s ease-in-out;  /* Opera 10.5+ */
+    transition: all 0.25s ease-in-out;
+  }
+
+  #filters input[type=text] {
+    letter-spacing: 1px;
+  }
+
+  hr {
+  margin: 20px 0;    
+    margin-right: 20px;
+    border: none;
+    border-top: 1px solid #222;
+  -webkit-transform: rotate(0.5deg);
+  -moz-transform: rotate(0.5deg);
+  }

@@ -4,26 +4,28 @@ local extractors = {
 }
 
 
-grind.define_view("dakwak", "requests", "workflow", function(ctx, entry)
-  -- local out = entry:clone()
+grind.define_view("dakwak", "requests", "workflow", 
+  { "Timestamp", "FQDN", "Context", "UUID", "Application", "Message" },
+  function(ctx, entry)
+    -- local out = entry:clone()
 
-  -- out:add("Timestamp", entry.meta.timestamp)
-  -- out:add("FQDN", entry.meta.fqdn)
-  -- out:add("Context", entry.meta.context)
-  -- out:add("UUID", entry.meta.uuid)
-  -- out:add("Application", entry.meta.app)
-  -- out:add("Message", entry.body)
+    -- out:add("Timestamp", entry.meta.timestamp)
+    -- out:add("FQDN", entry.meta.fqdn)
+    -- out:add("Context", entry.meta.context)
+    -- out:add("UUID", entry.meta.uuid)
+    -- out:add("Application", entry.meta.app)
+    -- out:add("Message", entry.body)
 
-  -- table.dump(out)
+    -- table.dump(out)
 
-  local out = {
-    { "Timestamp", entry.meta.timestamp },
-    { "FQDN", entry.meta.fqdn },
-    { "Context", entry.meta.context },
-    { "UUID", entry.meta.uuid },
-    { "Application", entry.meta.app },
-    { "Message", entry.body }
-  }
+    local out = {
+      { "Timestamp", entry.meta.timestamp },
+      { "FQDN", entry.meta.fqdn },
+      { "Context", entry.meta.context },
+      { "UUID", entry.meta.uuid },
+      { "Application", entry.meta.app },
+      { "Message", entry.body }
+    }
 
-  return true, out
-end)
+    return true, out
+  end)

@@ -61,6 +61,8 @@ $(document).ready(function(){
 
   }).click();
 
+  $("[data-alt-text],[data-alt-class]").click(function() { toggle_alterable($(this)); });
+
   ui.on_entry(function(row) {
     row.find("td[data-name]").click(function() {
       highlight($(this).attr("data-name"), $(this).html());

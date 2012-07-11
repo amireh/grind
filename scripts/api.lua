@@ -76,6 +76,31 @@ grind.command("query_klass", function(cmd)
   return res
 end)
 
+
+grind.command("query_view", function(cmd, watcher)
+  -- validate arguments
+  if not cmd.args then
+    return false, "Missing 2 required arguments, args.group and args.klass"
+  elseif not cmd.args.group then
+    return false, "Missing argument: args.group"
+  elseif not cmd.args.klass then
+    return false, "Missing argument: args.klass"
+  elseif not cmd.args.view then
+    return false, "Missing argument: args.view"
+  end
+
+  local group = grind.groups[cmd.args.group]
+  if not group then return false, "No such application group '" .. cmd.args.group .. "'" end
+
+  local klass = group.klasses[cmd.args.klass]
+  if not klass then return false, "No such klass '" .. cmd.args.klass .. "'" end
+
+  local view = klass.views[cmd.args.view]
+  if not view then return false, "No such view '" .. cmd.args.view .. "'" end
+
+  return view.skeleton
+end)
+
 grind.command("subscribe", function(cmd, watcher)
   -- validate arguments
   if not cmd.args then

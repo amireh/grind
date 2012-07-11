@@ -253,7 +253,7 @@ end
 --                  of the original entry to be committed.
 --
 -- @note the view's context is reset everytime an entry is committed by that group
-function grind.define_view(glabel, clabel, vlabel, formatter)
+function grind.define_view(glabel, clabel, vlabel, skeleton, formatter)
   local group = grind.groups[glabel]
   assert(group, "No application group called '" .. glabel .. "' is defined, can not define extractor!")
 
@@ -262,7 +262,7 @@ function grind.define_view(glabel, clabel, vlabel, formatter)
     "No klass called '" .. clabel .. "' is defined for the application group " .. 
     glabel .. ", can not define view!")
 
-  grind.groups[glabel].klasses[clabel].views[vlabel] = { label = vlabel, context = {}, formatter = formatter }
+  grind.groups[glabel].klasses[clabel].views[vlabel] = { label = vlabel, skeleton = skeleton, context = {}, formatter = formatter }
 
   log("    View defined: " .. glabel .. "[" ..  clabel .. "][" .. vlabel .. "]")
 end
@@ -290,22 +290,24 @@ end
 function grind.handle_cmd(buf, watcher)
   local res = {}
 
+  log("Incoming command: " .. buf)
+
   local cmd = json.decode(buf)
   if not cmd then
     log("Unable to decode command, aborting", log_level.error)
-    return watcher:send(report_api_error("Unable to decode command."))
+    return watcher:send( grind.report_api_error("Unable to decode command."))
   end
 
   if not cmd.id then
     log("Invalid command structure; missing id", log_level.error)
-    return watcher:send( report_api_error("Invalid command structure; missing 'id' field."))
+    return watcher:send( grind.report_api_error("Invalid command structure; missing 'id' field."))
   end
 
   log("Command: " .. cmd.id )
 
   if not grind.commands[cmd.id] then
     log("Unsupported command " .. cmd.id, log_level.error)
-    return watcher:send( report_api_error("Unsupported command " .. cmd.id .. ".") )
+    return watcher:send( grind.report_api_error("Unsupported command " .. cmd.id .. ".") )
   end
 
   -- table.dump(cmd)
@@ -314,11 +316,11 @@ function grind.handle_cmd(buf, watcher)
 
   if not res then
     if err then
-      return watcher:send(report_api_error("Error: " .. err))
+      return watcher:send( grind.report_api_error("Error: " .. err))
     end
     
     log("Command " .. cmd.id .. " handling failed", log_level.notice)
-    return watcher:send( report_api_error("Command " .. cmd.id .. " handling failed.") )
+    return watcher:send( grind.report_api_error("Command " .. cmd.id .. " handling failed.") )
   end
 
   watcher:send(json.encode({ 

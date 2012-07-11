@@ -4,70 +4,169 @@
   var klass = "<%= @klass %>";
   var view = "<%= @view %>";
 
-  grind.on_connected(function() {
-    grind.subscribe(group, klass, view);
-      // grind.dispatch("query_klass", { group: group, klass: klass}, function(msg) {
-      //   // console.log(msg)
-      //   for (var i=0; i < msg.result.length; ++i) {
-      //     var view = msg.result[i];
-      //     html = "";
-      //     html += "<li>";
-      //     html += "<a href=\"/" + group + '/' + klass + '/' + view + "\">";
-      //     html += view;
-      //     html += "</a>";
-      //     html += "</li>";
-      //     $("#views").append(html)
-      //     // grind.send_cmd({ id: "list_klasss", args: { group: group } })
-      //   }
-      // });    
+  var format_entry = function(msg) {
+    html = "<tr>";
+    $.each(msg.entry, function(_,pair) {
+      html += "<td data-name=\"" + pair[0] + "\">" + pair[1] + "</td>";
+    });
+    html += "</tr>"
+    $("table tbody").append(html);
+    ui.add_entry($("table tbody tr:last"));    
+  }
 
-    var columns_defined = false;
+  var populated = false;
+  grind.on_connected(function() {
+    grind.subscribe(group, klass, view, function() {
+      if (populated) return;
+      populated = true; 
+
+      grind.dispatch("query_view", { group: group, klass: klass, view: view }, function(msg) {
+        // populate the table headings
+        html = "";
+        $.each(msg.result, function(_, column) {
+          html += "<th>" + column + "</th>";
+        });
+        $("table thead > tr:first").append(html);
+
+        // popoulate the feed filter fields
+        var i = 0;
+        var feed = msg.result;
+        var last_el = null;
+        var elements = $("[data-feed=query_view]");
+        var delta = feed.length - elements.length;
+        if (delta > 0) {
+          var last_el = $(elements[elements.length-1]);
+          for (var di = 0; di < delta; ++di) {
+            var clone = last_el.clone();
+            last_el.after(clone);
+            elements.push(clone);
+          }
+        }
+
+        elements.each(function() {
+          last_el = $(this);
+          // var targets = JSON.parse($(this).attr("data-feed-target") || "");
+          var targets = ($(this).attr("data-feed-target") || "").split(',');
+          for (var ti = 0; ti < targets.length; ++ti) {
+            var target = targets[ti];
+            if (target == "text") {
+              $(this).html(feed[i]);
+            } else {
+              $(this).attr(target, feed[i]);
+            }
+          }
+          if (++i > feed.length) return false;
+        });
+
+        $("[data-dyn-target=filters]:not([data-dyn-action])").click();
+      });    
+      
+    });
 
     grind.on_message(function(msg) {
-
       if (msg.group != group || msg.klass != klass || msg.view != view) {
         console.log("not a message for us, discarding");
         return;
       }
 
-      if (!columns_defined) {
-        console.log("defining columns")
-        html = "";
-        $.each(msg.entry, function(_,pair) {
-          html += "<th>" + pair[0] + "</th>";
-        });
-        $("table thead > tr:first").append(html);
-
-        columns_defined = true;
-      }
-
-      html = "<tr>";
-      $.each(msg.entry, function(_,pair) {
-        html += "<td data-name=\"" + pair[0] + "\">" + pair[1] + "</td>";
-      });
-      html += "</tr>"
-      $("table tbody").append(html);
-      ui.add_entry($("table tbody tr:last"));
-
+      format_entry(msg);
     });
-
-    // grind.on_command("list_klasss", function(msg) {
-    //   groups[msg.args.group].klasss = msg.result;
-    //   list_klasss(msg.args.group);    
-    // });
-
-    // grind.dispatch("list_groups")
 
   });
 
+$(function() {
+  $("#fetch").click(function() {
+    $("#clear").click();
+
+    var type = "GET";
+    var data = { limit: $("#feed_limit").attr("value") };
+    var filters = $("[data-dyn-entity=filters]:visible");
+
+    if (filters.length > 0) {
+      type = "POST";
+      data.query = {};
+      // extract the filter values and sanitize them if necessary
+      filters.each(function() {
+        var field = $(this).find("option:selected").attr("value");
+        var value = $(this).find("input[type=text]").attr("value");
+        // /something/ => regex
+        if (value[0] == '/' && value.length > 1 && value[value.length-1] == '/')
+          data.query["entry." + field] = JSON.stringify({ "$regex": value.substring(1, value.length-1) });
+        // \/something/ => not a regex, escape (remove) the leading '/'
+        else if (value[0] == '\\' && value[1] == '/')
+          data.query["entry." + field] = JSON.stringify({ "$in": [ value.substring(1, value.length) ] });
+        // something => regular text
+        else
+          data.query["entry." + field] = JSON.stringify({ "$in": [ value ] });
+      });
+    }
+
+    $.ajax({
+      type: type,
+      url: "http://localhost:11146/" + group + "/" + klass + "/" + view,
+      data: data,
+      success: function(feed) {
+        console.log(feed);
+        // feed = JSON.parse(feed);
+        for (var i = 0; i < feed.length; ++i)
+          format_entry(feed[i]);
+      }
+    });
+  }); // #fetch.click()
+
+  // hide the feed options
+  $("[data-dyn-action=toggle][data-dyn-target=feed_options]").click();
+})
+
 </script>
+<% end %>
+
+<% content_for :actions do %>
+  <button id="fetch">fetch</button>
 <% end %>
 
 <% content_for :nav do %>
 <h2><%= [ "<a href='/#{@group}'>#{@group}</a>", 
           "<a href='/#{@group}/#{@klass}'>#{@klass}</a>", 
-          @view ].join(' >> ') %></h2>
+          @view ].join(' >> ') %>
+</h2>
 <% end %>
+
+<h2>Feed options
+  <button data-dyn-action="toggle" data-dyn-target="feed_options" data-alt-text="&plus; show">&minus; hide</button>
+</h2>
+<div id="feed_options">
+  <label>Maximum number of entries to retrieve: 
+    <input type="number" value="500" step="100" id="feed_limit" min="1" max="2000" />
+  </label>
+  <h3>Feed filters
+    <button data-dyn-target="filters">&plus; Add a filter</button>
+  </h3>
+  <p class="usage_tip"><em>Tip: </em> feed filters support <a href="http://pcre.org">PCRE</a> regular expressions.
+    You can make use of <a href="http://www.pcreck.com">PCREck</a> to edit and test your regexes.</p>
+  <section id="filters">
+    <div data-dyn-entity="filters">
+      <fieldset>
+        <legend>Filter #<span data-dyn-substitute="index">0</span></legend>
+        <label>
+          Field
+          <select name="filters[columns][-1]">
+            <option value="" data-feed="query_view" data-feed-target="value,text">
+              fill me
+            </option>
+          </select>
+        </label>
+        <label>
+          Value <input style="min-width:420px" type="text" name="filters[values][-1]" placeholder="/[^[D]]/" />
+        </label>
+        <button data-dyn-action="remove">&times;</button>
+      </fieldset>
+    </div>
+
+  </section>
+  <hr />
+</div>
+
 <section>
   <table style="text-align: left">
     <thead>
