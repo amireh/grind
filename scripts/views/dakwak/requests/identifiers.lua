@@ -24,9 +24,9 @@ grind.define_view("dakwak", "requests", "identifiers",
     -- we're done, commit the entry
     else
       return true, {
-        { "uuid", ctx.uuid },
-        { "apikey", ctx.apikey },
-        { "url", ctx.url }
+        uuid = ctx.uuid,
+        apikey = ctx.apikey,
+        url = ctx.url
       }
     end
 

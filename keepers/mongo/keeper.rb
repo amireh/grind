@@ -80,8 +80,8 @@ EventMachine.run {
       limit = params[:limit] || 500
       docs = []
       @@dbh[group].find({ klass: klass, view: view }).limit(limit.to_i).each { |doc|
-        entry = { group: group, klass: klass, view: view, entry: [] }
-        doc["entry"].each_pair { |k,v| entry[:entry] << [ k , v ] }
+        entry = { group: group, klass: klass, view: view, entry: {} }
+        doc["entry"].each_pair { |k,v| entry[:entry][ k ] = v }
         docs << entry
       }
 
@@ -102,8 +102,8 @@ EventMachine.run {
         }
       end
       @@dbh[group].find(query).limit(limit.to_i).each { |doc|
-        entry = { group: group, klass: klass, view: view, entry: [] }
-        doc["entry"].each_pair { |k,v| entry[:entry] << [ k , v ] }
+        entry = { group: group, klass: klass, view: view, entry: {} }
+        doc["entry"].each_pair { |k,v| entry[:entry][ k ] = v  }
         docs << entry
       }
 

@@ -168,10 +168,17 @@ function table.contains(table, item)
   return find_by_value(table, item) ~= nil
 end
 
-function table.dump(t)
-  print("Dumping table " .. tostring(t) .. " which has " .. #t .. " elements")
+function table.dump(t, indent)
+  if not indent then indent = 0 end
+  local padding = ""
+  for i=0,indent do padding = padding .. "  " end
+  -- print("Dumping table " .. tostring(t) .. " which has " .. #t .. " elements")
   for k,v in pairs(t) do
-    print(tostring(k) .. " => " .. tostring(v))
+    if type(v) == "table" then 
+      table.dump(v, indent + 1)
+    else
+      print(padding .. tostring(k) .. " => " .. tostring(v))
+    end
   end
 end
 

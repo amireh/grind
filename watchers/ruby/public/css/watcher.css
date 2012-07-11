@@ -300,3 +300,10 @@ tr:nth-child(1) td {
   -webkit-transform: rotate(0.5deg);
   -moz-transform: rotate(0.5deg);
   }
+
+  button.help {
+    padding-left: 5px;
+    padding-right: 5px;
+    background: white;
+    color: black;
+  }

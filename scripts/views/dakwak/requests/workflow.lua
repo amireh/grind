@@ -19,12 +19,12 @@ grind.define_view("dakwak", "requests", "workflow",
     -- table.dump(out)
 
     local out = {
-      { "Timestamp", entry.meta.timestamp },
-      { "FQDN", entry.meta.fqdn },
-      { "Context", entry.meta.context },
-      { "UUID", entry.meta.uuid },
-      { "Application", entry.meta.app },
-      { "Message", entry.body }
+      Timestamp = entry.meta.timestamp,
+      FQDN = entry.meta.fqdn,
+      Context = entry.meta.context,
+      UUID = entry.meta.uuid,
+      Application = entry.meta.app,
+      Message = entry.body
     }
 
     return true, out

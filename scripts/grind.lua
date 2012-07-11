@@ -121,8 +121,33 @@ function grind.handle(text)
                      s[3] == view.label)
                   then
                     local w = s[4]
+                    local do_relay = true
                     log("Relaying to Watcher#" .. w:whois())
-                    w:send(encoded_entry)
+                    if s.filters then
+                      for field, match in pairs(s.filters) do
+                        local match_res = true
+                        if match[1] then -- a regex
+                          match_res = rex_pcre.match(formatted_entry[field] or "", match[2])
+                        else
+                          match_res = (formatted_entry[field] or ""):match(match[2])
+                        end
+
+                        -- is it a negated filter?
+                        if match[3] then match_res = not match_res end
+
+                        if not match_res then
+                          table.dump(formatted_entry)
+                          log("Filter on " .. field .. " => " .. tostring(match[2]) ..
+                           " failed, will not relay to " .. w:whois() .. " (" .. (formatted_entry[field] or "") .. ")")
+                          do_relay = false
+                          break
+                        end
+                      end
+                    end
+
+                    if do_relay then
+                      w:send(encoded_entry)
+                    end
                   end
                 end
 

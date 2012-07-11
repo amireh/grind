@@ -138,3 +138,33 @@ grind.command("subscribe", function(cmd, watcher)
   log("Watcher#" .. watcher:whois() .. " has subscribed to " .. group.label .. ">>" .. klass.label .. ">>" .. view.label)
   return true
 end)
+
+grind.command("add_filters", function(cmd, watcher)
+  local sub = grind.subscriptions[watcher:whois()]
+  if not sub then
+    return false, "You must subscribe to a view first!"
+  end
+
+  table.dump(cmd)
+
+  local filters = {}
+  for field, pair in pairs(cmd.args) do
+    if type(pair) ~= "table" then
+      return false, "Invalid command structure; field value must be a table: { is_regex = bool, value = string }"
+    end
+
+    if pair.is_regex then
+      local regex = create_regex(pair.value)
+      if regex then
+        filters[field] = { true, regex, pair.is_negated }
+      end
+    else
+      filters[field] = { false, pair.value, pair.is_negated }
+    end
+    log("Filter defined for " .. watcher:whois() .. ": " .. field .. " => " .. pair.value .. "(" .. tostring(pair.is_regex) .. ")")
+  end
+
+  sub.filters = filters
+
+  return true
+end)

@@ -6,11 +6,11 @@ grind.define_view("dakwak", "errors", "request errors",
     end
     
     return true, {
-      { "Timestamp", entry.meta.timestamp },
-      { "FQDN", entry.meta.fqdn },
-      { "Context", entry.meta.context },
-      { "UUID", entry.meta.uuid },
-      { "Application", entry.meta.app },
-      { "Message", entry.body }
+      Timestamp = entry.meta.timestamp,
+      FQDN = entry.meta.fqdn,
+      Context = entry.meta.context,
+      UUID = entry.meta.uuid,
+      Application = entry.meta.app,
+      Message = entry.body
     }
   end)

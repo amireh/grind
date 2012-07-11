@@ -6,9 +6,15 @@
 
   var format_entry = function(msg) {
     html = "<tr>";
-    $.each(msg.entry, function(_,pair) {
-      html += "<td data-name=\"" + pair[0] + "\">" + pair[1] + "</td>";
-    });
+    $("table thead th").each(function() {
+      var k = $(this).html();
+      var v = msg.entry[k];
+      html += "<td data-name=\"" + k + "\">" + v + "</td>";
+      
+    })
+    // $.each(msg.entry, function(k,v) {
+    //   html += "<td data-name=\"" + k + "\">" + v + "</td>";
+    // });
     html += "</tr>"
     $("table tbody").append(html);
     ui.add_entry($("table tbody tr:last"));    
@@ -75,6 +81,16 @@
   });
 
 $(function() {
+  var process_filter_value = function(value) {
+    if (value[0] == '/' && value.length > 1 && value[value.length-1] == '/')
+      return { is_regex: true, value: value.substring(1, value.length-1) };
+    // \/something/ => not a regex, escape (remove) the leading '/'
+    else if (value[0] == '\\' && value[1] == '/')
+      return { is_regex: false, value: value.substring(1, value.length) }
+    // something => regular text
+    else
+      return { is_regex: false, value: value }
+  }
   $("#fetch").click(function() {
     $("#clear").click();
 
@@ -89,15 +105,15 @@ $(function() {
       filters.each(function() {
         var field = $(this).find("option:selected").attr("value");
         var value = $(this).find("input[type=text]").attr("value");
-        // /something/ => regex
-        if (value[0] == '/' && value.length > 1 && value[value.length-1] == '/')
-          data.query["entry." + field] = JSON.stringify({ "$regex": value.substring(1, value.length-1) });
-        // \/something/ => not a regex, escape (remove) the leading '/'
-        else if (value[0] == '\\' && value[1] == '/')
-          data.query["entry." + field] = JSON.stringify({ "$in": [ value.substring(1, value.length) ] });
-        // something => regular text
-        else
-          data.query["entry." + field] = JSON.stringify({ "$in": [ value ] });
+        var is_negated = $(this).find("input[type=checkbox]").attr("checked") ? true : false;
+        var processed = process_filter_value(value);
+        if (processed.is_regex)
+          data.query["entry." + field] = JSON.stringify({ "$regex": processed.value });
+        else {
+          var op = (is_negated ? "$nin" : "$in");
+          var value = {}; value[op] = [ processed.value ];
+          data.query["entry." + field] = JSON.stringify(value);
+        }
       });
     }
 
@@ -114,8 +130,26 @@ $(function() {
     });
   }); // #fetch.click()
 
+  $("#save_filters").click(function() {
+    var filters = $("[data-dyn-entity=filters]:visible");
+
+    if (filters.length > 0) {
+      type = "POST";
+      var query = {};
+      // extract the filter values and sanitize them if necessary
+      filters.each(function() {
+        var field = $(this).find("option:selected").attr("value");
+        var value = $(this).find("input[type=text]").attr("value");
+        var is_negated = $(this).find("input[type=checkbox]").attr("checked") ? true : false;
+        query[field] = process_filter_value(value);
+        query[field].is_negated = is_negated;
+      });
+
+      grind.dispatch("add_filters", query);
+    }
+  });
   // hide the feed options
-  $("[data-dyn-action=toggle][data-dyn-target=feed_options]").click();
+  // $("[data-dyn-action=toggle][data-dyn-target=feed_options]").click();
 })
 
 </script>
@@ -150,20 +184,25 @@ $(function() {
         <legend>Filter #<span data-dyn-substitute="index">0</span></legend>
         <label>
           Field
-          <select name="filters[columns][-1]">
+          <select name="filters[-1][field]">
             <option value="" data-feed="query_view" data-feed-target="value,text">
               fill me
             </option>
           </select>
         </label>
         <label>
-          Value <input style="min-width:420px" type="text" name="filters[values][-1]" placeholder="/[^[D]]/" />
+          Value <input style="min-width:420px" type="text" name="filters[-1][value]" value="012345678" placeholder="/[^[D]]/" />
+        </label>
+        <label>
+          Negated? <input type="checkbox" name="filters[-1][negated]" />
         </label>
         <button data-dyn-action="remove">&times;</button>
       </fieldset>
     </div>
 
   </section>
+  <button id="save_filters">Save filters</button>
+  <button class="help">?</button>
   <hr />
 </div>
 
