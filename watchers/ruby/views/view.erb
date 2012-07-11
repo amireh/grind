@@ -3,21 +3,26 @@
   var group = "<%= @group %>";
   var klass = "<%= @klass %>";
   var view = "<%= @view %>";
-
+  var tbody = null;
+  var nr_entries = 0;
+  var fields = [];
   var format_entry = function(msg) {
     html = "<tr>";
-    $("table thead th").each(function() {
-      var k = $(this).html();
+    // $("table thead th").each(function() {
+      for (var i = 0; i < fields.length; ++i) {
+      var k = fields[i];
       var v = msg.entry[k];
       html += "<td data-name=\"" + k + "\">" + v + "</td>";
-      
-    })
+    }
+    // })
     // $.each(msg.entry, function(k,v) {
     //   html += "<td data-name=\"" + k + "\">" + v + "</td>";
     // });
     html += "</tr>"
     $("table tbody").append(html);
-    ui.add_entry($("table tbody tr:last"));    
+    ui.add_entry($("table tbody tr:last"));
+    var nr_entries = $("#total_entries").html().match(/(\d+)/)[1];
+    $("#total_entries").html( $("#total_entries").html().replace(/\d+/, parseInt(nr_entries) + 1));
   }
 
   var populated = false;
@@ -31,6 +36,7 @@
         html = "";
         $.each(msg.result, function(_, column) {
           html += "<th>" + column + "</th>";
+          fields.push(column);
         });
         $("table thead > tr:first").append(html);
 
@@ -78,6 +84,10 @@
         return;
       }
 
+      // if (++nr_entries > $("#feed_limit").attr("value")) {
+      //   tbody.find("tr:first").remove();
+      //   --nr_entries;
+      // }
       format_entry(msg);
     });
 
@@ -94,6 +104,8 @@ $(function() {
     else
       return { is_regex: false, value: value }
   }
+  tbody = $("table tbody");
+
   $("#fetch").click(function() {
     $("#clear").click();
     var hide_feed_options = false;
@@ -158,10 +170,68 @@ $(function() {
       });
 
       grind.dispatch("add_filters", query);
+    } else {
+      grind.dispatch("clear_filters");
     }
   });
+
+  $("#filter_current").click(function() {
+    var filter_els = $("[data-dyn-entity=filters]:visible");
+    var filters = {};
+    filter_els.each(function() {
+      var filter = {};
+      var field = $(this).find("option:selected").attr("value");
+      var value = $(this).find("input[type=text]").attr("value");
+      filter.is_negated = $(this).find("input[type=checkbox]").attr("checked") ? true : false;
+      filter.pvalue = process_filter_value(value);
+      filter.regex = filter.pvalue.is_regex ? new RegExp(filter.pvalue.value) : null;
+      filters[field] = filter;
+    })
+
+    $("td[data-name]:visible").each(function() {
+      var col = $(this);
+      var clean = true;
+      var field = $(this).attr("data-name");
+
+      // for (var i = 0; i < filters.length; ++i) {
+        var filter = filters[field];
+        if (!filter)
+          return true;
+
+        var passed = false;
+        var my_value = $(this).html();
+
+        if (filter.pvalue.is_regex) {
+          if (filter.regex.test(my_value)) {
+            passed = true;
+          }
+        } else { // not a regex
+          if (my_value == filter.pvalue.value)
+            passed = true;
+        }
+        if (filter.is_negated)
+          passed = !passed;
+
+        clean = clean && passed;
+
+        // if (!clean)
+        //   break;
+      // } // filter loop
+
+      if (!clean) {
+        $(this).parent().hide();
+      }
+
+    });
+
+  }); // #filter_current.click()
+
+  $("#filter_reset").click(function() {
+    $("tr:hidden td[data-name]").each(function() { $(this).parent().show(); });
+  })
   // hide the feed options
   $("[data-dyn-action=toggle][data-dyn-target=feed_options]").click();
+
 
 
 })
@@ -170,7 +240,9 @@ $(function() {
 <% end %>
 
 <% content_for :actions do %>
-  <button id="fetch">fetch</button>
+  <button title="Retrieve the latest data from the Keeper's archive" id="fetch">fetch</button>
+  <button title="Filter the current data" id="filter_current">filter</button>
+  <button title="Reset the filters applied on the current data" id="filter_reset">reset</button>
 <% end %>
 
 <% content_for :nav do %>
@@ -185,7 +257,7 @@ $(function() {
 </h2>
 <div id="feed_options">
   <label>Maximum number of entries to retrieve: 
-    <input type="number" value="500" step="100" id="feed_limit" min="1" max="2000" />
+    <input type="number" value="50" step="100" id="feed_limit" min="1" max="2000" />
   </label>
   <h3>Feed filters
     <button data-dyn-target="filters">&plus; Add a filter</button>
@@ -215,7 +287,7 @@ $(function() {
     </div>
 
   </section>
-  <button id="save_filters">Save filters</button>
+  <button id="save_filters" data-content="Moo.">Save filters</button>
   <button class="help">?</button>
   <hr />
 </div>

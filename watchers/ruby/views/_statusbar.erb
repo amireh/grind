@@ -1,13 +1,15 @@
 <footer id="status_bar">
-  <button data-alt-text="Disconnect" id="toggle_feed" data-alt-class="connected" class="disconnected">Connect</button>
+  <button title="The grind Watcher connection" data-alt-text="Disconnect" id="toggle_feed" data-alt-class="connected" class="disconnected">Connect</button>
   <span>STATUS:</span>
   <span id="status" data-alt-text="ONLINE" data-alt-class="online" class="offline">OFFLINE</span>
-  <span id="highlighted">HIGHLIGHTED: 0</span>
+  <span title="The number of highlighted entries (click a column to highlight)" id="highlighted">HIGHLIGHTED: 0</span>
+  <span title="Total number of entries" id="total_entries">TOTAL: 0</span>
 
   <div class="part right">
     <% yield_content :actions %>
 
-    <button  id="clear" title="Clear the view">&times; clear</button>
+    <button  id="purge" class="bad" title="Purge all Keeper archives permanently">purge</button>
+    <button  id="clear" title="Clear the view">clear</button>
     <a href="#bottom" title="Go to the bottom" class="button">&darr;</a>
     <a href="#top" title="Go to the top" class="button">&uarr;</a>
     <!-- <a href="#bottom">&darr;</button></a> -->

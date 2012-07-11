@@ -168,3 +168,22 @@ grind.command("add_filters", function(cmd, watcher)
 
   return true
 end)
+
+grind.command("clear_filters", function(cmd, watcher)
+  local sub = grind.subscriptions[watcher:whois()]
+  if not sub then
+    return false, "You must subscribe to a view first!"
+  end
+  sub.filters = nil
+end)
+
+grind.command("purge", function(cmd)
+  local purge_cmd = json.encode({ command = "purge" })
+  for w in ilist(grind.watchers) do
+    local sub = grind.subscriptions[w:whois()]
+    if sub and sub[1] == '*' then -- it's a keeper
+      log("Ordering Keeper#" .. w:whois() .. " to purge its archive.", log_level.log_notice)
+      w:send(purge_cmd)
+    end
+  end
+end)

@@ -103,6 +103,9 @@ grind = function() {
       if (!connected)
         return;
 
+      handlers.on_message = [];
+      handlers.on_command = {};
+      
       socket.close();
     },
     is_connected: function() { return connected; },

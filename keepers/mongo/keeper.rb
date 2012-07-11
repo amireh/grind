@@ -39,7 +39,12 @@ EventMachine.run {
     
     def object_parsed(obj)
       @data = ""
-      return if obj.has_key?("command")
+      if obj.has_key?("command")
+        if obj["command"] == "purge" then
+          @dbh.collection_names.each { |c| @dbh[c].remove() }
+        end
+        return
+      end
       entry = {}
       obj["entry"].each { |datum|
         entry[datum[0]] = datum[1]

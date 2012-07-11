@@ -3,25 +3,29 @@
   grind.on_connected(function() {
     grind.dispatch("list_groups", {}, function(msg) {
       // console.log(msg)
+      var alphabet = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
       console.log("listing groups");
       for (var i=0; i < msg.result.length; ++i) {
         var group = msg.result[i];
         html = "";
         html += "<li>";
+        html += "<span>" + (i + 1) + "</span>";
         html += "<a href=\"/" + group.label + "\">";
         html += group.label;
-        html += "</a>, classes:";
+        html += "</a>";
           html += "<ol>";
           for (var ki = 0; ki < group.klasses.length; ++ki) {
             var klass = group.klasses[ki];
             html += "<li>";
-            html += "<a href=\"/" + group.label + "/" + klass.label + "\">" + klass.label + "</a>, views:";
+            html += "<span>" + (alphabet[ki]) + "</span>";
+            html += "<a href=\"/" + group.label + "/" + klass.label + "\">" + klass.label + "</a> &rarr;";
 
             html += "<ol>";
             for (var vi = 0; vi < klass.views.length; ++vi) {
               var view = klass.views[vi];
               html += "<li>";
-              html += "<a href=\"/" + group.label + "/" + klass.label + "/" + view + "\">" + view + "</a>";
+              // html += "<span>" + (ki + 1) + "." + (vi + 1) + "</span>";
+              html += "<span><a href=\"/" + group.label + "/" + klass.label + "/" + view + "\">" + view + "</a></span>";
               html += "</li>";
             }
             html += "</ol>";  

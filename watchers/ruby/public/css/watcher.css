@@ -1,5 +1,6 @@
 body {
   margin: 0px;
+  background: url(../images/grid-18px-masked.png) repeat-x transparent 0 40px;
 }
 
 * {
@@ -154,7 +155,7 @@ a, a:visited {
   -o-transition: color 0.2s ease 0s;
   transition: color 0.2s ease 0s;    
 }
-a:hover,a:focus {
+a:hover:not(.button),a:focus:not(.button) {
   color: orange;
   outline: none;
 }
@@ -220,7 +221,8 @@ tr:nth-child(1) td {
   margin-top: 0;
 }
 
-#status_bar button.connected:not(:active):not(:focus):not(:hover) {
+#status_bar button.connected:not(:active):not(:focus):not(:hover),
+.bad:not(:focus):not(:hover) {
   background: red;
 }
 
@@ -316,3 +318,69 @@ tr:nth-child(1) td {
     cursor: default;
 }
 */
+
+ul {
+  font-size: 1.5em;
+  list-style-type: none;
+}
+ul > li > ol > li {
+  padding-top: 30px;
+}
+ul > li {
+  padding-bottom: 30px;
+}
+
+ul > li > ol > li,
+ul > li > ol > li * {
+  vertical-align: top;
+  position: relative;
+}
+ul span {
+  border: 1px solid #222;
+  background: white;
+  border-radius: 4px;
+  padding: 0.5em 1em;
+  margin: 0 10px 0 0;
+  -webkit-transform: rotate(0.5deg);
+  display: inline-block;
+  position: relative;
+  top: -10px;
+  /*width: 40px;*/
+}
+ul > li > ol > li > a {
+  /*background: #222;*/
+  position: relative;
+  /*left: -20px;*/
+  /*z-index: -10;*/
+  /*padding: 5px 10px;*/
+}
+
+ul > li > ol,
+ul > li > ol li > ol {
+  font-size: 0.9em;
+  list-style-type: none;
+  /*padding-left: 30px;*/
+}
+ul > li > ol > li > ol {
+  display: inline-block;
+  padding-left: 10px;
+  position: relative;
+  /*top: -20px;*/
+}
+ul > li > ol > li > ol span {
+  padding: 7px 10px;
+  margin-bottom: 10px;
+  /*font-size: 0.5em;*/
+  /*background: #222;*/
+  border: none;
+  /*color: white;*/
+  position: relative;
+  /*top: -5px;*/
+}
+ul > li > ol li:before {
+  /*content: "\00BB \0020";*/
+}
+
+ul > li > ol li > ol li:before {
+  /*content: "o \0020";*/
+}

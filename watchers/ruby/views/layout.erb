@@ -18,7 +18,10 @@
       });
 
       $(function() {
-        $("#clear").click(function() { $("[data-clearable]").empty(); })
+        $("#clear").click(function() { $("[data-clearable]").empty(); 
+          $("#total_entries").html( $("#total_entries").html().replace(/(\d+)/, 0) );
+        })
+        $("#purge").click(function() { grind.dispatch("purge", {}); })
       });
 
     </script>
