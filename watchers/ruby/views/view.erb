@@ -93,6 +93,12 @@ $(function() {
   }
   $("#fetch").click(function() {
     $("#clear").click();
+    var hide_feed_options = false;
+    if ($("#feed_options").is(":hidden")) {
+      $("#feed_options").show();
+      hide_feed_options = true;
+    }
+
 
     var type = "GET";
     var data = { limit: $("#feed_limit").attr("value") };
@@ -128,6 +134,9 @@ $(function() {
           format_entry(feed[i]);
       }
     });
+
+    if (hide_feed_options)
+      $("#feed_options").hide();
   }); // #fetch.click()
 
   $("#save_filters").click(function() {

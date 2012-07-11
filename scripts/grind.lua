@@ -35,7 +35,10 @@ function grind.start()
   require 'api'
   require 'entry'
 
-  log("Delimiter pattern: " .. grind.config.delimiter, log_level.info)
+  log("Delimiter patterns: ", log_level.info)
+  for delimiter in ilist(grind.config.delimiters) do
+    log("  " .. delimiter, log_level.info)
+  end
 
   for dir in ilist({ "groups", "klasses", "views" }) do
     for filename in dirtree(grind.paths.root .. '/' .. dir) do
@@ -46,10 +49,20 @@ function grind.start()
   end
 
   leftovers = ""
-  delimiter_rex = create_regex(grind.config.delimiter)
+  local expression = "(?|"
+  for idx, delimiter in pairs(grind.config.delimiters) do
+    expression = expression .. delimiter
+    if idx ~= #grind.config.delimiters then
+      expression = expression .. "|"
+    end
+  end
+  expression = expression .. ")"
+  log("Delimiter expression: " .. expression)
+  delimiter_rex = create_regex(expression)
   if not delimiter_rex then
     assert(false)
   end
+
 end
 
 
@@ -129,7 +142,7 @@ function grind.handle(text)
                         if match[1] then -- a regex
                           match_res = rex_pcre.match(formatted_entry[field] or "", match[2])
                         else
-                          match_res = (formatted_entry[field] or ""):match(match[2])
+                          match_res = (formatted_entry[field] or "") == match[2]
                         end
 
                         -- is it a negated filter?
@@ -169,7 +182,7 @@ function grind.handle(text)
 
   leftovers = text:sub(consumed)
   print(consumed .. " bytes were consumed, and " .. #leftovers .. " bytes were left over.")
-
+  print(leftovers)
   -- for k,entry in pairs(entries) do
   --   print(k .. " " .. entry.meta.timestamp .. " " .. entry.content)
   -- end
