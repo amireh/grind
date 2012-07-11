@@ -34,6 +34,9 @@
         });
         $("table thead > tr:first").append(html);
 
+        // sorttable.init();
+        sorttable.makeSortable($("table:first").get(0));
+
         // popoulate the feed filter fields
         var i = 0;
         var feed = msg.result;
@@ -159,6 +162,8 @@ $(function() {
   });
   // hide the feed options
   $("[data-dyn-action=toggle][data-dyn-target=feed_options]").click();
+
+
 })
 
 </script>
@@ -216,13 +221,12 @@ $(function() {
 </div>
 
 <section>
-  <table style="text-align: left">
+  <table id="myfuckingtable" class="sortable" style="text-align: left">
     <thead>
       <tr>
       </tr>
     </thead>
     <tbody data-clearable>
-
     </tbody>
   </table>
 </section>
