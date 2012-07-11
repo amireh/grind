@@ -1,0 +1,400 @@
+body {
+  margin: 0px;
+  background: url(../images/grid-18px-masked.png) repeat-x transparent 0 40px;
+  font-family: "UbuntuMonoRegular", Arial, 'Helvetica Neue', Helvetica, serif, sans-serif;
+  font-size: 14px;  
+
+}
+
+* {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+#status_bar {
+  width: 100%;
+  background: #fff;
+  /*color: #fff;*/
+  /*height: 40px;*/
+  padding: 5px 10px;
+  position: fixed;
+  bottom: 0;
+  /*box-shadow: 0 0 10px 5px white;*/
+  font-size: 12px;
+  /*text-align: right;*/
+  border-top: 1px solid #ddd;
+  -webkit-transform: rotate(0.05deg);
+  -moz-transform: rotate(0.05deg);
+}
+
+
+span#status {
+  line-height: 40px;
+  /*padding: 0 20px;*/
+  font-weight: bold;
+  letter-spacing: 1px;
+  width: 80px;
+  display: inline-block;
+}
+span#status.online {
+  color: green;
+}
+span#status.offline {
+  color: red;
+}
+button,
+.button,
+.button:visited {
+  cursor: pointer;
+  font-weight: bold;
+  color: #fff;
+  text-decoration: none;
+  background:#5CCD00;
+  background:#789f00;
+  padding:8px 20px;
+  border-radius:5px;
+  -moz-border-radius:5px;
+  -webkit-border-radius:5px;
+  border:1px solid #222;  
+  -webkit-transition: all 0.25s ease 0s;
+  -moz-transition: all 0.2s ease 0s;
+  -ms-transition: all 0.2s ease 0s;
+  -o-transition: all 0.2s ease 0s;
+  transition: all 0.2s ease 0s;  
+  box-shadow: 0 0 0 1px #222 inset;
+  -webkit-transform: rotate(0.25deg);
+  -moz-transform: rotate(-1deg);  
+}
+button:hover:not(:active),
+button:focus:not(:active),
+.button:hover:not(:active),
+.button:focus:not(:active)
+ {
+  background: orange;
+  border-color: white;
+}
+button:active,
+.button:active {
+  background: white;
+  color: black;
+  border-color: black;
+}
+
+td.highlighted {
+  background: yellow;
+}
+
+table {
+  border-spacing: 10px 0;
+  width: 100%;
+}
+
+th {
+  /*background: #33332d;*/
+  /*color: #eee;*/
+  /*padding: 0 10px;*/
+  background: #222;
+  color: #fff;
+  box-shadow: 0 0 0 1px white inset;
+  -webkit-transform: rotate(0.5deg);
+  -moz-transform: rotate(0.5deg);
+  padding: 10px;
+  border-radius: 0 5px 0 1p  
+}
+th:first-of-type,
+th:last-of-type {
+  -webkit-transform: rotate(-1deg);
+  -moz-transform: rotate(-1deg);
+}
+
+td,th {
+  /*font-family: monospace;*/
+  /*font-size: 1.1em;*/
+}
+td:not(:last-child),th:not(:last-child) {
+  text-align: center;
+}
+
+hgroup {
+  padding: 0 10px;
+  /*background: #222;*/
+  /*color: #fff;*/
+}
+
+section#content {
+  margin-bottom: 80px;
+}
+section#content,
+nav {
+  padding: 0 10px;
+}
+header {
+  nav {
+    padding: 17px;
+    padding-left: 20px;
+    position: absolute;
+    top: 26px;
+    left: 185px;
+    color: white;
+    box-shadow: 0 0 0 1px white inset;
+    width: 79%;
+    -webkit-transform: rotate(-1deg);
+    -moz-transform: rotate(-1deg);
+    background: #222;
+
+    #grind_controls {
+      position: absolute;
+      right: 10px;
+      top: 20px;
+    }    
+    h2 { margin: 0; }
+  }
+}
+
+aside {
+  position: absolute;
+  top: 110px;
+  left: 210px;
+}
+section#content table {
+  margin-left: -10px;
+}
+
+a, a:visited {
+  color: #00A0D1;
+  -webkit-transition: color 0.25s ease 0s;
+  -moz-transition: color 0.2s ease 0s;
+  -ms-transition: color 0.2s ease 0s;
+  -o-transition: color 0.2s ease 0s;
+  transition: color 0.2s ease 0s;    
+}
+a:hover:not(.button),a:focus:not(.button) {
+  color: orange;
+  outline: none;
+}
+hgroup {
+  /*background: #111;*/
+  /*box-shadow: 0 -1px 0px 35px black inset;*/
+}
+
+hgroup h1 {
+  display: inline-block;
+  /*margin-left: 20px;*/
+  z-index: 100;
+  position: relative;
+  /*color: black;*/
+  /*text-shadow: 2px 2px 1px black;*/
+  /*text-decoration: underline;*/
+  font-size: 40px;
+  -webkit-transform: rotate(-1deg);
+  -moz-transform: rotate(-1deg);
+  /*background: orange;*/
+  padding: 60px 30px 15px 30px;
+  box-shadow: 0 -1px 0px 5px #222 inset;
+  margin-top: 3px;
+}
+hgroup h1 a,
+hgroup h1 a:visited {
+  text-decoration: none;
+  color: black;
+  position: relative;
+  top: -25px;
+}
+hgroup h1 a:hover {
+  color: orange;
+}
+hgroup img#logo {
+  /*float: left;*/
+  vertical-align: middle;
+  height: 60px;
+  position: absolute;
+  top: 15px;
+  z-index: 0;
+  opacity: 0.5;
+}
+
+.big_gear {
+  position: fixed;
+  right: -225px;
+  opacity: 0.05;
+  /*top: 190px;*/
+  bottom: 60px;
+  z-index: -100;
+  height: 480px;
+}
+.right { float: right; }
+.left { float: left;}
+
+tr:nth-child(1) td {
+  padding-top: 10px;
+}
+#content h1:first-child,
+#content h2:first-child,
+#content h3:first-child {
+  margin-top: 0;
+}
+
+#status_bar button.connected:not(:active):not(:focus):not(:hover),
+.bad:not(:focus):not(:hover) {
+  background: red;
+}
+
+
+
+
+
+/* ---- ------
+ * text inputs
+ * ---- ------ */
+ fieldset {
+    /*-webkit-transform: rotate(-0.15deg);*/
+    /*-moz-transform: rotate(0.05deg);  */
+    /*width: 98%;*/
+    margin-right: 20px;
+ }
+  input[type^=text],
+  input[type^=email],
+  input[type^=password],
+  input[type^=number],
+  textarea,
+  select,
+  fieldset {
+    color:#000;
+    border: 1px solid #ddd;
+/*    -moz-border-bottom-colors: none;
+    -moz-border-image: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;*/
+    -webkit-transition: background-color 0.2s ease 0s;  /* Saf3.2+, Chrome */
+    -moz-transition: background-color 0.2s ease 0s;  /* FF4+ */
+    -ms-transition: background-color 0.2s ease 0s;  /* IE10 */
+    -o-transition: background-color 0.2s ease 0s;  /* Opera 10.5+ */
+    transition: background-color 0.2s ease 0s;
+    background: none repeat scroll 0 0 rgba(0,0,0, 0.025);
+    /*background: beige;*/
+    /*border-color: -moz-use-text-color #FFFFFF #FFFFFF -moz-use-text-color;*/
+    /*border-style: none solid solid none;*/
+    border-width: 1px 1px 1px 1px;/*
+    -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12) inset;
+    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12) inset;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12) inset;
+    -o-box-shadow:0 1px 2px rgba(0, 0, 0, 0.12) inset;
+    -khtml-box-shadow:0 1px 2px rgba(0, 0, 0, 0.12) inset;*/
+    border-radius: 3px;
+    padding: 10px;
+    line-height: 16px;
+    height: auto;
+    /*width: 100%;*/
+    font-size: 14px;
+  }
+  input[type^=text]:focus,
+  input[type^=password]:focus,
+  input[type^=email]:focus,
+  input[type^=number]:focus,
+  textarea:focus {
+    color:#7A7B7C;
+    background: none repeat scroll 0 0 #FFFFFF;
+    outline-width: 0;
+    -webkit-transition: all 0.25s ease-in-out;  /* Saf3.2+, Chrome */
+    -moz-transition: all 0.25s ease-in-out;  /* FF4+ */
+    -ms-transition: all 0.25s ease-in-out;  /* IE10 */
+    -o-transition: all 0.25s ease-in-out;  /* Opera 10.5+ */
+    transition: all 0.25s ease-in-out;
+  }
+
+  #filters input[type=text] {
+    letter-spacing: 1px;
+  }
+
+  hr {
+  margin: 20px 0;    
+    margin-right: 20px;
+    border: none;
+    border-top: 1px solid #222;
+  -webkit-transform: rotate(0.5deg);
+  -moz-transform: rotate(0.5deg);
+  }
+
+  button.help {
+    padding-left: 5px;
+    padding-right: 5px;
+    background: white;
+    color: black;
+  }
+
+  /* Sortable tables */
+/*table.sortable thead {
+    background-color:#eee;
+    color:#666666;
+    font-weight: bold;
+    cursor: default;
+}
+*/
+
+ul {
+  font-size: 1.5em;
+  list-style-type: none;
+}
+ul > li > ol > li {
+  padding-top: 30px;
+}
+ul > li {
+  padding-bottom: 30px;
+}
+
+ul > li > ol > li,
+ul > li > ol > li * {
+  vertical-align: top;
+  position: relative;
+}
+ul span {
+  border: 1px solid #222;
+  background: white;
+  border-radius: 4px;
+  padding: 0.5em 1em;
+  margin: 0 10px 0 0;
+  -webkit-transform: rotate(0.5deg);
+  display: inline-block;
+  position: relative;
+  top: -10px;
+  /*width: 40px;*/
+}
+ul > li > ol > li > a {
+  /*background: #222;*/
+  position: relative;
+  /*left: -20px;*/
+  /*z-index: -10;*/
+  /*padding: 5px 10px;*/
+}
+
+ul > li > ol,
+ul > li > ol li > ol {
+  font-size: 0.9em;
+  list-style-type: none;
+  /*padding-left: 30px;*/
+}
+ul > li > ol > li > ol {
+  display: inline-block;
+  padding-left: 10px;
+  position: relative;
+  /*top: -20px;*/
+}
+ul > li > ol > li > ol span {
+  padding: 7px 10px;
+  margin-bottom: 10px;
+  /*font-size: 0.5em;*/
+  /*background: #222;*/
+  border: none;
+  /*color: white;*/
+  position: relative;
+  /*top: -5px;*/
+}
+ul > li > ol li:before {
+  /*content: "\00BB \0020";*/
+}
+
+ul > li > ol li > ol li:before {
+  /*content: "o \0020";*/
+}

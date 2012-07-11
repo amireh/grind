@@ -6,8 +6,10 @@
   var tbody = null;
   var nr_entries = 0;
   var fields = [];
+  var debug = false;
   var format_entry = function(msg) {
     html = "<tr>";
+    console.log("Message: " + JSON.stringify( msg) )
     // $("table thead th").each(function() {
       for (var i = 0; i < fields.length; ++i) {
       var k = fields[i];
@@ -73,7 +75,8 @@
           if (++i > feed.length) return false;
         });
 
-        // $("[data-dyn-target=filters]:not([data-dyn-action])").click();
+        if (debug)
+          $("[data-dyn-target=filters]:not([data-dyn-action])").click();
       });    
       
     });
@@ -230,16 +233,24 @@ $(function() {
     $("tr:hidden td[data-name]").each(function() { $(this).parent().show(); });
   })
   // hide the feed options
-  $("[data-dyn-action=toggle][data-dyn-target=feed_options]").click();
+  if (!debug)
+    $("[data-dyn-action=toggle][data-dyn-target=feed_options]").click();
 
-
+  $("#clear").click(function() { 
+    $("#total_entries").html( $("#total_entries").html().replace(/(\d+)/, 0) );
+  })
 
 })
 
 </script>
 <% end %>
 
+<% content_for :status do %>
+  <span title="The number of highlighted entries (click a column to highlight)" id="highlighted">highlighted: 0</span>
+  <span title="Total number of entries" id="total_entries">total entries: 0</span>
+<% end %>
 <% content_for :actions do %>
+
   <button title="Retrieve the latest data from the Keeper's archive" id="fetch">fetch</button>
   <button title="Filter the current data" id="filter_current">filter</button>
   <button title="Reset the filters applied on the current data" id="filter_reset">reset</button>
@@ -253,7 +264,7 @@ $(function() {
 <% end %>
 
 <h2>Feed options
-  <button data-dyn-action="toggle" data-dyn-target="feed_options" data-alt-text="&plus; show">&minus; hide</button>
+  <button class="secondary" data-dyn-action="toggle" data-dyn-target="feed_options" data-alt-text="&plus; show">&minus; hide</button>
 </h2>
 <div id="feed_options">
   <label>Maximum number of entries to retrieve: 
@@ -282,7 +293,7 @@ $(function() {
         <label>
           Negated? <input type="checkbox" name="filters[-1][negated]" />
         </label>
-        <button data-dyn-action="remove">&times;</button>
+        <button class="secondary" data-dyn-action="remove">&times;</button>
       </fieldset>
     </div>
 
@@ -293,7 +304,7 @@ $(function() {
 </div>
 
 <section>
-  <table id="myfuckingtable" class="sortable" style="text-align: left">
+  <table class="sortable" style="text-align: left">
     <thead>
       <tr>
       </tr>

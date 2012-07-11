@@ -1,11 +1,16 @@
 <html>
   <head>
-    <link rel="stylesheet" href="/css/watcher.css" type="text/css" />
+    <!-- <link rel="stylesheet" href="/css/watcher.css" type="text/css" /> -->
+    <link rel="stylesheet" href="/css/skin_<%= skin %>.css" type="text/css" />
+    <link rel="stylesheet" href="/css/fonts/ubuntu/stylesheet.css" type="text/css" />
+    <!-- <link rel="stylesheet" href="/css/skin_grunge.css" type="text/css" /> -->
     <script type="text/javascript" src='/js/jquery.1.7.1.min.js'></script>
     <script type="text/javascript" src='/js/grind.js'></script>
     <script type="text/javascript" src='/js/ui.js'></script>
     <script type="text/javascript" src='/js/dynamism.js'></script>
     <script type="text/javascript" src='/js/sorttable.js'></script>
+    <!--<script type="text/javascript" src='/js/jquery.cluetip.all.min.js'></script>-->
+    <!--<script src="http://cdn.jquerytools.org/1.2.7/full/jquery.tools.min.js"></script>-->
     <script>
       grind = grind();
       ui = grind_ui();
@@ -19,8 +24,9 @@
 
       $(function() {
         $("#clear").click(function() { $("[data-clearable]").empty(); 
-          $("#total_entries").html( $("#total_entries").html().replace(/(\d+)/, 0) );
-        })
+          // $("#total_entries").html( $("#total_entries").html().replace(/(\d+)/, 0) );
+        });
+
         $("#purge").click(function() { grind.dispatch("purge", {}); })
       });
 
@@ -33,11 +39,20 @@
         <!-- <img src="/images/gear.png" alt="grind" id="logo" /> -->
         <h1><a href="/">grind</a></h1>
       </hgroup>
+      <nav>
+        <% yield_content :nav %>
+        <div id="grind_controls">
+          <a class="button" href="/settings">settings</a>
+          <a class="button" href="/skins/<%= skin == 'minimal' ? 'grunge' : 'minimal' %>">switch skin</a>          
+        </div>
+      </nav>
     </header>
 
-    <nav>
-      <% yield_content :nav %>
-    </nav>
+    <aside>
+      <!-- <div class="part left"> -->
+        <% yield_content :status %>
+      <!-- </div>       -->
+    </aside>
 
 
     <section id="content">
