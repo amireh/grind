@@ -41,12 +41,16 @@ highlight = function(name, value) {
   
   $("table td.highlighted").removeClass("highlighted");
   
-  if (were_highlighted)
+  if (were_highlighted) {
+    $("#highlighted").html($("#highlighted").html().replace(/\d+/, 0));
     return;
+  }
 
   us.addClass("highlighted");
+  $("#highlighted").html($("#highlighted").html().replace(/\d+/, us.length));
 }
 $(document).ready(function(){
+  $("[data-alt-text],[data-alt-class]").click(function() { toggle_alterable($(this)); });
 
   $("#toggle_feed").click(function() {
     if (grind.is_connected()) {
@@ -57,16 +61,17 @@ $(document).ready(function(){
       grind.connect();
     }
 
-    toggle_alterable($(this));
+    // toggle_alterable($(this));
 
   }).click();
 
-  $("[data-alt-text],[data-alt-class]").click(function() { toggle_alterable($(this)); });
 
   ui.on_entry(function(row) {
     row.find("td[data-name]").click(function() {
       highlight($(this).attr("data-name"), $(this).html());
     });
   });
+
+  grind.on_connected(function() { $("#clear").click(); })
 
 });
