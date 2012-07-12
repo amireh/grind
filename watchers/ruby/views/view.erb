@@ -37,11 +37,21 @@
         // populate the table headings
         html = "";
         $.each(msg.result, function(_, column) {
-          html += "<th>" + column + "</th>";
+          html += "<th data-name='" + column + "'>" + column + " <small>&#9608;</small></th>";
           fields.push(column);
         });
         $("table thead > tr:first").append(html);
-
+        $("table thead th small").click(function(e) {
+          console.log("moo")
+          var column = $(this).parent().attr("data-name");
+          var columns = $("td[data-name=" + column + "]");
+          if (columns.length == 0)
+            return;
+          $(this).parent().toggleClass("shrunk");
+          columns.toggleClass("shrunk");
+          e.preventDefault();
+        });
+        $("table thead th").hover(function() { $(this).find("small").show(); }, function() { $(this).find("small").hide(); })
         // sorttable.init();
         sorttable.makeSortable($("table:first").get(0));
 
@@ -97,6 +107,8 @@
   });
 
 $(function() {
+
+
   var process_filter_value = function(value) {
     if (value[0] == '/' && value.length > 1 && value[value.length-1] == '/')
       return { is_regex: true, value: value.substring(1, value.length-1) };
@@ -256,6 +268,8 @@ $(function() {
     
   });
 
+  $("#filter_help").click(function() { $("#about_filters").toggle(); });
+  $("#about_filters").hide();
 })
 
 </script>
@@ -269,8 +283,6 @@ $(function() {
 
   <button title="Reload grind gracefully (to apply new config)" id="reload">reload</button>
   <button title="Retrieve the latest data from the Keeper's archive" id="fetch">fetch</button>
-  <button title="Filter the current data" id="filter_current">filter</button>
-  <button title="Reset the filters applied on the current data" id="filter_reset">reset</button>
 <% end %>
 
 <% content_for :nav do %>
@@ -284,11 +296,11 @@ $(function() {
   <button class="secondary" data-dyn-action="toggle" data-dyn-target="feed_options" data-alt-text="&plus; show">&minus; hide</button>
 </h2>
 <div id="feed_options">
-  <label>Maximum number of entries to retrieve: 
+  <label>Maximum number of entries to retrieve from archives: 
     <input type="number" value="50" step="100" id="feed_limit" min="1" max="2000" />
   </label>
   <h3>Feed filters
-    <button data-dyn-target="filters">&plus; Add a filter</button>
+    <button data-dyn-target="filters">&plus; add filter</button>
   </h3>
   <p class="usage_tip"><em>Tip: </em> feed filters support <a href="http://pcre.org">PCRE</a> regular expressions.
     You can make use of <a href="http://www.pcreck.com">PCREck</a> to edit and test your regexes.</p>
@@ -315,8 +327,23 @@ $(function() {
     </div>
 
   </section>
-  <button id="save_filters" data-content="Moo.">Save filters</button>
-  <button class="help">?</button>
+  <button id="save_filters" data-content="Moo.">save filters</button>
+  <button title="Filter the current data" id="filter_current">filter current</button>
+  <button title="Reset the filters applied on the current data" id="filter_reset">reset</button>  
+  <button class="help" id="filter_help">?</button>
+  <ul style="font-size:1em" id="about_filters">
+    <li>
+      <strong>save filters</strong>: registers the filters with grind so that incoming data (the feed) will
+      be filtered accordingly
+    </li>
+    <li>
+      <strong>filter current</strong>: applies the filters on the current feed without saving them
+    </li>
+    <li>
+      <strong>reset</strong>: restores the feed to its earlier (unfiltered) state but does <em>not</em>
+      remove the filters from grind
+    </li>
+  </ul>
   <hr />
 </div>
 

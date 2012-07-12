@@ -1,4 +1,4 @@
-grind.define_klass("dakwak", "errors", function(entry)
+grind.define_klass("dakwak", "requests", "errors", function(entry)
   local ctx = entry.meta.context
   return ctx ~= "[D]" and ctx ~= "[I]"
 end)

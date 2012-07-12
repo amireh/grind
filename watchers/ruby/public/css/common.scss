@@ -4,26 +4,31 @@ body {
   font-family: "UbuntuMonoRegular", Arial, 'Helvetica Neue', Helvetica, serif, sans-serif;
   font-size: 1em;
 }
+strong {
+  font-family: "UbuntuMonoBold";
+  font-weight: normal;
+}
 
-ul {
+
+ul.tree {
   font-size: 1.5em;
   list-style-type: none;
 }
-ul > li > ol > li {
+ul.tree > li > ol > li {
   padding-top: 30px;
 }
-ul > li {
+ul.tree > li {
   padding-bottom: 30px;
   display: inline-block;
   margin-right: 10px;
 }
 
-ul > li > ol > li,
-ul > li > ol > li * {
+ul.tree > li > ol > li,
+ul.tree > li > ol > li * {
   vertical-align: top;
   position: relative;
 }
-ul span {
+ul.tree span {
   border: 1px solid #222;
   background: white;
   border-radius: 4px;
@@ -36,16 +41,16 @@ ul span {
   top: -10px;
   vertical-align: top;
 }
-ul > li > span:first-child {
+ul.tree > li > span:first-child {
   background: #222;
   color: white;
 }
-ul span:last-child {
+ul.tree span:last-child {
   padding: 0;
   padding-bottom: 10px;
   top: 0;
 }
-ul > li > ol > li > a {
+ul.tree > li > ol > li > a {
   /*background: #222;*/
   position: relative;
   /*left: -20px;*/
@@ -53,19 +58,19 @@ ul > li > ol > li > a {
   /*padding: 5px 10px;*/
 }
 
-ul > li > ol,
-ul > li > ol li > ol {
+ul.tree > li > ol,
+ul.tree > li > ol li > ol {
   font-size: 0.9em;
   list-style-type: none;
   /*padding-left: 30px;*/
 }
-ul > li > ol > li > ol {
+ul.tree > li > ol > li > ol {
   display: inline-block;
   padding-left: 10px;
   position: relative;
   /*top: -20px;*/
 }
-ul > li > ol > li > ol span {
+ul.tree > li > ol > li > ol span {
   padding: 7px 10px;
   margin-bottom: 10px;
   /*font-size: 0.5em;*/

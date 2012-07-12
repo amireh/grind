@@ -37,6 +37,8 @@ for i=0,count do
         table.insert(capture_values, text:sub(capture_b, capture_e))
         capture_b, capture_e = nil, nil
       end
+    else
+      
     end
     -- if type(k) ~= "number" and v then print(k .. " => " .. v) end
       -- e = v

@@ -1,0 +1,2 @@
+<11>httpd[31628]: [error] [client 192.168.92.91] File does not exist: /usr/local/installed/apache/htdocs/squirrelmail/_vti_inf.html in 29-Mar 15:18:20.50 from 192.168.92.1
+<11>httpd[25859]: [error] [client 192.168.92.91] File does not exist: /usr/local/installed/apache/htdocs/squirrelmail/_vti_bin/shtml.exe/_vti_rpc in 29-Mar 15:18:20.54 from 192.168.92.1

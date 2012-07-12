@@ -194,3 +194,7 @@ grind.command("reload", function(cmd)
 
   return true, "Reloaded."
 end)
+
+grind.command("leftovers", function(cmd, watcher)
+  return grind.leftovers()
+end)

@@ -36,9 +36,10 @@ body {
 
 #status_bar {
   width: 100%;
-  background: #fff;
-  padding: 5px 10px;
-  height: 45px;
+  /*background: #fff;*/
+  background: #111;
+  /*padding: 5px 10px;*/
+  /*height: 45px;*/
   position: fixed;
   bottom: 0;
   font-size: 12px;
@@ -59,10 +60,10 @@ body {
 
   }
   & > button:first-of-type {
-    border-radius: 5px 0 0 5px;
+    /*border-radius: 5px 0 0 5px;*/
   }
   & :last-child button {
-    border-radius: 0 5px 5px 0;
+    /*border-radius: 0 5px 5px 0;*/
     border-right: 1px solid black;
   }
   
@@ -403,3 +404,19 @@ fieldset button[data-dyn-action=remove] {
   border-color: #DDD;
   line-height: 5px;
 }
+
+th { position: relative; } 
+
+th small {
+  position: absolute;
+  z-index: 100;
+  top: 2px;
+  cursor: pointer;
+  right: 1px;
+  border: 1px solid #111;
+  line-height: 4px;
+  font-size: 8px;
+  display: none;
+}
+th.shrunk { opacity: 0.5; }
+th.shrunk, td.shrunk { font-size: 1px; }

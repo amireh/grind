@@ -25,7 +25,7 @@ end
 
 local leftovers = nil
 local delimiter_rex = nil
-
+function grind.leftovers() return leftovers end
 function grind.start()
   log("starting...", log_level.info)
 
@@ -40,7 +40,7 @@ function grind.start()
 
   for dir in ilist({ "groups", "klasses", "views" }) do
     for filename in dirtree(grind.paths.root .. '/' .. dir) do
-      if filename:find(".lua") then
+      if filename:find(".lua") and not filename:find("exclude") then
         load_script(filename)
       end
     end
@@ -79,10 +79,13 @@ function grind.stop()
   grind.config = {}
 end
 
+local show_two_times = 2
+
 function grind.handle(text)
-  -- log("Handling '" .. text .. "'")
 
   text = leftovers .. text
+  -- log("Handling '" .. text .. "'")
+
   local entries = {}
   b,e,c,b2,e2,c2 = 0,0,nil,0,0,nil
   consumed = 0
@@ -94,6 +97,8 @@ function grind.handle(text)
     if b == nil or b2 == nil then
       break
     end
+
+    print('got summin')
 
     consumed = consumed + b2 - b
     -- local entry = entry_t:new(c, text:sub(e + 1, b2 - 1))
@@ -108,32 +113,41 @@ function grind.handle(text)
     for _,group in pairs(grind.groups) do
       -- log("Checking if group " .. group.label .. " is applicable for '" .. entry.meta.raw .. "'...")
 
-      local captures = group.formatter(entry.meta.raw)
-      if #captures > 0 then
-        log("Found an applicable group: " .. group.label .. " for '" .. entry.meta.raw .. "'")
+
+      -- local captures = group.formatter(entry.meta.raw)
+      local captures = {}
+      local format = nil
+      for _format, formatter in pairs(group.formatters) do
+        -- local raw = entry.meta.raw
+        -- log("checking if format " .. _format .. " is compatible on: " .. entry.meta.raw)
+        captures = formatter(entry.meta.raw)
+        -- print(raw)
+        if #captures > 0 then
+          format = _format
+          break
+        end
+      end
+
+      if format then
+        log("Found an applicable group: " .. group.label .. " using format " .. format .. " for '" .. entry.meta.raw .. "'")
         -- local meta, body = group.extractor(entry.meta.timestamp, unpack(captures))
         for k,v in pairs(delimiter_captures) do table.insert(captures, v) end
-        local meta, body = group.extractor(unpack(captures))
+        local meta, body = group.extractors[format](unpack(captures))
 
         assert(type(meta) == "table", "Group " .. group.label .. "'s extractor returned no message.meta table!")
         assert(type(body) == "string", "Group " .. group.label .. "'s extractor returned no message.body string!")
 
         for k,v in pairs(meta) do entry.meta[k] = v end
         entry.body = body
-        entry.meta.raw = nil
+        -- entry.meta.raw = nil
 
         -- any klasses defined?
         for __,klass in pairs(group.klasses) do
-          if klass.matcher(entry, klass.context) then
+          if klass.format == format and klass.matcher(entry, klass.context) then
             log("  Found an applicable klass: " .. klass.label)
             for ___,view in pairs(klass.views) do
               local res, formatted_entry, order_sensitive = view.formatter(view.context, entry, klass.context)
               if res and formatted_entry then
-                -- table.insert(entries, { 
-                --   group = group.label, 
-                --   klass = klass.label, 
-                --   view = view.label,
-                --   entry = formatted_entry })
 
                 local encoded_entry = json.encode({ 
                   group = group.label, 
@@ -204,6 +218,11 @@ function grind.handle(text)
   print(consumed .. " bytes were consumed, and " .. #leftovers .. " bytes were left over.")
   -- print(leftovers)
 
+  if show_two_times < 2 then
+    show_two_times = show_two_times +1
+    print(leftovers)
+  end
+
   return nil
 end
 
@@ -221,8 +240,8 @@ function grind.define_group(glabel, options)
   grind.groups[glabel] = {
     label = glabel,
     initter = initter,
-    formatter = nil,
-    extractor = nil,
+    formatters = {},
+    extractors = {},
     exclusive = false,
     klasses = {}
   }
@@ -234,16 +253,19 @@ function grind.define_group(glabel, options)
   log("Application group defined: " .. glabel)
 end
 
-function grind.define_format(glabel, ptrn)
+function grind.define_format(glabel, gformat, ptrn)
   local group = grind.groups[glabel]
   assert(group, "No application group called '" .. glabel .. "' is defined, can not define format!")
+
+  -- for backwards compatibility, not assigning a gformat
+  if not ptrn then ptrn, gformat = gformat, "default" end
 
   -- prepare the format capturer
   local rex = create_regex(ptrn)
   assert(rex, "Invalid formatter '" .. ptrn .. "' for group '" .. glabel .. "'")
 
-  log("Formatter defined for " .. glabel .. " => " .. ptrn)
-  function group.formatter(message_content)
+  log("Formatter defined for " .. glabel .. ": " .. gformat .. " => " .. ptrn)
+  group.formatters[gformat] = function(message_content)
     -- if this message does belong to us, return the
     -- captured parts that we'll be using later to parse it
     local capture = { rex_pcre.find(message_content, rex) }
@@ -271,11 +293,14 @@ end
 -- Two values are expected to be returned:
 --   1. a table to be used as the message's meta
 --   2. the message content
-function grind.define_extractor(glabel, extractor)
+function grind.define_extractor(glabel, gformat, extractor)
   local group = grind.groups[glabel]
   assert(group, "No application group called '" .. glabel .. "' is defined, can not define extractor!")
 
-  grind.groups[glabel].extractor = extractor
+  -- for backwards compatibility, not assigning a gformat
+  if not extractor then extractor, gformat = gformat, "default" end
+
+  grind.groups[glabel].extractors[gformat] = extractor
 end
 
 -- grind.define_klass():
@@ -290,11 +315,16 @@ end
 -- @param matcher a function that accepts the current entry and is expected
 --                to return a boolean indicating whether the entry should be
 --                passed on to the views or not
-function grind.define_klass(glabel, clabel, matcher)
+function grind.define_klass(glabel,gformat, clabel, matcher)
   local group = grind.groups[glabel]
   assert(group, "No application group called '" .. glabel .. "' is defined, can not define extractor!")
 
-  grind.groups[glabel].klasses[clabel] = { label = clabel, matcher = matcher, views = {}, context = {} }
+  -- for backwards compatibility, not assigning a gformat
+  if not matcher then matcher, clabel, gformat = clabel, gformat, "default" end
+
+  assert(group.formatters[gformat], 
+    "No format defined as " .. gformat .. " for the application group " .. glabel .. " in klass " .. clabel)
+  group.klasses[clabel] = { label = clabel, matcher = matcher, format = gformat, views = {}, context = {} }
   log("  Class defined: " .. glabel .. "[" .. clabel .. "]")
 end
 
