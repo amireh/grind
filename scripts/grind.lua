@@ -29,11 +29,9 @@ local delimiter_rex = nil
 function grind.start()
   log("starting...", log_level.info)
 
-  -- grind.groups = {}
-
-  require 'grind_cfg'
-  require 'api'
-  require 'entry'
+  load_script('grind_cfg')
+  load_script('api')
+  load_script('entry')
 
   log("Delimiter patterns: ", log_level.info)
   for delimiter in ilist(grind.config.delimiters) do
@@ -68,6 +66,16 @@ end
 
 function grind.stop()
   log("Cleaning up", log_level.info)
+  for _, group in pairs(grind.groups) do
+    for __, klass in pairs(group.klasses) do
+      klass.views = nil
+    end
+    group.klasses = nil
+  end
+  grind.groups = {}
+  grind.commands = {}
+  grind.subscriptions = {}
+  grind.config = {}
 end
 
 function grind.handle(text)
@@ -78,6 +86,7 @@ function grind.handle(text)
   b,e,c,b2,e2,c2 = 0,0,nil,0,0,nil
   consumed = 0
   while true do
+
     b,e,c = delimiter_rex:find(text,e)
     b2,e2,c2 = delimiter_rex:find(text,e)
 

@@ -187,3 +187,10 @@ grind.command("purge", function(cmd)
     end
   end
 end)
+
+grind.command("reload", function(cmd)
+  grind.stop();
+  grind.start();
+
+  return true, "Reloaded."
+end)

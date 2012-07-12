@@ -238,7 +238,23 @@ $(function() {
 
   $("#clear").click(function() { 
     $("#total_entries").html( $("#total_entries").html().replace(/(\d+)/, 0) );
-  })
+  });
+
+  var reloading = false;
+  $("#reload").click(function() {
+    reloading = true;
+    grind.on_disconnected(function() {
+      if (reloading) {
+        grind.connect();
+        reloading = false;
+      }
+    });
+
+    grind.dispatch("reload", {}, function(cmd) {
+      grind.disconnect();
+    });
+    
+  });
 
 })
 
@@ -251,6 +267,7 @@ $(function() {
 <% end %>
 <% content_for :actions do %>
 
+  <button title="Reload grind gracefully (to apply new config)" id="reload">reload</button>
   <button title="Retrieve the latest data from the Keeper's archive" id="fetch">fetch</button>
   <button title="Filter the current data" id="filter_current">filter</button>
   <button title="Reset the filters applied on the current data" id="filter_reset">reset</button>

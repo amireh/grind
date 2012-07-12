@@ -99,7 +99,7 @@ grind = function() {
       socket.onclose = ws_onclose;            
       socket.onmessage = ws_onmessage;
     },
-    disconnect: function() {
+    disconnect: function(handler) {
       if (!connected)
         return;
 
