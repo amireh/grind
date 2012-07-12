@@ -48,8 +48,9 @@ function grind.start()
 
   leftovers = ""
   local expression = "(?|"
+  -- local expression = "(?J)"
   for idx, delimiter in pairs(grind.config.delimiters) do
-    expression = expression .. delimiter
+    expression = expression .. delimiter-- .. "?"
     if idx ~= #grind.config.delimiters then
       expression = expression .. "|"
     end
@@ -95,7 +96,14 @@ function grind.handle(text)
     end
 
     consumed = consumed + b2 - b
-    local entry = entry_t:new(c, text:sub(e + 1, b2 - 1))
+    -- local entry = entry_t:new(c, text:sub(e + 1, b2 - 1))
+    local delimiter_captures = { rex_pcre.find(text:sub(b, b2 - 1), delimiter_rex) }
+    if #delimiter_captures > 0 then -- strip out the match boundaries
+      table.remove(delimiter_captures,1)
+      table.remove(delimiter_captures,1)
+    end    
+
+    local entry = entry_t:new(nil, text:sub(e + 1, b2 - 1))
 
     for _,group in pairs(grind.groups) do
       -- log("Checking if group " .. group.label .. " is applicable for '" .. entry.meta.raw .. "'...")
@@ -103,7 +111,9 @@ function grind.handle(text)
       local captures = group.formatter(entry.meta.raw)
       if #captures > 0 then
         log("Found an applicable group: " .. group.label .. " for '" .. entry.meta.raw .. "'")
-        local meta, body = group.extractor(entry.meta.timestamp, unpack(captures))
+        -- local meta, body = group.extractor(entry.meta.timestamp, unpack(captures))
+        for k,v in pairs(delimiter_captures) do table.insert(captures, v) end
+        local meta, body = group.extractor(unpack(captures))
 
         assert(type(meta) == "table", "Group " .. group.label .. "'s extractor returned no message.meta table!")
         assert(type(body) == "string", "Group " .. group.label .. "'s extractor returned no message.body string!")
@@ -182,28 +192,23 @@ function grind.handle(text)
         end
 
         if group.exclusive then
-          -- log("Group is exclusive, will discard entry now.")
+          log("Group is exclusive, will discard entry now.")
           break
         end
       end -- #captures > 0
 
     end
   end
-  -- for _,group in pairs(grind.groups) do
-  --   for __,klass in pairs(group.klasses) do  
-  --     klass.context = {}
-  --   end
-  -- end
 
   leftovers = text:sub(consumed)
   print(consumed .. " bytes were consumed, and " .. #leftovers .. " bytes were left over.")
-  print(leftovers)
-  -- for k,entry in pairs(entries) do
-  --   print(k .. " " .. entry.meta.timestamp .. " " .. entry.content)
-  -- end
+  -- print(leftovers)
 
-  -- return json.encode(entries)
   return nil
+end
+
+function grind.add_delimiter(pattern)
+  table.insert(grind.config.delimiters, pattern)
 end
 
 function grind.define_group(glabel, options)
