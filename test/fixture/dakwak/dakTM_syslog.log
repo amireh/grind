@@ -1,0 +1,12 @@
+<15>07-12-2012 17:49:07 cornholio.amireh.net dakTM [D] Configurator: Configuring context Scheduler (1 subscribers)
+<15>07-12-2012 17:49:07 cornholio.amireh.net dakTM [W] Suicide mode is ON. Will die after 100 requests.
+<15>07-12-2012 17:49:07 cornholio.amireh.net dakTM [D] Configurator: Configuring context Station (1 subscribers)
+<15>07-12-2012 17:49:07 cornholio.amireh.net dakTM [D] Configurator: Configuring context MongoDB (1 subscribers)
+<15>07-12-2012 17:49:07 cornholio.amireh.net dakTM [I] Using 1 workers.
+<15>07-12-2012 17:49:07 cornholio.amireh.net dakTM [I] Connecting to MongoDB in Single mode to localhost:27017
+<15>07-12-2012 17:49:07 cornholio.amireh.net dakTM [I] dakwak: running in debug mode
+<15>07-12-2012 17:49:07 cornholio.amireh.net dakTM [I] dakwak: dakwak initialized
+<15>07-12-2012 17:49:07 cornholio.amireh.net dakTM [D] Station: Channel translations is now open
+<15>07-12-2012 17:49:07 cornholio.amireh.net dakTM [I] Channel[translations]: Consuming 'immediate#immediate_queue'
+<15>07-12-2012 17:49:07 cornholio.amireh.net dakTM [I] Channel[translations]: Consuming 'blocking#blocking_queue'
+<15>07-12-2012 17:49:07 cornholio.amireh.net dakTM [D] Station: Channel analytics is now open

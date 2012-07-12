@@ -1,0 +1,58 @@
+07-12-2012 17:24:31 [I] cornholio.amireh.net dakTM dakTM: configuring from /home/kandie/Workspace/Projects/dakwak/dakTM/lib/../dakTM.cfg.
+07-12-2012 17:24:31 [D] cornholio.amireh.net dakTM Configurator: Configuring context Scheduler (1 subscribers)
+07-12-2012 17:24:31 [W] cornholio.amireh.net dakTM Suicide mode is ON. Will die after 100 requests.
+07-12-2012 17:24:31 [D] cornholio.amireh.net dakTM Configurator: Configuring context Station (1 subscribers)
+07-12-2012 17:24:31 [D] cornholio.amireh.net dakTM Configurator: Configuring context MongoDB (1 subscribers)
+07-12-2012 17:24:31 [I] cornholio.amireh.net dakTM Using 1 workers.
+07-12-2012 17:24:31 [I] cornholio.amireh.net dakTM Connecting to MongoDB in Single mode to localhost:27017
+07-12-2012 17:24:31 [I] cornholio.amireh.net dakTM dakwak: running in debug mode
+07-12-2012 17:24:31 [I] cornholio.amireh.net dakTM dakwak: dakwak initialized
+07-12-2012 17:24:31 [D] cornholio.amireh.net dakTM Station: Channel translations is now open
+07-12-2012 17:24:31 [I] cornholio.amireh.net dakTM Channel[translations]: Consuming 'immediate#immediate_queue'
+07-12-2012 17:24:31 [I] cornholio.amireh.net dakTM Channel[translations]: Consuming 'blocking#blocking_queue'
+07-12-2012 17:24:31 [D] cornholio.amireh.net dakTM Station: Channel analytics is now open
+07-12-2012 17:25:21 [I] cornholio.amireh.net dakTM Channel[translations]: Dispatching message Sender: 'dakwak_test-1.0.0-rc@cornholio.amireh.net@amq.gen-Q_kXAuyYYigCSlGVB5CJlV' -- <?xml version="1.0" encoding="U
+07-12-2012 17:25:21 [I] cornholio.amireh.net dakTM scheduler has got a message! \m/ Sender: 'dakwak_test-1.0.0-rc@cornholio.amireh.net@amq.gen-Q_kXAuyYYigCSlGVB5CJlV' -- <?xml version="1.0" encoding="U
+registered term '"KATY KATY KOO"' (/p/text())
+registered term '"KATY ZZZ KOO"' (/p/text())
+07-12-2012 17:25:21 [I] cornholio.amireh.net dakTM handling <Job[1][<?xml version="1.0" encoding="UTF-8"?>
+<tm_job>
+  <apikey>4c968c54a9373140e10000964c968770a9373140c900xxxx</apikey>
+  <tolang>ar</tolang>
+  <pages>
+    <page>
+      <url><![CDATA[/]]></url>
+      <title><![CDATA[Some Title]]></title>
+      <terms>
+        <term>
+          <orig><![CDATA[KATY KATY KOO]]></orig>
+          <xpath><![CDATA[/p/text()]]></xpath>
+        </term>
+        <term>
+          <orig><![CDATA[KATY ZZZ KOO]]></orig>
+          <xpath><![CDATA[/p/text()]]></xpath>
+        </term>
+      </terms>
+    </page>
+  </pages>
+</tm_job>
+]> across 1 workers
+07-12-2012 17:25:21 [I] cornholio.amireh.net dakTM status: started
+07-12-2012 17:25:21 [D] cornholio.amireh.net dakTM  website found: name => my_active_website
+07-12-2012 17:25:21 [D] cornholio.amireh.net dakTM  website source language: English
+07-12-2012 17:25:21 [D] cornholio.amireh.net dakTM  target translation language: العربية
+07-12-2012 17:25:21 [D] cornholio.amireh.net dakTM  processing terms in page 'Some Title' (/)
+07-12-2012 17:25:21 [D] cornholio.amireh.net dakTM  page already exists, id: 4fdf0907aa12e54a16000002
+07-12-2012 17:25:21 [D] cornholio.amireh.net dakTM  page belongs to a PW with a level of 1
+07-12-2012 17:25:21 [D] cornholio.amireh.net dakTM    processing term 'KATY KATY KOO' (/p/text())
+07-12-2012 17:25:21 [I] cornholio.amireh.net dakTM    term isn't linked in contents.phrases, linking it now
+07-12-2012 17:25:21 [D] cornholio.amireh.net dakTM    term: ObjectId("4f7aea34aa12e52046000001")
+07-12-2012 17:25:21 [I] cornholio.amireh.net dakTM    translation stored => 'foo'
+07-12-2012 17:25:21 [D] cornholio.amireh.net dakTM    processing term 'KATY ZZZ KOO' (/p/text())
+07-12-2012 17:25:21 [D] cornholio.amireh.net dakTM    Creating term with params: {:digest=>"0a4035ba290a619b5de7acb00254c4d0", :language_id=>BSON::ObjectId('4c320675d1748267bb000010')}
+07-12-2012 17:25:21 [I] cornholio.amireh.net dakTM    term isn't linked in contents.phrases, linking it now
+07-12-2012 17:25:21 [D] cornholio.amireh.net dakTM    term: ObjectId("4ffede51aa12e53c8c000006")
+07-12-2012 17:25:21 [I] cornholio.amireh.net dakTM    translation stored => 'foo'
+07-12-2012 17:25:21 [I] cornholio.amireh.net dakTM done, status: successful
+07-12-2012 17:25:21 [D] cornholio.amireh.net dakTM Comitting dakana sheet: {"apikey":"4c968c54a9373140e10000964c968770a9373140c900xxxx","src_lang":"en","tgt_lang":"ar","successful":true,"banned":false,"pw_level":1,"terms":{"count":2,"created":1,"newly_translated":2,"already_translated":0,"not_translated":0,"mass_replaced":0,"queued":0,"character_count":25,"word_count":6},"pw_label":"mt"}
+07-12-2012 17:25:21 [D] cornholio.amireh.net dakTM Station: Channel  is now open

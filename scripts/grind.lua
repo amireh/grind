@@ -111,7 +111,7 @@ function grind.handle(text)
     local entry = entry_t:new(nil, text:sub(e + 1, b2 - 1))
 
     for _,group in pairs(grind.groups) do
-      -- log("Checking if group " .. group.label .. " is applicable for '" .. entry.meta.raw .. "'...")
+      log("Checking if group " .. group.label .. " is applicable for '" .. entry.meta.raw .. "'...")
 
 
       -- local captures = group.formatter(entry.meta.raw)

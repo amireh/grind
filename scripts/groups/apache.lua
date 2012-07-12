@@ -1,5 +1,5 @@
 -- grind.add_delimiter([==[(\d{2}:\d{2}:\d{2}):\s{1}]==])
-grind.define_group("apache2", { exclusive = true })
+grind.define_group("apache2", { exclusive = false })
 grind.define_format("apache2", "access", [==["(?|([A-Z]{3,}) (.*) (?:HTTP\/(\d\.\d){1})|(.*))" (\d+) (.+)]==])
 grind.define_extractor("apache2", "access",
   function(method, url, http_version, http_rc, uuid, timestamp_or_host, timestamp_or_nothing)

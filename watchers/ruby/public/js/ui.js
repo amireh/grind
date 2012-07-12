@@ -1,3 +1,5 @@
+var highlighted = false;
+
 grind_ui = function() {
   var handlers = {
     on_entry: []
@@ -36,19 +38,38 @@ highlight = function(name, value) {
   var us = $("table td[data-name=" + name + "]:contains(" + value + ")"),
       were_highlighted = false;
 
-  if (us.hasClass("highlighted"))
-    were_highlighted = true;
-  
-  $("table td.highlighted").removeClass("highlighted");
-  
-  if (were_highlighted) {
-    $("#highlighted").html($("#highlighted").html().replace(/\d+/, 0));
+  if (us.length == 0) {
+    highlighted = null;
     return;
   }
 
+  if (us.hasClass("highlighted"))
+    were_highlighted = true;
+  
+  $("table .highlighted").removeClass("highlighted");
+  
+  if (were_highlighted) {
+    return dehighlight();
+  }
+
   us.addClass("highlighted");
+  us.each(function() { $(this).parent().addClass("highlighted"); });
+
   $("#highlighted").html($("#highlighted").html().replace(/\d+/, us.length));
+  highlighted = true;
 }
+dehighlight = function() {
+  $("#highlighted").html($("#highlighted").html().replace(/\d+/, 0));
+  highlighted = null;
+  $("tbody .highlighted").removeClass("highlighted");
+}
+focus_highlighted = function() {
+  if (!highlighted)
+    return;
+
+  $("table tbody tr:not(.highlighted)").hide();
+};
+
 $(document).ready(function(){
   $("[data-alt-text],[data-alt-class]").click(function() { toggle_alterable($(this)); });
 
