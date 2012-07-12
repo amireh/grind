@@ -1,0 +1,1084 @@
+
+2012-07-11 19:21:29: Creating resource group General
+2012-07-11 19:21:29: Creating resource group Internal
+2012-07-11 19:21:29: Creating resource group Autodetect
+2012-07-11 19:21:29: SceneManagerFactory for type DefaultSceneManager registered.
+2012-07-11 19:21:29: Registering ResourceManager for type Material
+2012-07-11 19:21:29: Registering ResourceManager for type Mesh
+2012-07-11 19:21:29: Registering ResourceManager for type Skeleton
+2012-07-11 19:21:29: MovableObjectFactory for type ParticleSystem registered.
+2012-07-11 19:21:29: OverlayElementFactory for type Panel registered.
+2012-07-11 19:21:29: OverlayElementFactory for type BorderPanel registered.
+2012-07-11 19:21:29: OverlayElementFactory for type TextArea registered.
+2012-07-11 19:21:29: Registering ResourceManager for type Font
+2012-07-11 19:21:29: ArchiveFactory for archive type FileSystem registered.
+2012-07-11 19:21:29: ArchiveFactory for archive type Zip registered.
+2012-07-11 19:21:29: ArchiveFactory for archive type EmbeddedZip registered.
+2012-07-11 19:21:29: DDS codec registering
+2012-07-11 19:21:29: FreeImage version: 3.15.0
+2012-07-11 19:21:29: This program uses FreeImage, a free, open source image library supporting all common bitmap formats. See http://freeimage.sourceforge.net for details
+2012-07-11 19:21:29: Supported formats: bmp,ico,jpg,jif,jpeg,jpe,jng,koa,iff,lbm,mng,pbm,pbm,pcd,pcx,pgm,pgm,png,ppm,ppm,ras,tga,targa,tif,tiff,wap,wbmp,wbm,psd,cut,xbm,xpm,gif,hdr,g3,sgi,exr,j2k,j2c,jp2,pfm,pct,pict,pic,3fr,arw,bay,bmq,cap,cine,cr2,crw,cs1,dc2,dcr,drf,dsc,dng,erf,fff,ia,iiq,k25,kc2,kdc,mdc,mef,mos,mrw,nef,nrw,orf,pef,ptx,pxn,qtk,raf,raw,rdc,rw2,rwl,rwz,sr2,srf,sti
+2012-07-11 19:21:29: Registering ResourceManager for type HighLevelGpuProgram
+2012-07-11 19:21:29: Registering ResourceManager for type Compositor
+2012-07-11 19:21:29: MovableObjectFactory for type Entity registered.
+2012-07-11 19:21:29: MovableObjectFactory for type Light registered.
+2012-07-11 19:21:29: MovableObjectFactory for type BillboardSet registered.
+2012-07-11 19:21:29: MovableObjectFactory for type ManualObject registered.
+2012-07-11 19:21:29: MovableObjectFactory for type BillboardChain registered.
+2012-07-11 19:21:29: MovableObjectFactory for type RibbonTrail registered.
+2012-07-11 19:21:29: Loading library RenderSystem_GL
+2012-07-11 19:21:29: Installing plugin: GL RenderSystem
+2012-07-11 19:21:29: OpenGL Rendering Subsystem created.
+2012-07-11 19:21:29: Plugin successfully installed
+2012-07-11 19:21:29: Loading library Plugin_CgProgramManager
+2012-07-11 19:21:29: Installing plugin: Cg Program Manager
+2012-07-11 19:21:29: Plugin successfully installed
+2012-07-11 19:21:29: Loading library Plugin_OctreeSceneManager
+2012-07-11 19:21:29: Installing plugin: Octree Scene Manager
+2012-07-11 19:21:29: Plugin successfully installed
+2012-07-11 19:21:29: Loading library libPlugin_ParticleUniverse
+2012-07-11 19:21:29: Installing plugin: ParticleUniverse
+2012-07-11 19:21:29: MovableObjectFactory for type PUParticleSystem registered.
+2012-07-11 19:21:29: MovableObjectFactory for type BoxSet registered.
+2012-07-11 19:21:29: MovableObjectFactory for type SphereSet registered.
+2012-07-11 19:21:29: ParticleUniverse: Particle Renderer Type Beam registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Renderer Type Billboard registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Renderer Type Box registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Renderer Type Sphere registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Renderer Type Entity registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Renderer Type RibbonTrail registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Renderer Type Light registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Emitter Type Point registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Emitter Type Line registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Emitter Type Box registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Emitter Type Circle registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Emitter Type SphereSurface registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Emitter Type Vertex registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Emitter Type MeshSurface registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Emitter Type Position registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Emitter Type Slave registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Affector Type Dummy01 registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Affector Type LinearForce registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Affector Type Gravity registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Affector Type ParticleFollower registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Affector Type Vortex registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Affector Type Randomiser registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Affector Type Line registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Affector Type Scale registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Affector Type ScaleVelocity registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Affector Type GeometryRotator registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Affector Type TextureRotator registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Affector Type TextureAnimator registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Affector Type Jet registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Affector Type Align registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Affector Type FlockCentering registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Affector Type CollisionAvoidance registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Affector Type VelocityMatching registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Affector Type Colour registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Affector Type SineForce registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Affector Type Dummy02 registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Affector Type SphereCollider registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Affector Type PlaneCollider registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Affector Type BoxCollider registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Affector Type InterParticleCollider registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Affector Type PathFollower registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Affector Type ForceField registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Observer Type OnExpire registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Observer Type OnEmission registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Observer Type OnCount registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Observer Type OnEventFlag registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Observer Type OnCollision registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Observer Type OnVelocity registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Observer Type OnTime registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Observer Type OnPosition registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Observer Type OnClear registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Observer Type OnQuota registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Observer Type OnRandom registered
+2012-07-11 19:21:29: ParticleUniverse: Particle EventHandler Type DoExpire registered
+2012-07-11 19:21:29: ParticleUniverse: Particle EventHandler Type DoFreeze registered
+2012-07-11 19:21:29: ParticleUniverse: Particle EventHandler Type DoPlacementParticle registered
+2012-07-11 19:21:29: ParticleUniverse: Particle EventHandler Type DoStopSystem registered
+2012-07-11 19:21:29: ParticleUniverse: Particle EventHandler Type DoEnableComponent registered
+2012-07-11 19:21:29: ParticleUniverse: Particle EventHandler Type DoAffector registered
+2012-07-11 19:21:29: ParticleUniverse: Particle EventHandler Type DoScale registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Extern Type Gravity registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Extern Type SphereCollider registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Extern Type BoxCollider registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Extern Type Vortex registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Extern Type SceneDecorator registered
+2012-07-11 19:21:29: ParticleUniverse: Particle Behaviour Type Slave registered
+2012-07-11 19:21:29: Plugin successfully installed
+2012-07-11 19:21:29: *-*-* OGRE Initialising
+2012-07-11 19:21:29: *-*-* Version 1.8.0unstable (Byatis)
+2012-07-11 19:21:29: CPU Identifier & Features
+2012-07-11 19:21:29: -------------------------
+2012-07-11 19:21:29:  *   CPU ID: GenuineIntel: Intel(R) Core(TM) i7 CPU         960  @ 3.20GHz
+2012-07-11 19:21:29:  *      SSE: yes
+2012-07-11 19:21:29:  *     SSE2: yes
+2012-07-11 19:21:29:  *     SSE3: yes
+2012-07-11 19:21:29:  *      MMX: yes
+2012-07-11 19:21:29:  *   MMXEXT: yes
+2012-07-11 19:21:29:  *    3DNOW: no
+2012-07-11 19:21:29:  * 3DNOWEXT: no
+2012-07-11 19:21:29:  *     CMOV: yes
+2012-07-11 19:21:29:  *      TSC: yes
+2012-07-11 19:21:29:  *      FPU: yes
+2012-07-11 19:21:29:  *      PRO: yes
+2012-07-11 19:21:29:  *       HT: no
+2012-07-11 19:21:29: -------------------------
+2012-07-11 19:21:29: ******************************
+2012-07-11 *** Starting GLX Subsystem ***
+2012-07-11 ******************************
+2012-07-11 19:21:29: GLRenderSystem::_createRenderWindow Elementum, 800x600 windowed  miscParams: FSAA=0 displayFrequency=60 MHz gamma=No vsync=No 
+2012-07-11 19:21:29: OGRE EXCEPTION(6:FileNotFoundException): Cannot locate resource GLX_icon.png in resource group General or any other group. in ResourceGroupManager::openResource at /home/kandie/Workspace/Repos/ogre/OgreMain/src/OgreResourceGroupManager.cpp (line 756)
+2012-07-11 19:21:29: GLXWindow::create used FBConfigID = 427
+2012-07-11 19:21:29: GL_VERSION = 3.3.0 NVIDIA 285.05.09
+2012-07-11 19:21:29: GL_VENDOR = NVIDIA Corporation
+2012-07-11 19:21:29: GL_RENDERER = GeForce 9500 GT/PCI/SSE2
+2012-07-11 19:21:29: GL_EXTENSIONS = GL_ARB_base_instance GL_ARB_blend_func_extended GL_ARB_color_buffer_float GL_ARB_compatibility GL_ARB_compressed_texture_pixel_storage GL_ARB_conservative_depth GL_ARB_copy_buffer GL_ARB_depth_buffer_float GL_ARB_depth_clamp GL_ARB_depth_texture GL_ARB_draw_buffers GL_ARB_draw_elements_base_vertex GL_ARB_draw_instanced GL_ARB_ES2_compatibility GL_ARB_explicit_attrib_location GL_ARB_fragment_coord_conventions GL_ARB_fragment_program GL_ARB_fragment_program_shadow GL_ARB_fragment_shader GL_ARB_framebuffer_object GL_ARB_framebuffer_sRGB GL_ARB_geometry_shader4 GL_ARB_get_program_binary GL_ARB_half_float_pixel GL_ARB_half_float_vertex GL_ARB_imaging GL_ARB_instanced_arrays GL_ARB_internalformat_query GL_ARB_map_buffer_alignment GL_ARB_map_buffer_range GL_ARB_multisample GL_ARB_multitexture GL_ARB_occlusion_query GL_ARB_occlusion_query2 GL_ARB_pixel_buffer_object GL_ARB_point_parameters GL_ARB_point_sprite GL_ARB_provoking_vertex GL_ARB_robustness GL_ARB_sampler_objects GL_ARB_seamless_cube_map GL_ARB_separate_shader_objects GL_ARB_shader_bit_encoding GL_ARB_shader_objects GL_ARB_shading_language_100 GL_ARB_shading_language_420pack GL_ARB_shading_language_include GL_ARB_shading_language_packing GL_ARB_shadow GL_ARB_sync GL_ARB_texture_border_clamp GL_ARB_texture_buffer_object GL_ARB_texture_compression GL_ARB_texture_compression_rgtc GL_ARB_texture_cube_map GL_ARB_texture_env_add GL_ARB_texture_env_combine GL_ARB_texture_env_crossbar GL_ARB_texture_env_dot3 GL_ARB_texture_float GL_ARB_texture_mirrored_repeat GL_ARB_texture_multisample GL_ARB_texture_non_power_of_two GL_ARB_texture_rectangle GL_ARB_texture_rg GL_ARB_texture_rgb10_a2ui GL_ARB_texture_storage GL_ARB_texture_swizzle GL_ARB_timer_query GL_ARB_transpose_matrix GL_ARB_uniform_buffer_object GL_ARB_vertex_array_bgra GL_ARB_vertex_array_object GL_ARB_vertex_buffer_object GL_ARB_vertex_program GL_ARB_vertex_shader GL_ARB_vertex_type_2_10_10_10_rev GL_ARB_viewport_array GL_ARB_window_pos GL_ATI_draw_buffers GL_ATI_texture_float GL_ATI_texture_mirror_once GL_S3_s3tc GL_EXT_texture_env_add GL_EXT_abgr GL_EXT_bgra GL_EXT_bindable_uniform GL_EXT_blend_color GL_EXT_blend_equation_separate GL_EXT_blend_func_separate GL_EXT_blend_minmax GL_EXT_blend_subtract GL_EXT_compiled_vertex_array GL_EXT_Cg_shader GL_EXT_depth_bounds_test GL_EXT_direct_state_access GL_EXT_draw_buffers2 GL_EXT_draw_instanced GL_EXT_draw_range_elements GL_EXT_fog_coord GL_EXT_framebuffer_blit GL_EXT_framebuffer_multisample GL_EXTX_framebuffer_mixed_formats GL_EXT_framebuffer_object GL_EXT_framebuffer_sRGB GL_EXT_geometry_shader4 GL_EXT_gpu_program_parameters GL_EXT_gpu_shader4 GL_EXT_multi_draw_arrays GL_EXT_packed_depth_stencil GL_EXT_packed_float GL_EXT_packed_pixels GL_EXT_pixel_buffer_object GL_EXT_point_parameters GL_EXT_provoking_vertex GL_EXT_rescale_normal GL_EXT_secondary_color GL_EXT_separate_shader_objects GL_EXT_separate_specular_color GL_EXT_shadow_funcs GL_EXT_stencil_two_side GL_EXT_stencil_wrap GL_EXT_texture3D GL_EXT_texture_array GL_EXT_texture_buffer_object GL_EXT_texture_compression_dxt1 GL_EXT_texture_compression_latc GL_EXT_texture_compression_rgtc GL_EXT_texture_compression_s3tc GL_EXT_texture_cube_map GL_EXT_texture_edge_clamp GL_EXT_texture_env_combine GL_EXT_texture_env_dot3 GL_EXT_texture_filter_anisotropic GL_EXT_texture_format_BGRA8888 GL_EXT_texture_integer GL_EXT_texture_lod GL_EXT_texture_lod_bias GL_EXT_texture_mirror_clamp GL_EXT_texture_object GL_EXT_texture_shared_exponent GL_EXT_texture_sRGB GL_EXT_texture_sRGB_decode GL_EXT_texture_storage GL_EXT_texture_swizzle GL_EXT_texture_type_2_10_10_10_REV GL_EXT_timer_query GL_EXT_vertex_array GL_EXT_vertex_array_bgra GL_EXT_x11_sync_object GL_EXT_import_sync_object GL_IBM_rasterpos_clip GL_IBM_texture_mirrored_repeat GL_KTX_buffer_region GL_NV_alpha_test GL_NV_blend_minmax GL_NV_blend_square GL_NV_complex_primitives GL_NV_conditional_render GL_NV_copy_depth_to_color GL_NV_copy_image GL_NV_depth_buffer_float GL_NV_depth_clamp GL_NV_explicit_multisample GL_NV_fbo_color_attachments GL_NV_fence GL_NV_float_buffer GL_NV_fog_distance GL_NV_fragdepth GL_NV_fragment_program GL_NV_fragment_program_option GL_NV_fragment_program2 GL_NV_framebuffer_multisample_coverage GL_NV_geometry_shader4 GL_NV_gpu_program4 GL_NV_half_float GL_NV_light_max_exponent GL_NV_multisample_coverage GL_NV_multisample_filter_hint GL_NV_occlusion_query GL_NV_packed_depth_stencil GL_NV_parameter_buffer_object GL_NV_parameter_buffer_object2 GL_NV_path_rendering GL_NV_pixel_data_range GL_NV_point_sprite GL_NV_primitive_restart GL_NV_register_combiners GL_NV_register_combiners2 GL_NV_shader_buffer_load GL_NV_texgen_reflection GL_NV_texture_barrier GL_NV_texture_compression_vtc GL_NV_texture_env_combine4 GL_NV_texture_expand_normal GL_NV_texture_lod_clamp GL_NV_texture_multisample GL_NV_texture_rectangle GL_NV_texture_shader GL_NV_texture_shader2 GL_NV_texture_shader3 GL_NV_transform_feedback GL_NV_vdpau_interop GL_NV_vertex_array_range GL_NV_vertex_array_range2 GL_NV_vertex_buffer_unified_memory GL_NV_vertex_program GL_NV_vertex_program1_1 GL_NV_vertex_program2 GL_NV_vertex_program2_option GL_NV_vertex_program3 GL_NVX_conditional_render GL_NVX_gpu_memory_info GL_OES_depth24 GL_OES_depth32 GL_OES_depth_texture GL_OES_element_index_uint GL_OES_fbo_render_mipmap GL_OES_get_program_binary GL_OES_mapbuffer GL_OES_packed_depth_stencil GL_OES_rgb8_rgba8 GL_OES_standard_derivatives GL_OES_texture_3D GL_OES_texture_float GL_OES_texture_float_linear GL_OES_texture_half_float GL_OES_texture_half_float_linear GL_OES_texture_npot GL_OES_vertex_array_object GL_OES_vertex_half_float GL_SGIS_generate_mipmap GL_SGIS_texture_lod GL_SGIX_depth_texture GL_SGIX_shadow GL_SUN_slice_accum 
+2012-07-11 19:21:29: Supported GLX extensions: GLX_EXT_visual_info GLX_EXT_visual_rating GLX_SGIX_fbconfig GLX_SGIX_pbuffer GLX_SGI_video_sync GLX_SGI_swap_control GLX_EXT_swap_control GLX_EXT_texture_from_pixmap GLX_ARB_create_context GLX_ARB_create_context_profile GLX_EXT_create_context_es2_profile GLX_ARB_create_context_robustness GLX_ARB_multisample GLX_NV_float_buffer GLX_ARB_fbconfig_float GLX_EXT_framebuffer_sRGB GLX_ARB_get_proc_address 
+2012-07-11 19:21:29: ***************************
+2012-07-11 19:21:29: *** GL Renderer Started ***
+2012-07-11 19:21:29: ***************************
+2012-07-11 19:21:29: Registering ResourceManager for type GpuProgram
+2012-07-11 19:21:29: GLSL support detected
+2012-07-11 19:21:29: GL: Using GL_EXT_framebuffer_object for rendering to textures (best)
+2012-07-11 19:21:29: FBO PF_UNKNOWN depth/stencil support: D16S0 D24S0 D32S0 Packed-D24S8 
+2012-07-11 19:21:29: FBO PF_L8 depth/stencil support: D0S0 D16S0 D24S0 D32S0 Packed-D24S8 
+2012-07-11 19:21:29: FBO PF_A8 depth/stencil support: D0S0 D16S0 D24S0 D32S0 Packed-D24S8 
+2012-07-11 19:21:29: FBO PF_A4L4 depth/stencil support: D0S0 D16S0 D24S0 D32S0 Packed-D24S8 
+2012-07-11 19:21:29: FBO PF_BYTE_LA depth/stencil support: D0S0 D16S0 D24S0 D32S0 Packed-D24S8 
+2012-07-11 19:21:29: FBO PF_R5G6B5 depth/stencil support: D0S0 D16S0 D24S0 D32S0 Packed-D24S8 
+2012-07-11 19:21:29: FBO PF_B5G6R5 depth/stencil support: D0S0 D16S0 D24S0 D32S0 Packed-D24S8 
+2012-07-11 19:21:29: FBO PF_A4R4G4B4 depth/stencil support: D0S0 D16S0 D24S0 D32S0 Packed-D24S8 
+2012-07-11 19:21:29: FBO PF_A1R5G5B5 depth/stencil support: D0S0 D16S0 D24S0 D32S0 Packed-D24S8 
+2012-07-11 19:21:29: FBO PF_R8G8B8 depth/stencil support: D0S0 D16S0 D24S0 D32S0 Packed-D24S8 
+2012-07-11 19:21:29: FBO PF_B8G8R8 depth/stencil support: D0S0 D16S0 D24S0 D32S0 Packed-D24S8 
+2012-07-11 19:21:29: FBO PF_A8R8G8B8 depth/stencil support: D0S0 D16S0 D24S0 D32S0 Packed-D24S8 
+2012-07-11 19:21:29: FBO PF_B8G8R8A8 depth/stencil support: D0S0 D16S0 D24S0 D32S0 Packed-D24S8 
+2012-07-11 19:21:29: FBO PF_A2R10G10B10 depth/stencil support: D0S0 D16S0 D24S0 D32S0 Packed-D24S8 
+2012-07-11 19:21:29: FBO PF_A2B10G10R10 depth/stencil support: D0S0 D16S0 D24S0 D32S0 Packed-D24S8 
+2012-07-11 19:21:29: FBO PF_FLOAT16_RGB depth/stencil support: D0S0 D16S0 D24S0 D32S0 Packed-D24S8 
+2012-07-11 19:21:29: FBO PF_FLOAT16_RGBA depth/stencil support: D0S0 D16S0 D24S0 D32S0 Packed-D24S8 
+2012-07-11 19:21:29: FBO PF_FLOAT32_RGB depth/stencil support: D0S0 D16S0 D24S0 D32S0 Packed-D24S8 
+2012-07-11 19:21:29: FBO PF_FLOAT32_RGBA depth/stencil support: D0S0 D16S0 D24S0 D32S0 Packed-D24S8 
+2012-07-11 19:21:29: FBO PF_X8R8G8B8 depth/stencil support: D0S0 D16S0 D24S0 D32S0 Packed-D24S8 
+2012-07-11 19:21:29: FBO PF_X8B8G8R8 depth/stencil support: D0S0 D16S0 D24S0 D32S0 Packed-D24S8 
+2012-07-11 19:21:29: FBO PF_SHORT_RGBA depth/stencil support: D0S0 D16S0 D24S0 D32S0 Packed-D24S8 
+2012-07-11 19:21:29: FBO PF_R3G3B2 depth/stencil support: D0S0 D16S0 D24S0 D32S0 Packed-D24S8 
+2012-07-11 19:21:29: FBO PF_FLOAT16_R depth/stencil support: D0S0 D16S0 D24S0 D32S0 Packed-D24S8 
+2012-07-11 19:21:29: FBO PF_FLOAT32_R depth/stencil support: D0S0 D16S0 D24S0 D32S0 Packed-D24S8 
+2012-07-11 19:21:29: FBO PF_FLOAT16_GR depth/stencil support: D0S0 D16S0 D24S0 D32S0 Packed-D24S8 
+2012-07-11 19:21:29: FBO PF_FLOAT32_GR depth/stencil support: D0S0 D16S0 D24S0 D32S0 Packed-D24S8 
+2012-07-11 19:21:29: FBO PF_SHORT_RGB depth/stencil support: D0S0 D16S0 D24S0 D32S0 Packed-D24S8 
+2012-07-11 19:21:29: [GL] : Valid FBO targets PF_UNKNOWN PF_L8 PF_A8 PF_A4L4 PF_BYTE_LA PF_R5G6B5 PF_B5G6R5 PF_A4R4G4B4 PF_A1R5G5B5 PF_R8G8B8 PF_B8G8R8 PF_A8R8G8B8 PF_B8G8R8A8 PF_A2R10G10B10 PF_A2B10G10R10 PF_FLOAT16_RGB PF_FLOAT16_RGBA PF_FLOAT32_RGB PF_FLOAT32_RGBA PF_X8R8G8B8 PF_X8B8G8R8 PF_SHORT_RGBA PF_R3G3B2 PF_FLOAT16_R PF_FLOAT32_R PF_FLOAT16_GR PF_FLOAT32_GR PF_SHORT_RGB 
+2012-07-11 19:21:29: RenderSystem capabilities
+2012-07-11 19:21:29: -------------------------
+2012-07-11 19:21:29: RenderSystem Name: OpenGL Rendering Subsystem
+2012-07-11 19:21:29: GPU Vendor: nvidia
+2012-07-11 19:21:29: Device Name: GeForce 9500 GT/PCI/SSE2
+2012-07-11 19:21:29: Driver Version: 3.3.0.0
+2012-07-11 19:21:29:  * Fixed function pipeline: yes
+2012-07-11 19:21:29:  * Hardware generation of mipmaps: yes
+2012-07-11 19:21:29:  * Texture blending: yes
+2012-07-11 19:21:29:  * Anisotropic texture filtering: yes
+2012-07-11 19:21:29:  * Dot product texture operation: yes
+2012-07-11 19:21:29:  * Cube mapping: yes
+2012-07-11 19:21:29:  * Hardware stencil buffer: yes
+2012-07-11 19:21:29:    - Stencil depth: 8
+2012-07-11 19:21:29:    - Two sided stencil support: yes
+2012-07-11 19:21:29:    - Wrap stencil values: yes
+2012-07-11 19:21:29:  * Hardware vertex / index buffers: yes
+2012-07-11 19:21:29:  * Vertex programs: yes
+2012-07-11 19:21:29:  * Number of floating-point constants for vertex programs: 1024
+2012-07-11 19:21:29:  * Number of integer constants for vertex programs: 0
+2012-07-11 19:21:29:  * Number of boolean constants for vertex programs: 0
+2012-07-11 19:21:29:  * Fragment programs: yes
+2012-07-11 19:21:29:  * Number of floating-point constants for fragment programs: 512
+2012-07-11 19:21:29:  * Number of integer constants for fragment programs: 0
+2012-07-11 19:21:29:  * Number of boolean constants for fragment programs: 0
+2012-07-11 19:21:29:  * Geometry programs: yes
+2012-07-11 19:21:29:  * Number of floating-point constants for geometry programs: 2048
+2012-07-11 19:21:29:  * Number of integer constants for geometry programs: 0
+2012-07-11 19:21:29:  * Number of boolean constants for geometry programs: 0
+2012-07-11 19:21:29:  * Supported Shader Profiles: arbfp1 arbvp1 fp20 fp30 fp40 glsl gp4gp gp4vp gpu_gp gpu_vp nvgp4 vp30 vp40
+2012-07-11 19:21:29:  * Texture Compression: yes
+2012-07-11 19:21:29:    - DXT: yes
+2012-07-11 19:21:29:    - VTC: yes
+2012-07-11 19:21:29:    - PVRTC: no
+2012-07-11 19:21:29:  * Scissor Rectangle: yes
+2012-07-11 19:21:29:  * Hardware Occlusion Query: yes
+2012-07-11 19:21:29:  * User clip planes: yes
+2012-07-11 19:21:29:  * VET_UBYTE4 vertex element type: yes
+2012-07-11 19:21:29:  * Infinite far plane projection: yes
+2012-07-11 19:21:29:  * Hardware render-to-texture: yes
+2012-07-11 19:21:29:  * Floating point textures: yes
+2012-07-11 19:21:29:  * Non-power-of-two textures: yes
+2012-07-11 19:21:29:  * Volume textures: yes
+2012-07-11 19:21:29:  * Multiple Render Targets: 8
+2012-07-11 19:21:29:    - With different bit depths: yes
+2012-07-11 19:21:29:  * Point Sprites: yes
+2012-07-11 19:21:29:  * Extended point parameters: yes
+2012-07-11 19:21:29:  * Max Point Size: 63.375
+2012-07-11 19:21:29:  * Vertex texture fetch: yes
+2012-07-11 19:21:29:  * Number of world matrices: 0
+2012-07-11 19:21:29:  * Number of texture units: 32
+2012-07-11 19:21:29:  * Stencil buffer depth: 8
+2012-07-11 19:21:29:  * Number of vertex blend matrices: 0
+2012-07-11 19:21:29:    - Max vertex textures: 32
+2012-07-11 19:21:29:    - Vertex textures shared: yes
+2012-07-11 19:21:29:  * Render to Vertex Buffer : yes
+2012-07-11 19:21:29:  * GL 1.5 without VBO workaround: no
+2012-07-11 19:21:29:  * Frame Buffer objects: yes
+2012-07-11 19:21:29:  * Frame Buffer objects (ARB extension): no
+2012-07-11 19:21:29:  * Frame Buffer objects (ATI extension): no
+2012-07-11 19:21:29:  * PBuffer support: yes
+2012-07-11 19:21:29:  * GL 1.5 without HW-occlusion workaround: no
+2012-07-11 19:21:29: Registering ResourceManager for type Texture
+2012-07-11 19:21:29: DefaultWorkQueue(Root) initialising on thread 0x1b2bb90.
+2012-07-11 19:21:29: DefaultWorkQueue(Root)::WorkerFunc - thread 0x1bb3d90 starting.
+2012-07-11 19:21:29: DefaultWorkQueue(Root)::WorkerFunc - thread 0x1c107f0 starting.
+2012-07-11 19:21:29: DefaultWorkQueue(Root)::WorkerFunc - thread 0x1c08ee0 starting.
+2012-07-11 19:21:29: DefaultWorkQueue(Root)::WorkerFunc - thread 0x7f8d94000d10 starting.
+2012-07-11 19:21:29: DefaultWorkQueue(Root)::WorkerFunc - thread 0x7f8d94000a00 starting.
+2012-07-11 19:21:29: DefaultWorkQueue(Root)::WorkerFunc - thread 0x7f8d94001640 starting.
+2012-07-11 19:21:29: DefaultWorkQueue(Root)::WorkerFunc - thread 0x7f8d94001330 starting.
+2012-07-11 19:21:29: DefaultWorkQueue(Root)::WorkerFunc - thread 0x7f8d94001020 starting.
+2012-07-11 19:21:29: Particle Renderer Type billboard registered
+2012-07-11 19:21:29: SceneManagerFactory for type OctreeSceneManager registered.
+2012-07-11 19:21:29: Creating resource group Bootstrap
+2012-07-11 19:21:29: Added resource location ../resources/media/packs/SdkTrays of type FileSystem to resource group Bootstrap
+2012-07-11 19:21:29: Added resource location ../resources/media/packs/OgreCore.zip of type Zip to resource group Bootstrap
+2012-07-11 19:21:29: Added resource location ../resources/config of type FileSystem to resource group General
+2012-07-11 19:21:29: Added resource location ../resources/media/fonts of type FileSystem to resource group General
+2012-07-11 19:21:29: Added resource location ../resources/ui/fonts of type FileSystem to resource group General
+2012-07-11 19:21:29: Added resource location ../resources/ui/looknfeel of type FileSystem to resource group General
+2012-07-11 19:21:29: Added resource location ../resources/media/materials/programs of type FileSystem to resource group General
+2012-07-11 19:21:29: Added resource location ../resources/media/materials/programs/exclude of type FileSystem to resource group General
+2012-07-11 19:21:29: Added resource location ../resources/media/materials/scripts/exclude of type FileSystem to resource group General
+2012-07-11 19:21:29: Added resource location ../resources/media/materials/textures/bloom of type FileSystem to resource group General
+2012-07-11 19:21:29: Added resource location ../resources/media/particles/scripts of type FileSystem to resource group General
+2012-07-11 19:21:29: Added resource location ../resources/media/particles/scripts/seal of type FileSystem to resource group General
+2012-07-11 19:21:29: Added resource location ../resources/media/particles/scripts/flare of type FileSystem to resource group General
+2012-07-11 19:21:29: Added resource location ../resources/media/particles/materials of type FileSystem to resource group General
+2012-07-11 19:21:29: Added resource location ../resources/media/particles/textures of type FileSystem to resource group General
+2012-07-11 19:21:29: Added resource location ../resources/media/particles/textures/seal of type FileSystem to resource group General
+2012-07-11 19:21:29: Added resource location ../resources/media/particles/textures/flare of type FileSystem to resource group General
+2012-07-11 19:21:29: Added resource location ../resources/media/particles/scripts/Blood of type FileSystem to resource group General
+2012-07-11 19:21:29: Added resource location ../resources/media/particles/scripts/Blood/large of type FileSystem to resource group General
+2012-07-11 19:21:29: Added resource location ../resources/media/particles/scripts/Explosion of type FileSystem to resource group General
+2012-07-11 19:21:29: Added resource location ../resources/media/particles/scripts/Explosion/large of type FileSystem to resource group General
+2012-07-11 19:21:29: Added resource location ../resources/media/particles/scripts/Spell of type FileSystem to resource group General
+2012-07-11 19:21:29: Added resource location ../resources/media/particles/scripts/Spell/large of type FileSystem to resource group General
+2012-07-11 19:21:29: Added resource location ../resources/media/particles/scripts/Basel/PU of type FileSystem to resource group General
+2012-07-11 19:21:29: Added resource location ../resources/media/particles/scripts/Basel/Fire of type FileSystem to resource group General
+2012-07-11 19:21:29: Added resource location ../resources/media/particles/scripts/Basel/inc of type FileSystem to resource group General
+2012-07-11 19:21:29: Added resource location ../resources/media/particles/scripts/Basel/Earth of type FileSystem to resource group General
+2012-07-11 19:21:29: Added resource location ../resources/media/materials of type FileSystem to resource group General
+2012-07-11 19:21:29: Added resource location ../resources/media/materials/scripts of type FileSystem to resource group General
+2012-07-11 19:21:29: Added resource location ../resources/media/materials/textures of type FileSystem to resource group General
+2012-07-11 19:21:29: Added resource location ../resources/media/materials/textures/terrain of type FileSystem to resource group General
+2012-07-11 19:21:29: Added resource location ../resources/media/materials/textures/skies of type FileSystem to resource group General
+2012-07-11 19:21:29: Added resource location ../resources/media/scenes/MoltenChasm/Material of type FileSystem to resource group General
+2012-07-11 19:21:29: Added resource location ../resources/media/scenes/MoltenChasm/Scene of type FileSystem to resource group General
+2012-07-11 19:21:29: Creating resource group Models
+2012-07-11 19:21:29: Added resource location ../resources/media/models/dark_knight/Model of type FileSystem to resource group Models
+2012-07-11 19:21:29: Added resource location ../resources/media/models/dark_knight/Material of type FileSystem to resource group Models
+2012-07-11 19:21:29: Added resource location ../resources/media/models/skeletons/Textures of type FileSystem to resource group Models
+2012-07-11 19:21:29: Added resource location ../resources/media/models/skeletons/Pirate/Model of type FileSystem to resource group Models
+2012-07-11 19:21:29: Added resource location ../resources/media/models/skeletons/Skeleton/Model of type FileSystem to resource group Models
+2012-07-11 19:21:29: Added resource location ../resources/media/models/skeletons/Peasant/Max/Scene of type FileSystem to resource group Models
+2012-07-11 19:21:29: Added resource location ../resources/media/models/skeletons/Warrior/MeshAnimated of type FileSystem to resource group Models
+2012-07-11 19:21:29: Added resource location ../resources/media/models/gremlins/Material of type FileSystem to resource group Models
+2012-07-11 19:21:29: Added resource location ../resources/media/models/gremlins/Max/Gremlin1/Mesh of type FileSystem to resource group Models
+2012-07-11 19:21:29: Added resource location ../resources/media/models/gremlins/Max/Gremlin2/Mesh of type FileSystem to resource group Models
+2012-07-11 19:21:29: Added resource location ../resources/media/models/gremlins/Max/Gremlin3/Mesh of type FileSystem to resource group Models
+2012-07-11 19:21:29: Added resource location ../resources/media/models/mechs/Mech1/Mesh of type FileSystem to resource group Models
+2012-07-11 19:21:29: Added resource location ../resources/media/models/mechs/Mech2/Mesh of type FileSystem to resource group Models
+2012-07-11 19:21:29: Added resource location ../resources/media/models/mechs/Mech3/Mesh of type FileSystem to resource group Models
+2012-07-11 19:21:29: Added resource location ../resources/media/models/mechs/Mech4/Mesh of type FileSystem to resource group Models
+2012-07-11 19:21:29: Added resource location ../resources/media/models/mechs/Guns/Gun1/Mesh of type FileSystem to resource group Models
+2012-07-11 19:21:29: Added resource location ../resources/media/models/mechs/Guns/Gun2/Mesh of type FileSystem to resource group Models
+2012-07-11 19:21:29: Added resource location ../resources/media/models/mechs/Material of type FileSystem to resource group Models
+2012-07-11 19:21:29: Creating resource group fonts
+2012-07-11 19:21:29: Added resource location ../resources/ui/fonts of type FileSystem to resource group fonts
+2012-07-11 19:21:29: Creating resource group imagesets
+2012-07-11 19:21:29: Added resource location ../resources/ui/imagesets of type FileSystem to resource group imagesets
+2012-07-11 19:21:29: Creating resource group layouts
+2012-07-11 19:21:29: Added resource location ../resources/ui/layouts of type FileSystem to resource group layouts
+2012-07-11 19:21:29: Creating resource group looknfeels
+2012-07-11 19:21:29: Added resource location ../resources/ui/looknfeel of type FileSystem to resource group looknfeels
+2012-07-11 19:21:29: Creating resource group schemas
+2012-07-11 19:21:29: Added resource location ../resources/ui/xml_schemas of type FileSystem to resource group schemas
+2012-07-11 19:21:29: Creating resource group schemes
+2012-07-11 19:21:29: Added resource location ../resources/ui/schemes of type FileSystem to resource group schemes
+2012-07-11 19:21:29: Creating resource group scripts
+2012-07-11 19:21:29: Added resource location ../resources/scripts of type FileSystem to resource group scripts
+2012-07-11 19:21:29: Initialising resource group Bootstrap
+2012-07-11 19:21:29: Parsing scripts for resource group Bootstrap
+2012-07-11 19:21:29: Parsing script SdkTrays.material
+2012-07-11 19:21:29: Parsing script OgreCore.material
+2012-07-11 19:21:29: Parsing script OgreProfiler.material
+2012-07-11 19:21:29: Parsing script SdkTrays.fontdef
+2012-07-11 19:21:29: Parsing script Ogre.fontdef
+2012-07-11 19:21:29: Parsing script SdkTrays.overlay
+2012-07-11 19:21:29: Bad element attribute line: # you can offset the image to change the cursor "hotspot" for element SdkTrays/Cursor in overlay 
+2012-07-11 19:21:29: Texture: sdk_cursor.png: Loading 1 faces(PF_A8R8G8B8,32x32x1) with 5 generated mipmaps from Image. Internal format is PF_A8R8G8B8,32x32x1.
+2012-07-11 19:21:29: Texture: sdk_tray.png: Loading 1 faces(PF_A8R8G8B8,64x64x1) with 6 generated mipmaps from Image. Internal format is PF_A8R8G8B8,64x64x1.
+2012-07-11 19:21:29: Texture: sdk_button_up.png: Loading 1 faces(PF_A8R8G8B8,240x34x1) with 7 generated mipmaps from Image. Internal format is PF_A8R8G8B8,240x34x1.
+2012-07-11 19:21:29: Texture: sdk_text_box.png: Loading 1 faces(PF_A8R8G8B8,32x32x1) with 5 generated mipmaps from Image. Internal format is PF_A8R8G8B8,32x32x1.
+2012-07-11 19:21:29: Texture: sdk_mini_tray.png: Loading 1 faces(PF_A8R8G8B8,32x32x1) with 5 generated mipmaps from Image. Internal format is PF_A8R8G8B8,32x32x1.
+2012-07-11 19:21:29: Texture: sdk_track.png: Loading 1 faces(PF_A8R8G8B8,16x32x1) with 5 generated mipmaps from Image. Internal format is PF_A8R8G8B8,16x32x1.
+2012-07-11 19:21:29: Texture: sdk_handle.png: Loading 1 faces(PF_A8R8G8B8,16x16x1) with 4 generated mipmaps from Image. Internal format is PF_A8R8G8B8,16x16x1.
+2012-07-11 19:21:29: Texture: sdk_mini_text_box.png: Loading 1 faces(PF_A8R8G8B8,32x32x1) with 5 generated mipmaps from Image. Internal format is PF_A8R8G8B8,32x32x1.
+2012-07-11 19:21:29: Texture: sdk_label.png: Loading 1 faces(PF_A8R8G8B8,32x32x1) with 5 generated mipmaps from Image. Internal format is PF_A8R8G8B8,32x32x1.
+2012-07-11 19:21:29: Bad element attribute line: transparent true for element LabelCaption in overlay 
+2012-07-11 19:21:29: Texture: sdk_separator.png: Loading 1 faces(PF_A8R8G8B8,64x16x1) with 6 generated mipmaps from Image. Internal format is PF_A8R8G8B8,64x16x1.
+2012-07-11 19:21:29: Texture: sdk_logo.png: Loading 1 faces(PF_A8R8G8B8,320x334x1) with 8 generated mipmaps from Image. Internal format is PF_A8R8G8B8,320x334x1.
+2012-07-11 19:21:29: Texture: sdk_shade.png: Loading 1 faces(PF_A8R8G8B8,64x48x1) with 6 generated mipmaps from Image. Internal format is PF_A8R8G8B8,64x48x1.
+2012-07-11 19:21:29: Texture: sdk_frame.png: Loading 1 faces(PF_A8R8G8B8,32x32x1) with 5 generated mipmaps from Image. Internal format is PF_A8R8G8B8,32x32x1.
+2012-07-11 19:21:29: Texture: sdk_mini_text_box_over.png: Loading 1 faces(PF_A8R8G8B8,32x32x1) with 5 generated mipmaps from Image. Internal format is PF_A8R8G8B8,32x32x1.
+2012-07-11 19:21:29: Texture: sdk_pulse.png: Loading 1 faces(PF_R8G8B8,8x1x1) with 3 generated mipmaps from Image. Internal format is PF_X8R8G8B8,8x1x1.
+2012-07-11 19:21:29: Parsing script OgreDebugPanel.overlay
+2012-07-11 19:21:29: Texture: New_Ogre_Border_Center.png: Loading 1 faces(PF_A8R8G8B8,256x128x1) with 8 generated mipmaps from Image. Internal format is PF_A8R8G8B8,256x128x1.
+2012-07-11 19:21:29: Texture: New_Ogre_Border.png: Loading 1 faces(PF_A8R8G8B8,256x256x1) with 8 generated mipmaps from Image. Internal format is PF_A8R8G8B8,256x256x1.
+2012-07-11 19:21:29: Texture: New_Ogre_Border_Break.png: Loading 1 faces(PF_A8R8G8B8,32x32x1) with 5 generated mipmaps from Image. Internal format is PF_A8R8G8B8,32x32x1.
+2012-07-11 19:21:29: Texture: ogretext.png: Loading 1 faces(PF_A8R8G8B8,256x128x1) with 8 generated mipmaps from Image. Internal format is PF_A8R8G8B8,256x128x1.
+2012-07-11 19:21:29: Parsing script OgreLoadingPanel.overlay
+2012-07-11 19:21:29: Finished parsing scripts for resource group Bootstrap
+2012-07-11 19:21:29: Creating resources for group Bootstrap
+2012-07-11 19:21:29: All done
+2012-07-11 19:21:29: Initialising resource group General
+2012-07-11 19:21:29: Parsing scripts for resource group General
+2012-07-11 19:21:29: Font SdkTrays/Captionusing texture size 1024x512
+2012-07-11 19:21:29: Info: Freetype returned null for character 96 in font SdkTrays/Caption
+2012-07-11 19:21:29: Info: Freetype returned null for character 160 in font SdkTrays/Caption
+2012-07-11 19:21:29: Info: Freetype returned null for character 162 in font SdkTrays/Caption
+2012-07-11 19:21:29: Info: Freetype returned null for character 164 in font SdkTrays/Caption
+2012-07-11 19:21:29: Info: Freetype returned null for character 165 in font SdkTrays/Caption
+2012-07-11 19:21:29: Info: Freetype returned null for character 166 in font SdkTrays/Caption
+2012-07-11 19:21:29: Texture: SdkTrays/CaptionTexture: Loading 1 faces(PF_BYTE_LA,1024x512x1) with 0 generated mipmaps from Image. Internal format is PF_BYTE_LA,1024x512x1.
+2012-07-11 19:21:29: Font SdkTrays/Valueusing texture size 512x512
+2012-07-11 19:21:29: Info: Freetype returned null for character 127 in font SdkTrays/Value
+2012-07-11 19:21:29: Info: Freetype returned null for character 128 in font SdkTrays/Value
+2012-07-11 19:21:29: Info: Freetype returned null for character 129 in font SdkTrays/Value
+2012-07-11 19:21:29: Info: Freetype returned null for character 130 in font SdkTrays/Value
+2012-07-11 19:21:29: Info: Freetype returned null for character 131 in font SdkTrays/Value
+2012-07-11 19:21:29: Info: Freetype returned null for character 132 in font SdkTrays/Value
+2012-07-11 19:21:29: Info: Freetype returned null for character 133 in font SdkTrays/Value
+2012-07-11 19:21:29: Info: Freetype returned null for character 134 in font SdkTrays/Value
+2012-07-11 19:21:29: Info: Freetype returned null for character 135 in font SdkTrays/Value
+2012-07-11 19:21:29: Info: Freetype returned null for character 136 in font SdkTrays/Value
+2012-07-11 19:21:29: Info: Freetype returned null for character 137 in font SdkTrays/Value
+2012-07-11 19:21:29: Info: Freetype returned null for character 138 in font SdkTrays/Value
+2012-07-11 19:21:29: Info: Freetype returned null for character 139 in font SdkTrays/Value
+2012-07-11 19:21:29: Info: Freetype returned null for character 140 in font SdkTrays/Value
+2012-07-11 19:21:29: Info: Freetype returned null for character 141 in font SdkTrays/Value
+2012-07-11 19:21:29: Info: Freetype returned null for character 142 in font SdkTrays/Value
+2012-07-11 19:21:29: Info: Freetype returned null for character 143 in font SdkTrays/Value
+2012-07-11 19:21:29: Info: Freetype returned null for character 144 in font SdkTrays/Value
+2012-07-11 19:21:29: Info: Freetype returned null for character 145 in font SdkTrays/Value
+2012-07-11 19:21:29: Info: Freetype returned null for character 146 in font SdkTrays/Value
+2012-07-11 19:21:29: Info: Freetype returned null for character 147 in font SdkTrays/Value
+2012-07-11 19:21:29: Info: Freetype returned null for character 148 in font SdkTrays/Value
+2012-07-11 19:21:29: Info: Freetype returned null for character 149 in font SdkTrays/Value
+2012-07-11 19:21:29: Info: Freetype returned null for character 150 in font SdkTrays/Value
+2012-07-11 19:21:29: Info: Freetype returned null for character 151 in font SdkTrays/Value
+2012-07-11 19:21:29: Info: Freetype returned null for character 152 in font SdkTrays/Value
+2012-07-11 19:21:29: Info: Freetype returned null for character 153 in font SdkTrays/Value
+2012-07-11 19:21:29: Info: Freetype returned null for character 154 in font SdkTrays/Value
+2012-07-11 19:21:29: Info: Freetype returned null for character 155 in font SdkTrays/Value
+2012-07-11 19:21:29: Info: Freetype returned null for character 156 in font SdkTrays/Value
+2012-07-11 19:21:29: Info: Freetype returned null for character 157 in font SdkTrays/Value
+2012-07-11 19:21:29: Info: Freetype returned null for character 158 in font SdkTrays/Value
+2012-07-11 19:21:29: Info: Freetype returned null for character 159 in font SdkTrays/Value
+2012-07-11 19:21:29: Info: Freetype returned null for character 160 in font SdkTrays/Value
+2012-07-11 19:21:29: Texture: SdkTrays/ValueTexture: Loading 1 faces(PF_BYTE_LA,512x512x1) with 0 generated mipmaps from Image. Internal format is PF_BYTE_LA,512x512x1.
+2012-07-11 19:21:29: Parsing script Instancing.program
+2012-07-11 19:21:29: Parsing script StdQuad_vp.program
+2012-07-11 19:21:29: Parsing script Examples.program
+2012-07-11 19:21:29: OGRE EXCEPTION(2:InvalidParametersException): Parameter called ambient does not exist.  in GpuProgramParameters::_findNamedConstantDefinition at /home/kandie/Workspace/Repos/ogre/OgreMain/src/OgreGpuProgramParams.cpp (line 1445)
+2012-07-11 19:21:29: Compiler error: invalid parameters in Examples.program(216): setting of constant failed
+2012-07-11 19:21:29: Parsing script CelShading.material
+2012-07-11 19:21:29: Parsing script Embossed.material
+2012-07-11 19:21:29: Parsing script DepthShadowmap.material
+2012-07-11 19:21:29: Parsing script Ocean.material
+2012-07-11 19:21:29: Parsing script IsoSurf.material
+2012-07-11 19:21:29: Problem parsing the following Cg Uniform: @TMP29 in file Ogre/IsoSurf/TessellateTetrahedraGS_CG
+2012-07-11 19:21:29: Parsing script Dither.material
+2012-07-11 19:21:30: Parsing script Examples.material
+2012-07-11 19:21:30: Parsing script Ogre.material
+2012-07-11 19:21:30: Parsing script MRTtest.material
+2012-07-11 19:21:30: Parsing script Tiling.material
+2012-07-11 19:21:30: Parsing script MotionBlur.material
+2012-07-11 19:21:30: Parsing script pssm.material
+2012-07-11 19:21:30: Parsing script Invert.material
+2012-07-11 19:21:30: Parsing script Bloom.material
+2012-07-11 19:21:30: Parsing script ShaderSystem.material
+2012-07-11 19:21:30: Parsing script GLSLSwizzle.material
+2012-07-11 19:21:30: Parsing script Posterize.material
+2012-07-11 19:21:30: Parsing script Examples-Advanced.material
+2012-07-11 19:21:30: OGRE EXCEPTION(6:FileNotFoundException): Cannot locate resource Example_CelShading.cg in resource group General or any other group. in ResourceGroupManager::openResource at /home/kandie/Workspace/Repos/ogre/OgreMain/src/OgreResourceGroupManager.cpp (line 756)
+2012-07-11 19:21:30: High-level program Ogre/CelShadingVPCg encountered an error during loading and is thus not supported.
+2012-07-11 OGRE EXCEPTION(6:FileNotFoundException): Cannot locate resource Example_CelShading.cg in resource group General or any other group. in ResourceGroupManager::openResource at /home/kandie/Workspace/Repos/ogre/OgreMain/src/OgreResourceGroupManager.cpp (line 756)
+2012-07-11 19:21:30: OGRE EXCEPTION(2:InvalidParametersException): Named constants have not been initialised, perhaps a compile error. in GpuProgramParameters::_findNamedConstantDefinition at /home/kandie/Workspace/Repos/ogre/OgreMain/src/OgreGpuProgramParams.cpp (line 1435)
+2012-07-11 19:21:30: Compiler error: invalid parameters in Examples-Advanced.material(12): setting of constant failed
+2012-07-11 19:21:30: OGRE EXCEPTION(2:InvalidParametersException): Named constants have not been initialised, perhaps a compile error. in GpuProgramParameters::_findNamedConstantDefinition at /home/kandie/Workspace/Repos/ogre/OgreMain/src/OgreGpuProgramParams.cpp (line 1435)
+2012-07-11 19:21:30: Compiler error: invalid parameters in Examples-Advanced.material(13): setting of constant failed
+2012-07-11 19:21:30: OGRE EXCEPTION(2:InvalidParametersException): Named constants have not been initialised, perhaps a compile error. in GpuProgramParameters::_findNamedConstantDefinition at /home/kandie/Workspace/Repos/ogre/OgreMain/src/OgreGpuProgramParams.cpp (line 1435)
+2012-07-11 19:21:30: Compiler error: invalid parameters in Examples-Advanced.material(14): setting of constant failed
+2012-07-11 19:21:30: OGRE EXCEPTION(2:InvalidParametersException): Named constants have not been initialised, perhaps a compile error. in GpuProgramParameters::_findNamedConstantDefinition at /home/kandie/Workspace/Repos/ogre/OgreMain/src/OgreGpuProgramParams.cpp (line 1435)
+2012-07-11 19:21:30: Compiler error: invalid parameters in Examples-Advanced.material(15): setting of constant failed
+2012-07-11 19:21:30: OGRE EXCEPTION(6:FileNotFoundException): Cannot locate resource Example_CelShading.cg in resource group General or any other group. in ResourceGroupManager::openResource at /home/kandie/Workspace/Repos/ogre/OgreMain/src/OgreResourceGroupManager.cpp (line 756)
+2012-07-11 19:21:30: High-level program Ogre/CelShadingFPCg encountered an error during loading and is thus not supported.
+2012-07-11 OGRE EXCEPTION(6:FileNotFoundException): Cannot locate resource Example_CelShading.cg in resource group General or any other group. in ResourceGroupManager::openResource at /home/kandie/Workspace/Repos/ogre/OgreMain/src/OgreResourceGroupManager.cpp (line 756)
+2012-07-11 19:21:30: OGRE EXCEPTION(2:InvalidParametersException): Named constants have not been initialised, perhaps a compile error. in GpuProgramParameters::_findNamedConstantDefinition at /home/kandie/Workspace/Repos/ogre/OgreMain/src/OgreGpuProgramParams.cpp (line 1435)
+2012-07-11 19:21:30: Compiler error: invalid parameters in Examples-Advanced.material(74): setting of constant failed
+2012-07-11 19:21:30: OGRE EXCEPTION(2:InvalidParametersException): Named constants have not been initialised, perhaps a compile error. in GpuProgramParameters::_findNamedConstantDefinition at /home/kandie/Workspace/Repos/ogre/OgreMain/src/OgreGpuProgramParams.cpp (line 1435)
+2012-07-11 19:21:30: Compiler error: invalid parameters in Examples-Advanced.material(76): setting of constant failed
+2012-07-11 19:21:30: Compiler error: object unsupported by render system in Examples-Advanced.material(533)
+2012-07-11 19:21:30: Parsing script hdr.material
+2012-07-11 19:21:30: Parsing script OldTV.material
+2012-07-11 19:21:30: Parsing script Glass.material
+2012-07-11 19:21:30: Parsing script VarianceShadowmap.material
+2012-07-11 19:21:30: Parsing script Penguin.material
+2012-07-11 19:21:30: Parsing script Bloom2.material
+2012-07-11 19:21:30: Parsing script HW_VTFInstancing.material
+2012-07-11 19:21:30: Parsing script instancing.material
+2012-07-11 19:21:30: Parsing script OffsetMapping.material
+2012-07-11 19:21:30: Compiler error: object unsupported by render system in OffsetMapping.material(35)
+2012-07-11 19:21:30: Parsing script shadows.material
+2012-07-11 19:21:30: Parsing script Example-Water.material
+2012-07-11 19:21:30: Parsing script sibenik.material
+2012-07-11 19:21:30: Parsing script Examples-DynTex.material
+2012-07-11 19:21:30: Parsing script NightVision.material
+2012-07-11 19:21:30: Parsing script ParticleGS.material
+2012-07-11 19:21:30: Parsing script DOF.material
+2012-07-11 19:21:30: Parsing script HWInstancing.material
+2012-07-11 19:21:30: Parsing script Hurt.material
+2012-07-11 19:21:30: Parsing script ShaderInstancing.material
+2012-07-11 19:21:30: Parsing script BlackAndWhite.material
+2012-07-11 19:21:30: Parsing script RZR-002.material
+2012-07-11 19:21:30: Parsing script facial.material
+2012-07-11 19:21:30: Parsing script RadialBlur.material
+2012-07-11 19:21:30: Parsing script Examples-Water.material
+2012-07-11 19:21:30: Parsing script ASCII.material
+2012-07-11 19:21:30: Parsing script ASMSwizzle.material
+2012-07-11 19:21:30: Parsing script CGSwizzle.material
+2012-07-11 19:21:30: Parsing script OldMovie.material
+2012-07-11 19:21:30: Parsing script InstancingMisc.material
+2012-07-11 19:21:30: Parsing script CompositorDemo.material
+2012-07-11 19:21:30: Parsing script SharpenEdges.material
+2012-07-11 19:21:30: Parsing script Halftone.material
+2012-07-11 19:21:30: Parsing script VTFInstancing.material
+2012-07-11 19:21:30: Parsing script Laplace.material
+2012-07-11 19:21:30: Parsing script HeatVision.material
+2012-07-11 19:21:30: Parsing script smoke.material
+2012-07-11 19:21:30: Parsing script Explosion.material
+2012-07-11 19:21:30: Parsing script BlackHole.material
+2012-07-11 19:21:30: Parsing script SphereTrail.material
+2012-07-11 19:21:30: Parsing script Highlight.material
+2012-07-11 19:21:30: Parsing script Portal.material
+2012-07-11 19:21:30: Parsing script Steam.material
+2012-07-11 19:21:30: Parsing script mp_flare.material
+2012-07-11 19:21:30: Parsing script mp_seal.material
+2012-07-11 19:21:30: Parsing script Blaze.material
+2012-07-11 19:21:30: Parsing script Shatter.material
+2012-07-11 19:21:30: Parsing script mp_bloodsplat.material
+2012-07-11 19:21:30: Parsing script mp_explosion.material
+2012-07-11 19:21:30: Parsing script mp_spell.material
+2012-07-11 19:21:30: Parsing script pu_example.material
+2012-07-11 19:21:30: Parsing script pu_mediapack_01.material
+2012-07-11 19:21:30: Parsing script mp_woosh.material
+2012-07-11 19:21:30: Parsing script mp_bloodsplat.material
+2012-07-11 19:21:30: Parsing script mp_nature.material
+2012-07-11 19:21:30: Parsing script mp_spell.material
+2012-07-11 19:21:30: Parsing script mp_fire.material
+2012-07-11 19:21:30: Parsing script mp_seal.material
+2012-07-11 19:21:30: Parsing script Bones.material
+2012-07-11 19:21:30: Parsing script terrain.material
+2012-07-11 19:21:30: Parsing script billboards.material
+2012-07-11 19:21:30: Parsing script skies.material
+2012-07-11 19:21:30: Parsing script text_overlay.material
+2012-07-11 19:21:30: Parsing script sinbad.material
+2012-07-11 19:21:30: Parsing script elementum.material
+2012-07-11 19:21:30: Parsing script MoltenChasm.material
+2012-07-11 19:21:30: Compiler error: unknown error in MoltenChasm.material(90): token receive_shadows is not recognized
+2012-07-11 19:21:30: Parsing script Examples.compositor
+2012-07-11 19:21:30: Parsing script pu_example_generic.pu
+2012-07-11 19:21:30: Compiler error: unknown error in pu_example_generic.pu(4): token class, alias, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in pu_example_generic.pu(6): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in pu_example_generic.pu(18): token class, alias, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in pu_example_generic.pu(20): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in pu_example_generic.pu(33): token class, alias, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in pu_example_generic.pu(41): token class, time_to_live, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Alias defaultBillboardRenderer registered
+2012-07-11 19:21:30: ParticleUniverse: Alias flatBillboardRenderer registered
+2012-07-11 19:21:30: ParticleUniverse: Alias simpleEmitter registered
+2012-07-11 19:21:30: Parsing script Highlight.pu
+2012-07-11 19:21:30: Compiler error: unknown error in Highlight.pu(9): token class, system, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Highlight.pu(18): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Highlight.pu(36): token class, all_particle_dimensions, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Highlight.pu(60): token class, xyz_scale, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Highlight.pu(69): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Highlight.pu(71): token class, handler, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Particle System Template Elementum/Fx/Highlight registered
+2012-07-11 19:21:30: Texture: mp_flare_04.png: Loading 1 faces(PF_SHORT_RGB,512x512x1) with 9 generated mipmaps from Image. Internal format is PF_SHORT_RGB,512x512x1.
+2012-07-11 19:21:30: Parsing script BlackHole.pu
+2012-07-11 19:21:30: Compiler error: unknown error in BlackHole.pu(1): token class, system, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in BlackHole.pu(9): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in BlackHole.pu(36): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in BlackHole.pu(46): token class, particle_width, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in BlackHole.pu(51): token class, particle_height, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Particle System Template Elementum/Fx/BlackHole registered
+2012-07-11 19:21:30: Texture: pump_flare_04.png: Loading 1 faces(PF_A8R8G8B8,256x256x1) with 8 generated mipmaps from Image. Internal format is PF_A8R8G8B8,256x256x1.
+2012-07-11 19:21:30: Texture: pump_streak_03.png: Loading 1 faces(PF_A8R8G8B8,24x128x1) with 7 generated mipmaps from Image. Internal format is PF_A8R8G8B8,24x128x1.
+2012-07-11 19:21:30: Parsing script Comet_Explosion.pu
+2012-07-11 19:21:30: Compiler error: unknown error in Comet_Explosion.pu(1): token class, system, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Comet_Explosion.pu(9): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Comet_Explosion.pu(15): token class, time_to_live, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Comet_Explosion.pu(20): token class, velocity, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Comet_Explosion.pu(25): token class, all_particle_dimensions, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Comet_Explosion.pu(39): token class, xyz_scale, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Comet_Explosion.pu(47): token class, rotation, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Comet_Explosion.pu(54): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Comet_Explosion.pu(57): token class, handler, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Particle System Template Elementum/Fx/CometExplosion registered
+2012-07-11 19:21:30: Compiler error: unknown error in Comet_Explosion.pu(4): PU Compiler: token velocity_scale is not recognized
+2012-07-11 19:21:30: Parsing script pu_mediapack.pu
+2012-07-11 19:21:30: Compiler error: unknown error in pu_mediapack.pu(9): token class, alias, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in pu_mediapack.pu(20): token class, alias, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in pu_mediapack.pu(32): token class, alias, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in pu_mediapack.pu(44): token class, alias, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in pu_mediapack.pu(56): token class, alias, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in pu_mediapack.pu(68): token class, alias, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in pu_mediapack.pu(81): token class, alias, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in pu_mediapack.pu(94): token class, alias, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in pu_mediapack.pu(96): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in pu_mediapack.pu(98): token class, handler, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Alias PUMediaPack/ColourAffectorFade_01 registered
+2012-07-11 19:21:30: ParticleUniverse: Alias PUMediaPack/ColourAffectorFade_02 registered
+2012-07-11 19:21:30: ParticleUniverse: Alias PUMediaPack/ColourAffectorFade_03 registered
+2012-07-11 19:21:30: ParticleUniverse: Alias PUMediaPack/ColourAffectorFade_04 registered
+2012-07-11 19:21:30: ParticleUniverse: Alias PUMediaPack/ColourAffectorFade_05 registered
+2012-07-11 19:21:30: ParticleUniverse: Alias PUMediaPack/ColourAffectorFade_06 registered
+2012-07-11 19:21:30: ParticleUniverse: Alias PUMediaPack/ColourAffectorFade_07 registered
+2012-07-11 19:21:30: ParticleUniverse: Alias PUMediaPack/OnClearDoStopSystem registered
+2012-07-11 19:21:30: Parsing script ArenaFlame.pu
+2012-07-11 19:21:30: Parsing script Comet.pu
+2012-07-11 19:21:30: Compiler error: unknown error in Comet.pu(1): token class, system, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Comet.pu(9): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Comet.pu(29): token class, xyz_scale, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Comet.pu(36): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Comet.pu(39): token class, handler, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Comet.pu(53): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Comet.pu(59): token class, time_to_live, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Comet.pu(69): token class, xyz_scale, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Comet.pu(77): token class, rotation, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Particle System Template Elementum/Fx/Comet registered
+2012-07-11 19:21:30: Compiler error: unknown error in Comet.pu(4): PU Compiler: token velocity_scale is not recognized
+2012-07-11 19:21:30: Parsing script mp_seal_02_large.pu
+2012-07-11 19:21:30: Compiler error: unknown error in mp_seal_02_large.pu(9): token class, system, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_seal_02_large.pu(20): token class, renderer, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Particle System Template Elementum/Fx/Seal2 registered
+2012-07-11 19:21:30: Texture: mp_seal_02.dds: Loading 1 faces(PF_DXT3,512x512x1) with 9 hardware generated mipmaps from Image. Internal format is PF_DXT3,512x512x1.
+2012-07-11 19:21:30: Parsing script mp_seal_08_large.pu
+2012-07-11 19:21:30: Compiler error: unknown error in mp_seal_08_large.pu(9): token class, system, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_seal_08_large.pu(20): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_seal_08_large.pu(43): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_seal_08_large.pu(45): token class, handler, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_seal_08_large.pu(58): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_seal_08_large.pu(65): token class, time_to_live, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_seal_08_large.pu(70): token class, velocity, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_seal_08_large.pu(76): token class, all_particle_dimensions, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Particle System Template Elementum/Fx/Seal8 registered
+2012-07-11 19:21:30: Texture: mp_seal_08.dds: Loading 1 faces(PF_DXT3,512x512x1) with 9 hardware generated mipmaps from Image. Internal format is PF_DXT3,512x512x1.
+2012-07-11 19:21:30: Texture: mp_seal_flare.dds: Loading 1 faces(PF_DXT3,512x512x1) with 9 hardware generated mipmaps from Image. Internal format is PF_DXT3,512x512x1.
+2012-07-11 19:21:30: Parsing script mp_flare_streak_02_large.pu
+2012-07-11 19:21:30: Compiler error: unknown error in mp_flare_streak_02_large.pu(9): token class, system, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_flare_streak_02_large.pu(19): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_flare_streak_02_large.pu(28): token class, particle_height, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_flare_streak_02_large.pu(48): token class, x_scale, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_flare_streak_02_large.pu(54): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_flare_streak_02_large.pu(56): token class, handler, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_flare_streak_02_large.pu(68): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_flare_streak_02_large.pu(77): token class, particle_height, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_flare_streak_02_large.pu(97): token class, x_scale, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_flare_streak_02_large.pu(108): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_flare_streak_02_large.pu(110): token class, handler, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_flare_streak_02_large.pu(121): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_flare_streak_02_large.pu(134): token class, time_to_live, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_flare_streak_02_large.pu(140): token class, all_particle_dimensions, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_flare_streak_02_large.pu(168): token class, system, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_flare_streak_02_large.pu(178): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_flare_streak_02_large.pu(187): token class, particle_height, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_flare_streak_02_large.pu(207): token class, x_scale, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_flare_streak_02_large.pu(213): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_flare_streak_02_large.pu(215): token class, handler, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_flare_streak_02_large.pu(227): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_flare_streak_02_large.pu(236): token class, particle_height, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_flare_streak_02_large.pu(256): token class, x_scale, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_flare_streak_02_large.pu(267): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_flare_streak_02_large.pu(269): token class, handler, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_flare_streak_02_large.pu(280): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_flare_streak_02_large.pu(293): token class, time_to_live, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_flare_streak_02_large.pu(299): token class, all_particle_dimensions, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Particle System Template Elementum/Fx/Summon registered
+2012-07-11 19:21:30: Texture: mp_flare_streak_02.png: Loading 1 faces(PF_SHORT_RGB,512x512x1) with 9 generated mipmaps from Image. Internal format is PF_SHORT_RGB,512x512x1.
+2012-07-11 19:21:30: Texture: mp_flare_zero_star.dds: Loading 1 faces(PF_DXT3,512x512x1) with 9 hardware generated mipmaps from Image. Internal format is PF_DXT3,512x512x1.
+2012-07-11 19:21:30: ParticleUniverse: Particle System Template Elementum/Fx/Desummon registered
+2012-07-11 19:21:30: Parsing script mp_flare_07_large.pu
+2012-07-11 19:21:30: Compiler error: unknown error in mp_flare_07_large.pu(9): token class, system, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_flare_07_large.pu(20): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_flare_07_large.pu(50): token class, rotation, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_flare_07_large.pu(57): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_flare_07_large.pu(59): token class, handler, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Particle System Template Elementum/Fx/MindControl registered
+2012-07-11 19:21:30: Parsing script mp_flare_aurora_borealis_large.pu
+2012-07-11 19:21:30: Compiler error: unknown error in mp_flare_aurora_borealis_large.pu(9): token class, system, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_flare_aurora_borealis_large.pu(18): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_flare_aurora_borealis_large.pu(32): token class, velocity, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Particle System Template Elementum/Fx/Aurora registered
+2012-07-11 19:21:30: Texture: mp_flare_01.dds: Loading 1 faces(PF_DXT3,512x512x1) with 9 hardware generated mipmaps from Image. Internal format is PF_DXT3,512x512x1.
+2012-07-11 19:21:30: Parsing script mp_bloodstrike_03_large.pu
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodstrike_03_large.pu(9): token class, system, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodstrike_03_large.pu(15): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodstrike_03_large.pu(27): token class, time_to_live, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodstrike_03_large.pu(32): token class, velocity, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodstrike_03_large.pu(38): token class, particle_width, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodstrike_03_large.pu(43): token class, particle_height, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodstrike_03_large.pu(53): token class, xyz_scale, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodstrike_03_large.pu(65): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodstrike_03_large.pu(67): token class, handler, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Particle System Template Elementum/Fx/BloodStrike3 registered
+2012-07-11 19:21:30: Texture: mp_bloodsplat_10.dds: Loading 1 faces(PF_DXT3,512x512x1) with 9 hardware generated mipmaps from Image. Internal format is PF_DXT3,512x512x1.
+2012-07-11 19:21:30: Parsing script mp_bloodsplat_large.pu
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodsplat_large.pu(9): token class, system, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodsplat_large.pu(17): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodsplat_large.pu(27): token class, velocity, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodsplat_large.pu(32): token class, all_particle_dimensions, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodsplat_large.pu(45): token class, y_scale, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodsplat_large.pu(58): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodsplat_large.pu(60): token class, handler, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodsplat_large.pu(66): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodsplat_large.pu(68): token class, handler, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Particle System Template Elementum/Fx/BloodSplat registered
+2012-07-11 19:21:30: Texture: mp_bloodsplat_2x2.dds: Loading 1 faces(PF_DXT3,128x128x1) with 7 hardware generated mipmaps from Image. Internal format is PF_DXT3,128x128x1.
+2012-07-11 19:21:30: Parsing script mp_bloodspray_large.pu
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodspray_large.pu(9): token class, system, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodspray_large.pu(15): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodspray_large.pu(21): token class, emission_rate, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodspray_large.pu(33): token class, velocity, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodspray_large.pu(43): token class, all_particle_dimensions, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodspray_large.pu(56): token class, x_scale, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodspray_large.pu(61): token class, y_scale, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodspray_large.pu(70): token class, rotation, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodspray_large.pu(75): token class, rotation_speed, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodspray_large.pu(81): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodspray_large.pu(84): token class, handler, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodspray_large.pu(91): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodspray_large.pu(93): token class, handler, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Particle System Template Elementum/Fx/BloodSpray registered
+2012-07-11 19:21:30: Texture: mp_bloodsplat_09.dds: Loading 1 faces(PF_DXT3,64x64x1) with 6 hardware generated mipmaps from Image. Internal format is PF_DXT3,64x64x1.
+2012-07-11 19:21:30: Parsing script mp_bloodstrike_02_large.pu
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodstrike_02_large.pu(9): token class, system, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodstrike_02_large.pu(16): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodstrike_02_large.pu(23): token class, emission_rate, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodstrike_02_large.pu(31): token class, velocity, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodstrike_02_large.pu(37): token class, all_particle_dimensions, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodstrike_02_large.pu(56): token class, xyz_scale, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodstrike_02_large.pu(69): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodstrike_02_large.pu(72): token class, handler, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodstrike_02_large.pu(76): token class, handler, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodstrike_02_large.pu(85): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodstrike_02_large.pu(107): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_bloodstrike_02_large.pu(109): token class, handler, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Particle System Template Elementum/Fx/BloodStrike2 registered
+2012-07-11 19:21:30: Parsing script mp_explosion_dirt_01_large.pu
+2012-07-11 19:21:30: Compiler error: unknown error in mp_explosion_dirt_01_large.pu(9): token class, system, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_explosion_dirt_01_large.pu(16): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_explosion_dirt_01_large.pu(23): token class, time_to_live, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_explosion_dirt_01_large.pu(28): token class, velocity, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_explosion_dirt_01_large.pu(33): token class, all_particle_dimensions, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_explosion_dirt_01_large.pu(41): token class, angle, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_explosion_dirt_01_large.pu(51): token class, rotation, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_explosion_dirt_01_large.pu(56): token class, rotation_speed, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_explosion_dirt_01_large.pu(70): token class, velocity_scale, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_explosion_dirt_01_large.pu(83): token class, x_scale, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_explosion_dirt_01_large.pu(88): token class, y_scale, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_explosion_dirt_01_large.pu(94): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_explosion_dirt_01_large.pu(96): token class, handler, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Particle System Template Elementum/Fx/ExplosionDirt registered
+2012-07-11 19:21:30: Texture: mp_explosion_dirt.dds: Loading 1 faces(PF_DXT3,512x512x1) with 9 hardware generated mipmaps from Image. Internal format is PF_DXT3,512x512x1.
+2012-07-11 19:21:30: Parsing script mp_explosion_dirt_and_fire_large.pu
+2012-07-11 19:21:30: Compiler error: unknown error in mp_explosion_dirt_and_fire_large.pu(9): token class, system, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_explosion_dirt_and_fire_large.pu(16): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_explosion_dirt_and_fire_large.pu(27): token class, time_to_live, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_explosion_dirt_and_fire_large.pu(32): token class, velocity, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_explosion_dirt_and_fire_large.pu(38): token class, particle_width, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_explosion_dirt_and_fire_large.pu(43): token class, particle_height, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_explosion_dirt_and_fire_large.pu(61): token class, y_scale, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_explosion_dirt_and_fire_large.pu(67): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_explosion_dirt_and_fire_large.pu(69): token class, handler, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_explosion_dirt_and_fire_large.pu(78): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_explosion_dirt_and_fire_large.pu(88): token class, time_to_live, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_explosion_dirt_and_fire_large.pu(93): token class, velocity, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_explosion_dirt_and_fire_large.pu(99): token class, particle_width, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_explosion_dirt_and_fire_large.pu(104): token class, particle_height, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_explosion_dirt_and_fire_large.pu(122): token class, y_scale, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_explosion_dirt_and_fire_large.pu(133): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_explosion_dirt_and_fire_large.pu(142): token class, time_to_live, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_explosion_dirt_and_fire_large.pu(147): token class, velocity, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_explosion_dirt_and_fire_large.pu(153): token class, particle_width, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_explosion_dirt_and_fire_large.pu(158): token class, particle_height, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_explosion_dirt_and_fire_large.pu(176): token class, x_scale, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_explosion_dirt_and_fire_large.pu(181): token class, y_scale, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_explosion_dirt_and_fire_large.pu(187): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_explosion_dirt_and_fire_large.pu(189): token class, handler, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_explosion_dirt_and_fire_large.pu(270): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_explosion_dirt_and_fire_large.pu(272): token class, handler, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Particle System Template Elementum/Fx/Explosion registered
+2012-07-11 19:21:30: Texture: mp_explosion_flame_01.dds: Loading 1 faces(PF_DXT3,512x512x1) with 9 hardware generated mipmaps from Image. Internal format is PF_DXT3,512x512x1.
+2012-07-11 19:21:30: Texture: mp_explosion_flare_01.dds: Loading 1 faces(PF_DXT3,512x512x1) with 9 hardware generated mipmaps from Image. Internal format is PF_DXT3,512x512x1.
+2012-07-11 19:21:30: Compiler error: unknown error in mp_explosion_dirt_and_fire_large.pu(270): token observer is not recognized
+2012-07-11 19:21:30: Parsing script fatigue.pu
+2012-07-11 19:21:30: Compiler error: unknown error in fatigue.pu(9): token class, system, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in fatigue.pu(18): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in fatigue.pu(26): token class, time_to_live, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in fatigue.pu(31): token class, velocity, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in fatigue.pu(51): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in fatigue.pu(54): token class, handler, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in fatigue.pu(67): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in fatigue.pu(77): token class, time_to_live, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in fatigue.pu(82): token class, velocity, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in fatigue.pu(88): token class, particle_width, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in fatigue.pu(93): token class, particle_height, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in fatigue.pu(109): token class, y_scale, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in fatigue.pu(120): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in fatigue.pu(129): token class, time_to_live, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in fatigue.pu(134): token class, velocity, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in fatigue.pu(140): token class, all_particle_dimensions, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Particle System Template Elementum/Fx/Fatigue registered
+2012-07-11 19:21:30: Compiler error: unknown error in fatigue.pu(13): PU Compiler: token velocity_scale is not recognized
+2012-07-11 19:21:30: Texture: mp_spell_flare_02.dds: Loading 1 faces(PF_DXT3,512x512x1) with 9 hardware generated mipmaps from Image. Internal format is PF_DXT3,512x512x1.
+2012-07-11 19:21:30: Texture: mp_spell_small_ray.dds: Loading 1 faces(PF_DXT3,512x512x1) with 9 hardware generated mipmaps from Image. Internal format is PF_DXT3,512x512x1.
+2012-07-11 19:21:30: Texture: mp_spell_flare_01.png: Loading 1 faces(PF_A8R8G8B8,256x256x1) with 8 generated mipmaps from Image. Internal format is PF_A8R8G8B8,256x256x1.
+2012-07-11 19:21:30: Parsing script nourish.pu
+2012-07-11 19:21:30: Compiler error: unknown error in nourish.pu(9): token class, system, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in nourish.pu(18): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in nourish.pu(26): token class, time_to_live, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in nourish.pu(31): token class, velocity, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in nourish.pu(51): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in nourish.pu(54): token class, handler, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in nourish.pu(67): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in nourish.pu(78): token class, time_to_live, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in nourish.pu(83): token class, velocity, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in nourish.pu(89): token class, particle_width, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in nourish.pu(94): token class, particle_height, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in nourish.pu(110): token class, y_scale, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in nourish.pu(121): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in nourish.pu(130): token class, time_to_live, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in nourish.pu(135): token class, velocity, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in nourish.pu(141): token class, all_particle_dimensions, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Particle System Template Elementum/Fx/Nourish registered
+2012-07-11 19:21:30: Compiler error: unknown error in nourish.pu(13): PU Compiler: token velocity_scale is not recognized
+2012-07-11 19:21:30: Parsing script RagingPast.pu
+2012-07-11 19:21:30: Compiler error: unknown error in RagingPast.pu(1): token class, system, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in RagingPast.pu(7): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in RagingPast.pu(14): token class, time_to_live, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Particle System Template RagingPast registered
+2012-07-11 19:21:30: Parsing script Anger.pu
+2012-07-11 19:21:30: Compiler error: unknown error in Anger.pu(1): token class, system, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Anger.pu(7): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Anger.pu(15): token class, time_to_live, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Anger.pu(37): token class, rotation, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Anger.pu(42): token class, rotation_speed, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Anger.pu(59): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Anger.pu(62): token class, handler, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Particle System Template Anger registered
+2012-07-11 19:21:30: Texture: pump_snow_01.png: Loading 1 faces(PF_A8R8G8B8,512x512x1) with 9 generated mipmaps from Image. Internal format is PF_A8R8G8B8,512x512x1.
+2012-07-11 19:21:30: Parsing script BloodForBlood.pu
+2012-07-11 19:21:30: Compiler error: unknown error in BloodForBlood.pu(1): token class, system, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in BloodForBlood.pu(7): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in BloodForBlood.pu(37): token class, rotation, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in BloodForBlood.pu(46): token class, xyz_scale, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in BloodForBlood.pu(52): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in BloodForBlood.pu(55): token class, handler, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in BloodForBlood.pu(62): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in BloodForBlood.pu(65): token class, handler, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Particle System Template BloodForBlood registered
+2012-07-11 19:21:30: Texture: mp_bloodsplat_05.dds: Loading 1 faces(PF_DXT3,64x64x1) with 6 hardware generated mipmaps from Image. Internal format is PF_DXT3,64x64x1.
+2012-07-11 19:21:30: Compiler error: unknown error in BloodForBlood.pu(31): PU Compiler: token normal is not recognized
+2012-07-11 19:21:30: Parsing script FuriousSacrifice.pu
+2012-07-11 19:21:30: Compiler error: unknown error in FuriousSacrifice.pu(1): token class, system, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in FuriousSacrifice.pu(7): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in FuriousSacrifice.pu(26): token class, rotation, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in FuriousSacrifice.pu(31): token class, rotation_speed, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in FuriousSacrifice.pu(42): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in FuriousSacrifice.pu(45): token class, handler, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in FuriousSacrifice.pu(56): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in FuriousSacrifice.pu(67): token class, time_to_live, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in FuriousSacrifice.pu(84): token class, rotation, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in FuriousSacrifice.pu(89): token class, rotation_speed, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in FuriousSacrifice.pu(104): token class, rotation_speed, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in FuriousSacrifice.pu(115): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in FuriousSacrifice.pu(118): token class, handler, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Particle System Template FuriousSacrifice registered
+2012-07-11 19:21:30: Texture: mp_flare_elipse_02.dds: Loading 1 faces(PF_DXT3,512x512x1) with 9 hardware generated mipmaps from Image. Internal format is PF_DXT3,512x512x1.
+2012-07-11 19:21:30: Texture: mp_fire_04_2x2.dds: Loading 1 faces(PF_DXT3,1024x1024x1) with 10 hardware generated mipmaps from Image. Internal format is PF_DXT3,1024x1024x1.
+2012-07-11 19:21:30: Parsing script Aftermath.pu
+2012-07-11 19:21:30: Compiler error: unknown error in Aftermath.pu(1): token class, system, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Aftermath.pu(7): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Aftermath.pu(16): token class, time_to_live, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Aftermath.pu(28): token class, rotation, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Aftermath.pu(33): token class, rotation_speed, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Aftermath.pu(53): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Aftermath.pu(56): token class, handler, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Particle System Template Aftermath registered
+2012-07-11 19:21:30: Texture: mp_fire_03_2x2.dds: Loading 1 faces(PF_DXT3,1024x1024x1) with 10 hardware generated mipmaps from Image. Internal format is PF_DXT3,1024x1024x1.
+2012-07-11 19:21:30: Parsing script FlameShield.pu
+2012-07-11 19:21:30: Compiler error: unknown error in FlameShield.pu(1): token class, system, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in FlameShield.pu(11): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in FlameShield.pu(19): token class, time_to_live, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in FlameShield.pu(24): token class, velocity, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in FlameShield.pu(30): token class, all_particle_dimensions, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Particle System Template FlameShield registered
+2012-07-11 19:21:30: Texture: mp_fire_02_2x2.dds: Loading 1 faces(PF_DXT3,1024x1024x1) with 10 hardware generated mipmaps from Image. Internal format is PF_DXT3,1024x1024x1.
+2012-07-11 19:21:30: Parsing script CrownOfDistruction.pu
+2012-07-11 19:21:30: Compiler error: unknown error in CrownOfDistruction.pu(1): token class, system, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in CrownOfDistruction.pu(7): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in CrownOfDistruction.pu(16): token class, time_to_live, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in CrownOfDistruction.pu(38): token class, rotation, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in CrownOfDistruction.pu(43): token class, rotation_speed, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Particle System Template CrownOfDestruction registered
+2012-07-11 19:21:30: Parsing script BurnOut.pu
+2012-07-11 19:21:30: Compiler error: unknown error in BurnOut.pu(1): token class, system, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in BurnOut.pu(7): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in BurnOut.pu(16): token class, time_to_live, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in BurnOut.pu(28): token class, xyz_scale, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in BurnOut.pu(41): token class, rotation, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in BurnOut.pu(47): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in BurnOut.pu(50): token class, handler, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Particle System Template BurnOut registered
+2012-07-11 19:21:30: Parsing script Immolation.pu
+2012-07-11 19:21:30: Compiler error: unknown error in Immolation.pu(1): token class, system, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Immolation.pu(7): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Immolation.pu(15): token class, time_to_live, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Immolation.pu(20): token class, velocity, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Immolation.pu(32): token class, rotation_speed, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Immolation.pu(43): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Immolation.pu(46): token class, handler, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Particle System Template Immolation registered
+2012-07-11 19:21:30: Texture: pump_flame_02.png: Loading 1 faces(PF_A8R8G8B8,128x128x1) with 7 generated mipmaps from Image. Internal format is PF_A8R8G8B8,128x128x1.
+2012-07-11 19:21:30: Parsing script DistructivePassion.pu
+2012-07-11 19:21:30: Compiler error: unknown error in DistructivePassion.pu(1): token class, system, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in DistructivePassion.pu(8): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in DistructivePassion.pu(20): token class, time_to_live, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in DistructivePassion.pu(33): token class, time_to_live, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in DistructivePassion.pu(56): token class, rotation, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in DistructivePassion.pu(63): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in DistructivePassion.pu(67): token class, handler, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in DistructivePassion.pu(78): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in DistructivePassion.pu(84): token class, emission_rate, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in DistructivePassion.pu(91): token class, velocity, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in DistructivePassion.pu(97): token class, all_particle_dimensions, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Particle System Template DestructivePassion registered
+2012-07-11 19:21:30: Texture: mp_woosh_circle_07.dds: Loading 1 faces(PF_DXT3,512x512x1) with 9 hardware generated mipmaps from Image. Internal format is PF_DXT3,512x512x1.
+2012-07-11 19:21:30: Texture: pu_flame.png: Loading 1 faces(PF_R8G8B8,64x64x1) with 6 generated mipmaps from Image. Internal format is PF_X8R8G8B8,64x64x1.
+2012-07-11 19:21:30: Parsing script RagingFury.pu
+2012-07-11 19:21:30: Compiler error: unknown error in RagingFury.pu(1): token class, system, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in RagingFury.pu(7): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in RagingFury.pu(15): token class, time_to_live, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in RagingFury.pu(29): token class, rotation, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in RagingFury.pu(34): token class, rotation_speed, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Particle System Template RagingFury registered
+2012-07-11 19:21:30: Parsing script FireSummoning.pu
+2012-07-11 19:21:30: Compiler error: unknown error in FireSummoning.pu(1): token class, system, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in FireSummoning.pu(12): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in FireSummoning.pu(36): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in FireSummoning.pu(39): token class, handler, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in FireSummoning.pu(52): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in FireSummoning.pu(77): token class, time_to_live, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in FireSummoning.pu(84): token class, all_particle_dimensions, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in FireSummoning.pu(108): token class, rotation, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Particle System Template FireSummoning registered
+2012-07-11 19:21:30: Texture: mp_seal_04.dds: Loading 1 faces(PF_DXT3,512x512x1) with 9 hardware generated mipmaps from Image. Internal format is PF_DXT3,512x512x1.
+2012-07-11 19:21:30: Parsing script Insanity.pu
+2012-07-11 19:21:30: Compiler error: unknown error in Insanity.pu(1): token class, system, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Insanity.pu(7): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Insanity.pu(14): token class, angle, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Insanity.pu(19): token class, time_to_live, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Insanity.pu(24): token class, velocity, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Insanity.pu(63): token class, rotation, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Insanity.pu(77): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Insanity.pu(80): token class, handler, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Particle System Template Insanity registered
+2012-07-11 19:21:30: Texture: mp_flare_sun.png: Loading 1 faces(PF_SHORT_RGB,512x512x1) with 9 generated mipmaps from Image. Internal format is PF_SHORT_RGB,512x512x1.
+2012-07-11 19:21:30: Compiler error: unknown error in Insanity.pu(71): PU Compiler: token bounciness is not recognized
+2012-07-11 19:21:30: Parsing script SmokeScreen.pu
+2012-07-11 19:21:30: Compiler error: unknown error in SmokeScreen.pu(1): token class, system, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in SmokeScreen.pu(7): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in SmokeScreen.pu(14): token class, time_to_live, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in SmokeScreen.pu(19): token class, velocity, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in SmokeScreen.pu(32): token class, rotation, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in SmokeScreen.pu(41): token class, velocity_scale, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Particle System Template SmokeScreen registered
+2012-07-11 19:21:30: Texture: pump_smoke_01.png: Loading 1 faces(PF_A8R8G8B8,512x512x1) with 9 generated mipmaps from Image. Internal format is PF_A8R8G8B8,512x512x1.
+2012-07-11 19:21:30: Parsing script GladeBlessing.pu
+2012-07-11 19:21:30: Compiler error: unknown error in GladeBlessing.pu(1): token class, system, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in GladeBlessing.pu(7): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in GladeBlessing.pu(16): token class, time_to_live, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in GladeBlessing.pu(21): token class, velocity, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in GladeBlessing.pu(43): token class, rotation, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in GladeBlessing.pu(49): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in GladeBlessing.pu(52): token class, handler, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Particle System Template GladeBlessing registered
+2012-07-11 19:21:30: Texture: mp_nature_sakura_02.dds: Loading 1 faces(PF_DXT5,512x512x1) with 9 hardware generated mipmaps from Image. Internal format is PF_DXT5,512x512x1.
+2012-07-11 19:21:30: Parsing script BoneHarvest.pu
+2012-07-11 19:21:30: Compiler error: unknown error in BoneHarvest.pu(1): token class, system, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in BoneHarvest.pu(7): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in BoneHarvest.pu(36): token class, rotation, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in BoneHarvest.pu(41): token class, rotation_speed, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in BoneHarvest.pu(47): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in BoneHarvest.pu(50): token class, handler, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Particle System Template BoneHarvest registered
+2012-07-11 19:21:30: Texture: bone.png: Loading 1 faces(PF_L8,319x300x1) with 8 generated mipmaps from Image. Internal format is PF_L8,319x300x1.
+2012-07-11 19:21:30: Parsing script EarthSummoning.pu
+2012-07-11 19:21:30: Compiler error: unknown error in EarthSummoning.pu(1): token class, system, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in EarthSummoning.pu(12): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in EarthSummoning.pu(36): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in EarthSummoning.pu(39): token class, handler, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in EarthSummoning.pu(52): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in EarthSummoning.pu(60): token class, time_to_live, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in EarthSummoning.pu(65): token class, velocity, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in EarthSummoning.pu(71): token class, all_particle_dimensions, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Particle System Template EarthSummoning registered
+2012-07-11 19:21:30: Parsing script KissOfDeath.pu
+2012-07-11 19:21:30: Compiler error: unknown error in KissOfDeath.pu(1): token class, system, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in KissOfDeath.pu(7): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in KissOfDeath.pu(16): token class, time_to_live, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in KissOfDeath.pu(28): token class, xyz_scale, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in KissOfDeath.pu(42): token class, rotation, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in KissOfDeath.pu(48): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in KissOfDeath.pu(51): token class, handler, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Particle System Template KissOfDeath registered
+2012-07-11 19:21:30: Parsing script SuddenCraven.pu
+2012-07-11 19:21:30: Compiler error: unknown error in SuddenCraven.pu(1): token class, system, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in SuddenCraven.pu(7): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in SuddenCraven.pu(25): token class, time_to_live, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in SuddenCraven.pu(42): token class, rotation, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in SuddenCraven.pu(47): token class, rotation_speed, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in SuddenCraven.pu(53): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in SuddenCraven.pu(56): token class, handler, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Particle System Template SuddenCraven registered
+2012-07-11 19:21:30: Parsing script Redirect.pu
+2012-07-11 19:21:30: Compiler error: unknown error in Redirect.pu(1): token class, system, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Redirect.pu(12): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Redirect.pu(20): token class, time_to_live, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Redirect.pu(47): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Redirect.pu(50): token class, handler, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Particle System Template Redirect registered
+2012-07-11 19:21:30: Parsing script Negate.pu
+2012-07-11 19:21:30: Compiler error: unknown error in Negate.pu(1): token class, system, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Negate.pu(7): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Negate.pu(26): token class, time_to_live, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Negate.pu(47): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Negate.pu(50): token class, handler, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Particle System Template Negate registered
+2012-07-11 19:21:30: Texture: mp_explosion_flare_02.dds: Loading 1 faces(PF_DXT3,512x512x1) with 9 hardware generated mipmaps from Image. Internal format is PF_DXT3,512x512x1.
+2012-07-11 19:21:30: Parsing script LocustSwarm.pu
+2012-07-11 19:21:30: Compiler error: unknown error in LocustSwarm.pu(1): token class, system, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in LocustSwarm.pu(7): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in LocustSwarm.pu(24): token class, time_to_live, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in LocustSwarm.pu(48): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in LocustSwarm.pu(51): token class, handler, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Particle System Template LocustSwarm registered
+2012-07-11 19:21:30: Texture: pump_flare_03.png: Loading 1 faces(PF_A8R8G8B8,512x512x1) with 9 generated mipmaps from Image. Internal format is PF_A8R8G8B8,512x512x1.
+2012-07-11 19:21:30: Parsing script BoneArmor.pu
+2012-07-11 19:21:30: Compiler error: unknown error in BoneArmor.pu(1): token class, system, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in BoneArmor.pu(7): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in BoneArmor.pu(15): token class, time_to_live, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in BoneArmor.pu(42): token class, rotation, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in BoneArmor.pu(52): token class, rotation_speed, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Particle System Template BoneArmor registered
+2012-07-11 19:21:30: Parsing script Gloom.pu
+2012-07-11 19:21:30: Compiler error: unknown error in Gloom.pu(1): token class, system, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Gloom.pu(11): token class, renderer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Gloom.pu(32): token class, all_particle_dimensions, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Gloom.pu(56): token class, xyz_scale, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Gloom.pu(65): token class, observer, unrecognized.
+2012-07-11 19:21:30: Compiler error: unknown error in Gloom.pu(67): token class, handler, unrecognized.
+2012-07-11 19:21:30: ParticleUniverse: Particle System Template Gloom registered
+2012-07-11 19:21:30: Parsing script sample.fontdef
+2012-07-11 19:21:30: Finished parsing scripts for resource group General
+2012-07-11 19:21:30: Creating resources for group General
+2012-07-11 19:21:30: All done
+2012-07-11 19:21:30: Initialising resource group scripts
+2012-07-11 19:21:30: Parsing scripts for resource group scripts
+2012-07-11 19:21:30: Finished parsing scripts for resource group scripts
+2012-07-11 19:21:30: Creating resources for group scripts
+2012-07-11 19:21:30: All done
+2012-07-11 19:21:30: Initialising resource group Models
+2012-07-11 19:21:30: Parsing scripts for resource group Models
+2012-07-11 19:21:30: Parsing script SkeletonPirate.material
+2012-07-11 19:21:30: Parsing script MoltenChasm.material
+2012-07-11 19:21:31: Parsing script Skeleton.material
+2012-07-11 19:21:31: Parsing script SkeletonPeasant.material
+2012-07-11 19:21:31: Parsing script SkeletonWarriorSword.material
+2012-07-11 19:21:31: Parsing script SkeletonWarriorShield.material
+2012-07-11 19:21:31: Parsing script SkeletonWarrior.material
+2012-07-11 19:21:31: Parsing script Gremlin2.material
+2012-07-11 19:21:31: Parsing script Gremlin3.material
+2012-07-11 19:21:31: Parsing script mech1.material
+2012-07-11 19:21:31: Parsing script mech2.material
+2012-07-11 19:21:31: Parsing script mech3.material
+2012-07-11 19:21:31: Parsing script mech4.material
+2012-07-11 19:21:31: Parsing script gun1.material
+2012-07-11 19:21:31: Parsing script gun2.material
+2012-07-11 19:21:31: Finished parsing scripts for resource group Models
+2012-07-11 19:21:31: Creating resources for group Models
+2012-07-11 19:21:31: All done
+2012-07-11 19:21:31: Texture: _cegui_ogre_0: Loading 1 faces(PF_A8B8G8R8,256x256x1) with 0 generated mipmaps from Image. Internal format is PF_A8R8G8B8,256x256x1.
+2012-07-11 19:21:31: Texture: _cegui_ogre_1: Loading 1 faces(PF_A8B8G8R8,128x128x1) with 0 generated mipmaps from Image. Internal format is PF_A8R8G8B8,128x128x1.
+2012-07-11 19:21:31: Texture: _cegui_ogre_2: Loading 1 faces(PF_A8B8G8R8,128x128x1) with 0 generated mipmaps from Image. Internal format is PF_A8R8G8B8,128x128x1.
+2012-07-11 19:21:31: Texture: _cegui_ogre_3: Loading 1 faces(PF_A8B8G8R8,128x128x1) with 0 generated mipmaps from Image. Internal format is PF_A8R8G8B8,128x128x1.
+2012-07-11 19:21:31: Texture: _cegui_ogre_4: Loading 1 faces(PF_A8B8G8R8,128x128x1) with 0 generated mipmaps from Image. Internal format is PF_A8R8G8B8,128x128x1.
+2012-07-11 19:21:31: Texture: _cegui_ogre_5: Loading 1 faces(PF_A8B8G8R8,2048x1024x1) with 0 generated mipmaps from Image. Internal format is PF_A8R8G8B8,2048x1024x1.
+2012-07-11 19:21:31: Texture: _cegui_ogre_6: Loading 1 faces(PF_A8B8G8R8,2048x1024x1) with 0 generated mipmaps from Image. Internal format is PF_A8R8G8B8,2048x1024x1.
+2012-07-11 19:21:31: Texture: _cegui_ogre_7: Loading 1 faces(PF_A8B8G8R8,1024x768x1) with 0 generated mipmaps from Image. Internal format is PF_A8R8G8B8,1024x768x1.
+2012-07-11 19:21:31: Font DejaVuSansusing texture size 512x256
+2012-07-11 19:21:31: Info: Freetype returned null for character 160 in font DejaVuSans
+2012-07-11 19:21:31: Texture: DejaVuSansTexture: Loading 1 faces(PF_BYTE_LA,512x256x1) with 0 generated mipmaps from Image. Internal format is PF_BYTE_LA,512x256x1.
+2012-07-11 19:21:31: Mesh: Loading arena_02.mesh.
+2012-07-11 19:21:31: Texture: statue3.jpg: Loading 1 faces(PF_R8G8B8,1024x1024x1) with 10 generated mipmaps from Image. Internal format is PF_X8R8G8B8,1024x1024x1.
+2012-07-11 19:21:31: Mesh: Loading bridge_02.mesh.
+2012-07-11 19:21:31: Texture: arena.jpg: Loading 1 faces(PF_R8G8B8,1024x1024x1) with 10 generated mipmaps from Image. Internal format is PF_X8R8G8B8,1024x1024x1.
+2012-07-11 19:21:31: Mesh: Loading bridge_03.mesh.
+2012-07-11 19:21:31: Mesh: Loading bridge_04.mesh.
+2012-07-11 19:21:31: Mesh: Loading bridge_05.mesh.
+2012-07-11 19:21:31: Mesh: Loading Altar-gate-01.mesh.
+2012-07-11 19:21:31: Texture: ent.jpg: Loading 1 faces(PF_R8G8B8,2048x2048x1) with 11 generated mipmaps from Image. Internal format is PF_X8R8G8B8,2048x2048x1.
+2012-07-11 19:21:31: Mesh: Loading Altar-gate-02.mesh.
+2012-07-11 19:21:31: Mesh: Loading Altar-gate-03.mesh.
+2012-07-11 19:21:31: Mesh: Loading Altar-gate-04.mesh.
+2012-07-11 19:21:31: Mesh: Loading Altar-gate-06.mesh.
+2012-07-11 19:21:31: Mesh: Loading Altar-gate-08.mesh.
+2012-07-11 19:21:31: Mesh: Loading Altar-gate-09.mesh.
+2012-07-11 19:21:31: Mesh: Loading Altar-gate-10.mesh.
+2012-07-11 19:21:31: Mesh: Loading statue-Gargoyle-02.mesh.
+2012-07-11 19:21:31: Texture: statue2.jpg: Loading 1 faces(PF_R8G8B8,1024x1024x1) with 10 generated mipmaps from Image. Internal format is PF_X8R8G8B8,1024x1024x1.
+2012-07-11 19:21:31: Mesh: Loading statue-Monk-01.mesh.
+2012-07-11 19:21:31: Texture: statue1.jpg: Loading 1 faces(PF_R8G8B8,1024x1024x1) with 10 generated mipmaps from Image. Internal format is PF_X8R8G8B8,1024x1024x1.
+2012-07-11 19:21:31: Mesh: Loading statue-Orc-01.mesh.
+2012-07-11 19:21:31: Texture: statue4.jpg: Loading 1 faces(PF_R8G8B8,1024x1024x1) with 10 generated mipmaps from Image. Internal format is PF_X8R8G8B8,1024x1024x1.
+2012-07-11 19:21:31: Mesh: Loading statue-Warrior-01.mesh.
+2012-07-11 19:21:31: Mesh: Loading Sphere01.mesh.
+2012-07-11 19:21:31: Texture: Crater.jpg: Loading 1 faces(PF_R8G8B8,512x512x1) with 9 generated mipmaps from Image. Internal format is PF_X8R8G8B8,512x512x1.
+2012-07-11 19:21:31: Mesh: Loading Circle01.mesh.
+2012-07-11 19:21:31: Texture: Lava.jpg: Loading 1 faces(PF_R8G8B8,512x512x1) with 9 generated mipmaps from Image. Internal format is PF_X8R8G8B8,512x512x1.
+2012-07-11 19:21:31: Texture: green_circle2.png: Loading 1 faces(PF_A8R8G8B8,264x263x1) with 8 generated mipmaps from Image. Internal format is PF_A8R8G8B8,264x263x1.
+2012-07-11 19:21:31: Texture: _cegui_ogre_10: Loading 1 faces(PF_A8B8G8R8,256x256x1) with 0 generated mipmaps from Image. Internal format is PF_A8R8G8B8,256x256x1.
+2012-07-11 19:21:31: Texture: _cegui_ogre_15: Loading 1 faces(PF_A8B8G8R8,1024x1024x1) with 0 generated mipmaps from Image. Internal format is PF_A8R8G8B8,1024x1024x1.
+2012-07-11 19:21:31: Texture: _cegui_ogre_16: Loading 1 faces(PF_A8B8G8R8,256x256x1) with 0 generated mipmaps from Image. Internal format is PF_A8R8G8B8,256x256x1.
+2012-07-11 19:21:31: Mesh: Loading DarkKnight.mesh.
+2012-07-11 19:21:31: Skeleton: Loading DarkKnight.skeleton

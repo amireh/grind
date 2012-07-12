@@ -25,12 +25,7 @@ $anchor_fg_hover: orange;
 }
 
 body {
-  margin: 0px;
   color: $fg;
-  background: url(../images/grid-18px-masked.png) repeat-x transparent 0 40px;
-  font-family: "UbuntuMonoRegular", Arial, 'Helvetica Neue', Helvetica, serif, sans-serif;
-  font-size: 14px;  
-  /*overflow-x: hidden;*/
 }
 
 * {
@@ -145,6 +140,9 @@ table {
   width: 100%;
 }
 
+tr:hover {
+  background: #eee;
+}
 th {
   background: #222;
   color: #fff;
@@ -163,6 +161,7 @@ td:not(:last-child),th:not(:last-child) {
 section#content {
   margin-bottom: 80px;
   padding: 10px;
+  margin-top: 100px;
 
   table {
     margin-left: -10px;
@@ -172,6 +171,10 @@ section#content {
 aside {
   padding: 10px;
   padding-left: 20px;
+  position: fixed;
+  top: 65px;
+  width: 100%;
+  z-index: 80;
   /*position: absolute;*/
   /*top: 26px;*/
   /*left: 185px;*/
@@ -208,7 +211,12 @@ a:hover:not(.button),a:focus:not(.button) {
 header {
   width: 100%;
   background: #111;
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-height: 65px;
+  max-height: 65px;
+  z-index: 100;
   nav {
     border-left: 1px solid #333;
     padding-left: 20px;
@@ -219,8 +227,8 @@ header {
     }
     #grind_controls {
       position: absolute;
-      right: 10px;
-      top: 20px;
+      right: 15px;
+      top: 25px;
     }
   }
   hgroup {
@@ -367,65 +375,6 @@ tr:nth-child(1) td {
   }
 
 
-
-ul {
-  font-size: 1.5em;
-  list-style-type: none;
-}
-ul > li > ol > li {
-  padding-top: 30px;
-}
-ul > li {
-  padding-bottom: 30px;
-}
-
-ul > li > ol > li,
-ul > li > ol > li * {
-  vertical-align: top;
-  position: relative;
-}
-ul span {
-  border: 1px solid #222;
-  background: white;
-  border-radius: 4px;
-  padding: 0.5em 1em;
-  margin: 0 10px 0 0;
-  -webkit-transform: rotate(0.5deg);
-  display: inline-block;
-  position: relative;
-  top: -10px;
-  vertical-align: top;
-}
-ul > li > ol > li > a {
-  /*background: #222;*/
-  position: relative;
-  /*left: -20px;*/
-  /*z-index: -10;*/
-  /*padding: 5px 10px;*/
-}
-
-ul > li > ol,
-ul > li > ol li > ol {
-  font-size: 0.9em;
-  list-style-type: none;
-  /*padding-left: 30px;*/
-}
-ul > li > ol > li > ol {
-  display: inline-block;
-  padding-left: 10px;
-  position: relative;
-  /*top: -20px;*/
-}
-ul > li > ol > li > ol span {
-  padding: 7px 10px;
-  margin-bottom: 10px;
-  /*font-size: 0.5em;*/
-  /*background: #222;*/
-  border: none;
-  /*color: white;*/
-  position: relative;
-  /*top: -5px;*/
-}
 
 #feed_options {
   padding-left: 20px;

@@ -71,7 +71,7 @@ function grind.stop()
 end
 
 function grind.handle(text)
-  log("Handling '" .. text .. "'")
+  -- log("Handling '" .. text .. "'")
 
   text = leftovers .. text
   local entries = {}
@@ -89,11 +89,11 @@ function grind.handle(text)
     local entry = entry_t:new(c, text:sub(e + 1, b2 - 1))
 
     for _,group in pairs(grind.groups) do
-      log("Checking if group " .. group.label .. " is applicable...")
+      -- log("Checking if group " .. group.label .. " is applicable for '" .. entry.meta.raw .. "'...")
 
       local captures = group.formatter(entry.meta.raw)
       if #captures > 0 then
-        log("Found an applicable group: " .. group.label)
+        log("Found an applicable group: " .. group.label .. " for '" .. entry.meta.raw .. "'")
         local meta, body = group.extractor(entry.meta.timestamp, unpack(captures))
 
         assert(type(meta) == "table", "Group " .. group.label .. "'s extractor returned no message.meta table!")
@@ -105,9 +105,10 @@ function grind.handle(text)
 
         -- any klasses defined?
         for __,klass in pairs(group.klasses) do
-          if klass.matcher(entry) then
+          if klass.matcher(entry, klass.context) then
+            log("  Found an applicable klass: " .. klass.label)
             for ___,view in pairs(klass.views) do
-              local res, formatted_entry, order_sensitive = view.formatter(view.context, entry)
+              local res, formatted_entry, order_sensitive = view.formatter(view.context, entry, klass.context)
               if res and formatted_entry then
                 -- table.insert(entries, { 
                 --   group = group.label, 
@@ -172,13 +173,18 @@ function grind.handle(text)
         end
 
         if group.exclusive then
-          log("Group is exclusive, will discard entry now.")
+          -- log("Group is exclusive, will discard entry now.")
           break
         end
       end -- #captures > 0
 
     end
   end
+  -- for _,group in pairs(grind.groups) do
+  --   for __,klass in pairs(group.klasses) do  
+  --     klass.context = {}
+  --   end
+  -- end
 
   leftovers = text:sub(consumed)
   print(consumed .. " bytes were consumed, and " .. #leftovers .. " bytes were left over.")
@@ -274,7 +280,7 @@ function grind.define_klass(glabel, clabel, matcher)
   local group = grind.groups[glabel]
   assert(group, "No application group called '" .. glabel .. "' is defined, can not define extractor!")
 
-  grind.groups[glabel].klasses[clabel] = { label = clabel, matcher = matcher, views = {} }
+  grind.groups[glabel].klasses[clabel] = { label = clabel, matcher = matcher, views = {}, context = {} }
   log("  Class defined: " .. glabel .. "[" .. clabel .. "]")
 end
 

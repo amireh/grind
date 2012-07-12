@@ -1,0 +1,217 @@
+
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
++                        Elementum v0.1 - Client Log                          +
++                      (http://www.elementum-game.com)                        +
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+19:21:31 [I] GameManager: loading Vertigo config
+19:21:31 [I] GameManager: found existing configuration, parsing...
+19:21:31 [I] GameManager: saving Vertigo config
+19:21:31 [I] NetMgr: up and running
+19:21:31 [N] EvtMgr: up and running
+19:21:31 [I] GfxEngine: firing up
+19:21:31 [I] GfxEngine: My Listener UID: 1
+19:21:31 [I] GfxEngine: Setting up
+19:21:31 [I] UIEngine: firing up
+19:21:31 [I] UIEngine: Setting up
+19:21:31 [I] UIEngine: initting CEGUI system & CEGUIOgreRenderer.
+19:21:31 [I] UIEngine: Loading resources...
+19:21:31 [I] UIEngine: Set up!
+19:21:31 [I] FxEngine: firing up
+19:21:31 [I] FxEngine: My Listener UID: 3
+19:21:31 [I] FxEngine: Setting up
+19:21:31 [I] ScriptEngine: Setting up
+19:21:31 [I] Lua: *************************************************
+19:21:31 [I] Lua: * Launching Pixy.Lua module!                    *
+19:21:31 [I] Lua: * Launched successfully!                        *
+19:21:31 [I] Lua: *************************************************
+19:21:31 [I] Lua: Registering spell effects
+19:21:31 [I] Combat: ---- Entering ----
+19:21:31 [I] Combat: My Listener UID: 5
+19:21:31 [I] NetMgr: Connecting to server
+19:21:31 [I] NetMgr: registered 3 patch mirrors
+19:21:31 [I] NetMgr: attempting to connect to host phantom.shroom-studios.com:60100
+19:21:31 [I] Lua: UISheet: 'combat/ui.layout' created
+19:21:31 [I] Lua: subscribing to 0 puppets
+19:21:31 [I] Lua: subscribing to 3 puppets
+19:21:31 [I] Lua: subscribing to Bargor Stomper
+19:21:31 [I] Lua: subscribing to Bargor Pulverizer
+19:21:31 [I] Lua: subscribing to Bargor Chieftain
+19:21:31 [I] Lua: subscribing to Bargor Maimer
+19:21:31 [I] Lua: subscribing to Skeleton Soldier
+19:21:31 [I] Lua: subscribing to Skeleton Ravager
+19:21:31 [I] Lua: subscribing to Skeleton Acolyte
+19:21:31 [I] Lua: subscribing to Skeleton Warlord
+19:21:31 [I] Lua: subscribing to Scorchpid Drone
+19:21:31 [I] Lua: subscribing to Scorchpid Ashcrawler
+19:21:31 [I] Lua: subscribing to Scorchpid Lavawalker
+19:21:31 [I] Lua: subscribing to Scorchpid Magmaburster
+19:21:31 [I] Lua: subscribing to Mechanical Gremlin
+19:21:31 [I] Lua: subscribing to Gremlin Brawler
+19:21:31 [I] Lua: subscribing to Gremlin Engineer
+19:21:31 [I] Lua: subscribing to Master Gremlin
+19:21:31 [I] Lua: 	 subscribing a Spell handler for Shadow Dance
+19:21:31 [I] Lua: 	 subscribing a Spell handler for Chains of Command
+19:21:31 [I] Lua: 	 subscribing a Spell handler for Nourish
+19:21:31 [I] Lua: 	 subscribing a Spell handler for Death Exchange
+19:21:31 [I] Lua: 	 subscribing a Spell handler for Sudden Craven
+19:21:31 [I] Lua: 	 subscribing a Spell handler for Harlequin Curse
+19:21:31 [I] Lua: 	 subscribing a Spell handler for Locust Swarm
+19:21:31 [I] Lua: 	 subscribing a Spell handler for Kiss of Death
+19:21:31 [I] Lua: 	 subscribing a Spell handler for Gloom
+19:21:31 [I] Lua: 	 subscribing a Spell handler for Fartigue
+19:21:31 [I] Lua: 	 subscribing a Spell handler for Bone Armor
+19:21:31 [I] Lua: 	 subscribing a Spell handler for Stygian Disease
+19:21:31 [I] Lua: 	 subscribing a Spell handler for Bone Harvest
+19:21:31 [I] Lua: 	 subscribing a Spell handler for Summon: Fetish Zij
+19:21:31 [I] Lua: 	 subscribing a Spell handler for Comet
+19:21:31 [I] Lua: 	 subscribing a Spell handler for Summon: Fetish Hurler
+19:21:31 [I] Lua: 	 subscribing a Spell handler for Summon: Fetish Playmaker
+19:21:31 [I] Lua: 	 subscribing a Spell handler for Summon: Fetish Herdkeeper
+19:21:31 [I] Lua: Entering Combat state
+19:21:31 [I] Lua: Preparing the Combat scene
+19:21:31 [I] NetMgr: attempting to connect to host cornholio:60100
+19:21:31 [I] NetMgr: connected to: cornholio
+19:21:31 [D] NetMgr: sending an event SyncGameData#8
+19:21:31 [I] NetMgr: received game data, populating Resource Manager...
+19:21:31 [D] NetMgr: received an event SyncGameData#8
+19:21:31 [I] Lua: UISheet: 'combat/ui.layout' attached
+19:21:31 [I] Lua: Subscribed handler to 2 => Disconnected
+19:21:31 [I] Lua: Subscribed handler to 67 => PlayerDroppedOut
+19:21:31 [I] Lua: Subscribed handler to 76 => EntitySelected
+19:21:31 [I] Lua: Subscribed handler to 77 => EntityDeselected
+19:21:31 [I] Lua: Subscribed handler to 53 => UnitAttacked
+19:21:31 [I] Lua: Subscribed handler to 78 => EntityDying
+19:21:31 [I] Lua: Subscribed handler to 44 => StartTurn
+19:21:31 [I] Lua: Subscribed handler to 46 => TurnStarted
+19:21:31 [I] Lua: Subscribed handler to 60 => StartBlockPhase
+19:21:31 [I] Lua: Subscribed handler to 62 => Block
+19:21:31 [I] Lua: Subscribed handler to 63 => CancelBlock
+19:21:31 [I] Lua: Subscribed handler to 68 => MatchFinished
+19:21:31 [I] Lua: Subscribed handler to 79 => InvalidAction
+19:21:31 [I] Lua: Subscribed handler to 81 => Lifetap
+19:21:31 [I] Lua: Subscribed handler to 80 => Trample
+19:21:31 [I] Lua: Subscribed handler to 82 => FirstStrike
+19:21:31 [I] Lua: Subscribed handler to 83 => EntityStatChanged
+19:21:31 [I] Lua: Subscribed handler to 84 => UnitMechanicChanged
+19:21:31 [I] Lua: Subscribed handler to 44 => StartTurn
+19:21:31 [I] Lua: Subscribed handler to 46 => TurnStarted
+19:21:31 [I] Lua: Subscribed handler to 12 => UpdatePuppet
+19:21:31 [I] Lua: Subscribed handler to 76 => EntitySelected
+19:21:31 [I] Lua: Subscribed handler to 77 => EntityDeselected
+19:21:31 [I] Lua: Subscribed handler to 60 => StartBlockPhase
+19:21:31 [I] Lua: Subscribed handler to 26 => IncomingMessage
+19:21:31 [I] Combat: i'm up!
+19:21:31 [I] Combat: running in debug mode
+19:21:31 [D] NetMgr: sending an event Login#5
+19:21:31 [D] NetMgr: received an event Login#5
+19:21:31 [D] NetMgr: sending an event SyncPuppets#10
+19:21:31 [D] NetMgr: received an event SyncPuppets#10
+19:21:31 [D] NetMgr: sending an event JoinLobby#18
+19:21:31 [D] NetMgr: received an event SyncPuppetData#9
+19:21:31 [D] NetMgr: received an event JoinLobby#18
+19:21:31 [D] NetMgr: received an event JoinRoom#21
+19:21:31 [D] NetMgr: received an event JoinedRoom#23
+19:21:31 [D] NetMgr: sending an event JoinQueue#36
+19:21:31 [D] NetMgr: received an event JoinQueue#36
+19:21:31 [D] NetMgr: received an event MatchFound#38
+19:21:31 [D] NetMgr: received an event JoinRoom#21
+19:21:31 [D] NetMgr: received an event JoinedRoom#23
+19:21:31 [D] NetMgr: received an event JoinedRoom#23
+19:21:31 [D] NetMgr: sending an event SyncMatchPuppets#41
+19:21:31 [D] NetMgr: received an event SyncMatchPuppets#41
+19:21:31 [I] Combat: match puppet data received:
+19:21:31 [I] Combat: 	parsing puppet data
+19:21:31 [I] Combat: 	puppets parsed, registering them
+19:21:31 [I] Combat: a new Puppet has joined the battle: "Batata[1,1]"
+19:21:31 [I] Lua: Registering a new Puppet to the instance, named: Batata
+19:21:31 [I] Combat: a new Puppet has joined the battle: "Cranberry[2,2]"
+19:21:31 [I] Lua: Registering a new Puppet to the instance, named: Cranberry
+19:21:31 [I] Combat: I'm playing with the puppet: "Cranberry[2,2]"
+19:21:31 [I] Lua: I'm playing with a puppet named Cranberry
+19:21:31 [I] GfxEngine: preparing combat scene
+19:21:31 [D] GfxEngine: setting up nodes
+19:21:31 [D] GfxEngine: Node: Cranberry_2_node_puppet at: (0, 0, 0)
+19:21:31 [D] GfxEngine: Node: Batata_1_node_puppet at: (0, 0, 0)
+19:21:31 [D] GfxEngine: Node: Cranberry_2_node_0 at: (25, 0, -25)
+19:21:31 [D] GfxEngine: Node: Cranberry_2_node_1 at: (40, 0, -35)
+19:21:31 [D] GfxEngine: Node: Cranberry_2_node_2 at: (55, 0, -25)
+19:21:31 [D] GfxEngine: Node: Cranberry_2_node_3 at: (70, 0, -35)
+19:21:31 [D] GfxEngine: Node: Cranberry_2_node_4 at: (85, 0, -25)
+19:21:31 [D] GfxEngine: Node: Cranberry_2_node_5 at: (-25, 0, -25)
+19:21:31 [D] GfxEngine: Node: Cranberry_2_node_6 at: (-40, 0, -35)
+19:21:31 [D] GfxEngine: Node: Cranberry_2_node_7 at: (-55, 0, -25)
+19:21:31 [D] GfxEngine: Node: Cranberry_2_node_8 at: (-70, 0, -35)
+19:21:31 [D] GfxEngine: Node: Cranberry_2_node_9 at: (-85, 0, -25)
+19:21:31 [D] GfxEngine: Node: Batata_1_node_0 at: (25, 0, 45)
+19:21:31 [D] GfxEngine: Node: Batata_1_node_1 at: (40, 0, 35)
+19:21:31 [D] GfxEngine: Node: Batata_1_node_2 at: (55, 0, 45)
+19:21:31 [D] GfxEngine: Node: Batata_1_node_3 at: (70, 0, 35)
+19:21:31 [D] GfxEngine: Node: Batata_1_node_4 at: (85, 0, 45)
+19:21:31 [D] GfxEngine: Node: Batata_1_node_5 at: (-25, 0, 45)
+19:21:31 [D] GfxEngine: Node: Batata_1_node_6 at: (-40, 0, 35)
+19:21:31 [D] GfxEngine: Node: Batata_1_node_7 at: (-55, 0, 45)
+19:21:31 [D] GfxEngine: Node: Batata_1_node_8 at: (-70, 0, 35)
+19:21:31 [D] GfxEngine: Node: Batata_1_node_9 at: (-85, 0, 45)
+19:21:31 [I] GfxEngine: combat scene is prepared
+19:21:31 [I] Lua: Creating puppet
+19:21:31 [I] Lua: Assigned puppet mesh: DarkKnight.mesh
+19:21:31 [D] GfxEngine: rendering entity Batata
+19:21:32 [I] Lua: Created!
+19:21:32 [I] Lua: Creating puppet
+19:21:32 [I] Lua: Assigned puppet mesh: DarkKnight.mesh
+19:21:32 [D] GfxEngine: rendering entity Cranberry
+19:21:32 [I] Lua: Created!
+19:21:32 [I] Combat: 	puppet parsing was successful
+19:21:32 [I] Combat: battle has begun, informing server we are ready
+19:21:32 [I] Lua: Game has started! Pwning time
+19:21:32 [D] NetMgr: sending an event Ready#42
+19:21:32 [D] NetMgr: received an event TurnStarted#46
+19:21:32 [D] NetMgr: received an event DrawSpells#45
+19:21:32 [D] NetMgr: received an event DrawSpells#45
+19:21:32 [D] NetMgr: received an event UpdatePuppet#12
+19:21:32 [I] Combat: opponent's turn has started
+19:21:32 [I] Combat: handling a new turn:
+19:21:32 [D] Combat: 	active puppet is: "Batata[1,1]", inactive puppet is: "Batata[1,1]"
+19:21:32 [I] Lua: Current turn is for puppet: Batata
+19:21:32 [I] Lua: Clearing spell log
+19:21:32 [D] Combat: 	applying buffs on puppet
+19:21:32 [D] Combat: 	determining expired buffs on puppet for removal
+19:21:32 [D] Combat: 	removing 0 expired buffs on puppet
+19:21:32 [D] Combat: 	processing buffs on puppet units
+19:21:32 [I] Lua: -- updating hand --
+19:21:32 [I] Lua: -- hand updated --
+19:21:32 [I] Combat: parsing drawn spells
+19:21:32 [D] Combat: 	puppet "Batata[1,1]" has received 4 spells
+19:21:32 [D] Combat: attaching spell: {Summon: Gremlin Brawler[3] - C: "Batata[1,1]", D=0} to puppet "Batata[1,1]"
+19:21:32 [D] Combat: attaching spell: {Summon: Gremlin Brawler[4] - C: "Batata[1,1]", D=0} to puppet "Batata[1,1]"
+19:21:32 [D] Combat: attaching spell: {Summon: Mechanical Gremlin[5] - C: "Batata[1,1]", D=0} to puppet "Batata[1,1]"
+19:21:32 [D] Combat: attaching spell: {Summon: Mechanical Gremlin[6] - C: "Batata[1,1]", D=0} to puppet "Batata[1,1]"
+19:21:32 [I] Combat: parsing drawn spells
+19:21:32 [D] Combat: 	puppet "Cranberry[2,2]" has received 4 spells
+19:21:32 [D] Combat: attaching spell: {Gloom[7] - C: "Cranberry[2,2]", D=3} to puppet "Cranberry[2,2]"
+19:21:32 [I] Lua: Drawing spell button: Gloom
+19:21:32 [I] Lua: creating a window named SpellButton_7_Hand
+19:21:32 [I] Lua: Button drawn successfully: SpellButton_7_Hand
+19:21:32 [D] Combat: attaching spell: {Bone Harvest[8] - C: "Cranberry[2,2]", D=0} to puppet "Cranberry[2,2]"
+19:21:32 [I] Lua: Drawing spell button: Bone Harvest
+19:21:32 [I] Lua: creating a window named SpellButton_8_Hand
+19:21:32 [I] Lua: Button drawn successfully: SpellButton_8_Hand
+19:21:32 [D] Combat: attaching spell: {Summon: Skeleton Soldier[9] - C: "Cranberry[2,2]", D=0} to puppet "Cranberry[2,2]"
+19:21:32 [I] Lua: Drawing spell button: Summon: Skeleton Soldier
+19:21:32 [I] Lua: creating a window named SpellButton_9_Hand
+19:21:32 [I] Lua: Button drawn successfully: SpellButton_9_Hand
+19:21:32 [D] Combat: attaching spell: {Death Exchange[10] - C: "Cranberry[2,2]", D=0} to puppet "Cranberry[2,2]"
+19:21:32 [I] Lua: Drawing spell button: Death Exchange
+19:21:32 [I] Lua: creating a window named SpellButton_10_Hand
+19:21:32 [I] Lua: Button drawn successfully: SpellButton_10_Hand
+19:21:32 [I] Lua: -- updating hand --
+19:21:32 [I] Lua: Validating HandItem for spell {Gloom[7] - C: "Cranberry[2,2]", D=3}
+19:21:32 [I] Lua: -=-=-= disabling spell due to not meeting requirements
+19:21:32 [I] Lua: Validating HandItem for spell {Bone Harvest[8] - C: "Cranberry[2,2]", D=0}
+19:21:32 [I] Lua: -=-=-= disabling spell due to not meeting requirements
+19:21:32 [I] Lua: Validating HandItem for spell {Summon: Skeleton Soldier[9] - C: "Cranberry[2,2]", D=0}
+19:21:32 [I] Lua: -=-=-= disabling spell due to not meeting requirements
+19:21:32 [I] Lua: Validating HandItem for spell {Death Exchange[10] - C: "Cranberry[2,2]", D=0}
+19:21:32 [I] Lua: -=-=-= disabling spell due to not meeting requirements
+19:21:32 [I] Lua: -- hand updated --
+19:21:33 [E] UIEngine: Could not find LuaErrorBox window, unable to report message: ../resources/scripts/combat/gfx.lua:385: attempt to call method 'getOwner' (a nil value)

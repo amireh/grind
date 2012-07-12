@@ -1,0 +1,9 @@
+19:21:30: Compiler error: invalid parameters in Examples-Advanced.material(15): setting of constant failed
+19:21:30: OGRE EXCEPTION(6:FileNotFoundException): Cannot locate resource Example_CelShading.cg in resource group General or any other group. in ResourceGroupManager::openResource at /home/kandie/Workspace/Repos/ogre/OgreMain/src/OgreResourceGroupManager.cpp (line 756)
+19:21:30: High-level program Ogre/CelShadingFPCg encountered an error during loading and is thus not supported.
+OGRE EXCEPTION(6:FileNotFoundException): Cannot locate resource Example_CelShading.cg in resource group General or any other group. in ResourceGroupManager::openResource at /home/kandie/Workspace/Repos/ogre/OgreMain/src/OgreResourceGroupManager.cpp (line 756)
+19:21:30: OGRE EXCEPTION(2:InvalidParametersException): Named constants have not been initialised, perhaps a compile error. in GpuProgramParameters::_findNamedConstantDefinition at /home/kandie/Workspace/Repos/ogre/OgreMain/src/OgreGpuProgramParams.cpp (line 1435)
+19:21:30: Compiler error: invalid parameters in Examples-Advanced.material(74): setting of constant failed
+19:21:30: OGRE EXCEPTION(2:InvalidParametersException): Named constants have not been initialised, perhaps a compile error. in GpuProgramParameters::_findNamedConstantDefinition at /home/kandie/Workspace/Repos/ogre/OgreMain/src/OgreGpuProgramParams.cpp (line 1435)
+19:21:30: Compiler error: invalid parameters in Examples-Advanced.material(76): setting of constant failed
+19:21:30: Compiler error: object unsupported by render system in Examples-Advanced.material(533)

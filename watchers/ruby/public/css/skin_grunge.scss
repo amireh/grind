@@ -1,9 +1,4 @@
 body {
-  margin: 0px;
-  background: url(../images/grid-18px-masked.png) repeat-x transparent 0 40px;
-  font-family: "UbuntuMonoRegular", Arial, 'Helvetica Neue', Helvetica, serif, sans-serif;
-  font-size: 14px;  
-
 }
 
 * {
@@ -123,13 +118,25 @@ hgroup {
 }
 
 section#content {
+  margin-top: 140px;
   margin-bottom: 80px;
 }
 section#content,
 nav {
   padding: 0 10px;
 }
+nav {
+  min-height: 50px;
+}
 header {
+  position: fixed;
+  background: white;
+  top: 0;
+  left: 0;
+  min-height: 130px;
+  max-height: 130px;
+  width: 100%;
+  z-index: 100;
   nav {
     padding: 17px;
     padding-left: 20px;
@@ -153,9 +160,11 @@ header {
 }
 
 aside {
-  position: absolute;
+  position: fixed;
   top: 110px;
   left: 210px;
+  background: white;
+  z-index: 101;
 }
 section#content table {
   margin-left: -10px;
@@ -323,78 +332,3 @@ tr:nth-child(1) td {
     background: white;
     color: black;
   }
-
-  /* Sortable tables */
-/*table.sortable thead {
-    background-color:#eee;
-    color:#666666;
-    font-weight: bold;
-    cursor: default;
-}
-*/
-
-ul {
-  font-size: 1.5em;
-  list-style-type: none;
-}
-ul > li > ol > li {
-  padding-top: 30px;
-}
-ul > li {
-  padding-bottom: 30px;
-}
-
-ul > li > ol > li,
-ul > li > ol > li * {
-  vertical-align: top;
-  position: relative;
-}
-ul span {
-  border: 1px solid #222;
-  background: white;
-  border-radius: 4px;
-  padding: 0.5em 1em;
-  margin: 0 10px 0 0;
-  -webkit-transform: rotate(0.5deg);
-  display: inline-block;
-  position: relative;
-  top: -10px;
-  /*width: 40px;*/
-}
-ul > li > ol > li > a {
-  /*background: #222;*/
-  position: relative;
-  /*left: -20px;*/
-  /*z-index: -10;*/
-  /*padding: 5px 10px;*/
-}
-
-ul > li > ol,
-ul > li > ol li > ol {
-  font-size: 0.9em;
-  list-style-type: none;
-  /*padding-left: 30px;*/
-}
-ul > li > ol > li > ol {
-  display: inline-block;
-  padding-left: 10px;
-  position: relative;
-  /*top: -20px;*/
-}
-ul > li > ol > li > ol span {
-  padding: 7px 10px;
-  margin-bottom: 10px;
-  /*font-size: 0.5em;*/
-  /*background: #222;*/
-  border: none;
-  /*color: white;*/
-  position: relative;
-  /*top: -5px;*/
-}
-ul > li > ol li:before {
-  /*content: "\00BB \0020";*/
-}
-
-ul > li > ol li > ol li:before {
-  /*content: "o \0020";*/
-}
