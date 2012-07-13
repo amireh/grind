@@ -91,6 +91,7 @@ function grind.handle(text, glabel)
 
   -- log("Handling '" .. text .. "' for " .. glabel)
   local group = grind.groups[glabel]
+  assert(group)
   text = group.leftovers .. text
   local delimiter_rex = group.delimiter
   local entries = {}
@@ -253,6 +254,7 @@ function grind.define_group(glabel, port, options)
     label = glabel,
     port = port,
     initter = initter,
+    __delimiter_patterns = {},
     delimiter = nil,
     formatters = {},
     extractors = {},
@@ -275,13 +277,29 @@ function grind.define_delimiter(glabel, ptrn)
   local rex = create_regex(ptrn)
   assert(rex, "Invalid delimiter '" .. ptrn .. "' for group '" .. glabel .. "'")
 
-  group.delimiter = rex
-  log("Application group delimiter defined: " .. ptrn)
+  table.insert(group.__delimiter_patterns, ptrn)
+  group.delimiter = nil
+  local expression = "(?|"
+  -- local expression = "(?J)"
+  for idx, delimiter in pairs(group.__delimiter_patterns) do
+    expression = expression .. delimiter -- .. "?"
+    if idx ~= #group.__delimiter_patterns then
+      expression = expression .. "|"
+    end
+  end
+  expression = expression .. ")"
+  log("Delimiter expression: " .. expression)
+  group.delimiter = create_regex(expression)
+  assert(group.delimiter)
+
+  log("Application group delimiter defined: " .. expression)
 end
 
 function grind.define_format(glabel, gformat, ptrn)
   local group = grind.groups[glabel]
   assert(group, "No application group called '" .. glabel .. "' is defined, can not define format!")
+
+  assert(group.delimiter, "Application group " .. glabel .. " has no defined delimiter, can not continue.")
 
   -- for backwards compatibility, not assigning a gformat
   if not ptrn then ptrn, gformat = gformat, "default" end

@@ -5,6 +5,7 @@
 
 grind.define_group("dakwak", 11142)
 grind.define_delimiter("dakwak", [[(?:<\d+>)([A-Z]{1}[a-z]{2}\s+[0-9]+\s+[0-9]{2}:[0-9]{2}:[0-9]{2}\s{1})]])
+grind.define_delimiter("dakwak", [==[([\w|\.|-]+):(\d+)\s([\d|\.]+,\s[\d|\.]+)\s([A-Z]{1}-\w+)\s-\s-\s\[(\d{1,2}/\w{3}/\d{4}:\d{2}:\d{2}:\d{2}\s\+\d{4})\]]==])
 grind.define_format("dakwak", "requests", [[(\w+) (\w+): (\[\w{1}\])(?: )?\s+?(?:{([\w|-]+)}\s+)?(?|([\S]+):\s+((?sm).*)|()(.*))]])
 grind.define_extractor("dakwak", "requests",
   function(fqdn, app, context, uuid, module, content, timestamp)
