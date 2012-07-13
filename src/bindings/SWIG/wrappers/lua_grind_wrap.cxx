@@ -1662,9 +1662,10 @@ SWIG_Lua_dostring(lua_State *L, const char* str) {
 /* -------- TYPES TABLE (BEGIN) -------- */
 
 #define SWIGTYPE_p_grind__connection swig_types[0]
-#define SWIGTYPE_p_std__string swig_types[1]
-static swig_type_info *swig_types[3];
-static swig_module_info swig_module = {swig_types, 2, 0, 0, 0, 0};
+#define SWIGTYPE_p_grind__kernel swig_types[1]
+#define SWIGTYPE_p_std__string swig_types[2]
+static swig_type_info *swig_types[4];
+static swig_module_info swig_module = {swig_types, 3, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -1707,6 +1708,9 @@ SWIGINTERN int SWIG_lua_isnilstring(lua_State *L, int idx) {
 
 
 #include <stdexcept>
+
+
+  #include "kernel.hpp"
 
 
   #include "connection.hpp"
@@ -1945,6 +1949,151 @@ static swig_lua_class *swig_std_string_bases[] = {0};
 static const char *swig_std_string_base_names[] = {0};
 static swig_lua_class _wrap_class_std_string = { "string", &SWIGTYPE_p_std__string,_wrap_new_string, swig_delete_string, swig_std_string_methods, swig_std_string_attributes, swig_std_string_bases, swig_std_string_base_names };
 
+static int _wrap_kernel_is_running(lua_State* L) {
+  int SWIG_arg = 0;
+  grind::kernel *arg1 = (grind::kernel *) 0 ;
+  bool result;
+  
+  SWIG_check_num_args("grind::kernel::is_running",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("grind::kernel::is_running",1,"grind::kernel const *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_grind__kernel,0))){
+    SWIG_fail_ptr("kernel_is_running",1,SWIGTYPE_p_grind__kernel);
+  }
+  
+  result = (bool)((grind::kernel const *)arg1)->is_running();
+  lua_pushboolean(L,(int)(result!=0)); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_kernel_is_port_available(lua_State* L) {
+  int SWIG_arg = 0;
+  grind::kernel *arg1 = (grind::kernel *) 0 ;
+  int arg2 ;
+  bool result;
+  
+  SWIG_check_num_args("grind::kernel::is_port_available",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("grind::kernel::is_port_available",1,"grind::kernel const *");
+  if(!lua_isnumber(L,2)) SWIG_fail_arg("grind::kernel::is_port_available",2,"int");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_grind__kernel,0))){
+    SWIG_fail_ptr("kernel_is_port_available",1,SWIGTYPE_p_grind__kernel);
+  }
+  
+  arg2 = (int)lua_tonumber(L, 2);
+  result = (bool)((grind::kernel const *)arg1)->is_port_available(arg2);
+  lua_pushboolean(L,(int)(result!=0)); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_kernel_is_feeder_registered(lua_State* L) {
+  int SWIG_arg = 0;
+  grind::kernel *arg1 = (grind::kernel *) 0 ;
+  string_t *arg2 = 0 ;
+  string_t temp2 ;
+  bool result;
+  
+  SWIG_check_num_args("grind::kernel::is_feeder_registered",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("grind::kernel::is_feeder_registered",1,"grind::kernel *");
+  if(!lua_isstring(L,2)) SWIG_fail_arg("grind::kernel::is_feeder_registered",2,"string_t const &");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_grind__kernel,0))){
+    SWIG_fail_ptr("kernel_is_feeder_registered",1,SWIGTYPE_p_grind__kernel);
+  }
+  
+  temp2.assign(lua_tostring(L,2),lua_rawlen(L,2)); arg2=&temp2;
+  result = (bool)(arg1)->is_feeder_registered((string_t const &)*arg2);
+  lua_pushboolean(L,(int)(result!=0)); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_kernel_register_feeder(lua_State* L) {
+  int SWIG_arg = 0;
+  grind::kernel *arg1 = (grind::kernel *) 0 ;
+  string_t *arg2 = 0 ;
+  int arg3 ;
+  string_t temp2 ;
+  bool result;
+  
+  SWIG_check_num_args("grind::kernel::register_feeder",3,3)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("grind::kernel::register_feeder",1,"grind::kernel *");
+  if(!lua_isstring(L,2)) SWIG_fail_arg("grind::kernel::register_feeder",2,"string_t const &");
+  if(!lua_isnumber(L,3)) SWIG_fail_arg("grind::kernel::register_feeder",3,"int");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_grind__kernel,0))){
+    SWIG_fail_ptr("kernel_register_feeder",1,SWIGTYPE_p_grind__kernel);
+  }
+  
+  temp2.assign(lua_tostring(L,2),lua_rawlen(L,2)); arg2=&temp2;
+  arg3 = (int)lua_tonumber(L, 3);
+  result = (bool)(arg1)->register_feeder((string_t const &)*arg2,arg3);
+  lua_pushboolean(L,(int)(result!=0)); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_new_kernel(lua_State* L) {
+  int SWIG_arg = 0;
+  grind::kernel *result = 0 ;
+  
+  SWIG_check_num_args("grind::kernel::kernel",0,0)
+  result = (grind::kernel *)new grind::kernel();
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_grind__kernel,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static void swig_delete_kernel(void *obj) {
+grind::kernel *arg1 = (grind::kernel *) obj;
+delete arg1;
+}
+static swig_lua_method swig_grind_kernel_methods[] = {
+    {"is_running", _wrap_kernel_is_running}, 
+    {"is_port_available", _wrap_kernel_is_port_available}, 
+    {"is_feeder_registered", _wrap_kernel_is_feeder_registered}, 
+    {"register_feeder", _wrap_kernel_register_feeder}, 
+    {0,0}
+};
+static swig_lua_attribute swig_grind_kernel_attributes[] = {
+    {0,0,0}
+};
+static swig_lua_class *swig_grind_kernel_bases[] = {0};
+static const char *swig_grind_kernel_base_names[] = {0};
+static swig_lua_class _wrap_class_grind_kernel = { "kernel", &SWIGTYPE_p_grind__kernel,_wrap_new_kernel, swig_delete_kernel, swig_grind_kernel_methods, swig_grind_kernel_attributes, swig_grind_kernel_bases, swig_grind_kernel_base_names };
+
 static int _wrap_connection_send(lua_State* L) {
   int SWIG_arg = 0;
   grind::connection *arg1 = (grind::connection *) 0 ;
@@ -2030,18 +2179,22 @@ static swig_lua_const_info swig_constants[] = {
 /* -------- TYPE CONVERSION AND EQUIVALENCE RULES (BEGIN) -------- */
 
 static swig_type_info _swigt__p_grind__connection = {"_p_grind__connection", "grind::connection *", 0, 0, (void*)&_wrap_class_grind_connection, 0};
+static swig_type_info _swigt__p_grind__kernel = {"_p_grind__kernel", "grind::kernel *", 0, 0, (void*)&_wrap_class_grind_kernel, 0};
 static swig_type_info _swigt__p_std__string = {"_p_std__string", "std::string *|string_t *", 0, 0, (void*)&_wrap_class_std_string, 0};
 
 static swig_type_info *swig_type_initial[] = {
   &_swigt__p_grind__connection,
+  &_swigt__p_grind__kernel,
   &_swigt__p_std__string,
 };
 
 static swig_cast_info _swigc__p_grind__connection[] = {  {&_swigt__p_grind__connection, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_grind__kernel[] = {  {&_swigt__p_grind__kernel, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__string[] = {  {&_swigt__p_std__string, 0, 0, 0},{0, 0, 0, 0}};
 
 static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_grind__connection,
+  _swigc__p_grind__kernel,
   _swigc__p_std__string,
 };
 

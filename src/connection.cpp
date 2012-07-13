@@ -23,16 +23,18 @@
 
 #include "connection.hpp"
 #include "utility.hpp"
+#include "kernel.hpp"
 
 namespace grind {
 
-  connection::connection(boost::asio::io_service& io_service, script_engine& se, int type)
+  connection::connection(boost::asio::io_service& io_service, script_engine& se, int type, feeder* f)
   : socket_(io_service),
     strand_(io_service),
     se_(se),
     logger("connection"),
     type_(type),
-    close_handler_()
+    close_handler_(),
+    feeder_(f)
   {
   }
 
@@ -123,7 +125,7 @@ namespace grind {
         // }
 
       } else {
-        se_.relay(data);
+        se_.relay(data, feeder_);
       }
 
       // read next message
@@ -166,11 +168,12 @@ namespace grind {
   bool connection::is_watcher() const {
     return type_ == WATCHER_CONNECTION;
   }
-  bool connection::is_receiver() const {
-    return type_ == RECEIVER_CONNECTION;
+  bool connection::is_feeder() const {
+    return type_ == FEEDER_CONNECTION;
   }
 
   string_t const& connection::whois() const {
     return  whois_;
   }
+  
 } // namespace grind

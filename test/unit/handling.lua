@@ -4,6 +4,7 @@ local args = nil
 do
   local cli = require "cliargs"
   cli:set_name("grind_test.lua")
+  cli:add_arg("PORT", "the feeder port", "port")
   cli:add_opt("-i FILE", "path to a text file which will be grinded", "input_path")
 
   args = cli:parse_args()
@@ -14,7 +15,7 @@ end
 
 
 local socket = require 'socket'
-local client = assert(socket.connect("127.0.0.1", 11142))
+local client = assert(socket.connect("127.0.0.1", args.port))
 client:setoption("keepalive", true)
 client:setoption("tcp-nodelay", true)
 client:settimeout(5 / 1000)

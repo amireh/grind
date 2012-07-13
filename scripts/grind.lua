@@ -23,15 +23,21 @@ function set_paths(root)
   require "lua_grind"
 end
 
-local leftovers = nil
-local delimiter_rex = nil
-function grind.leftovers() return leftovers end
-function grind.start()
+-- local leftovers = nil
+-- local delimiter_rex = nil
+-- function grind.leftovers() return leftovers end
+function grind.start(kernel)
   log("starting...", log_level.info)
+
+  grind.kernel = kernel
 
   load_script('grind_cfg')
   load_script('api')
   load_script('entry')
+
+  -- for group,port in pairs(grind.config.groups or {}) do
+  --   kernel:register_feeder(group, port)
+  -- end
 
   log("Delimiter patterns: ", log_level.info)
   for delimiter in ilist(grind.config.delimiters) do
@@ -46,21 +52,21 @@ function grind.start()
     end
   end
 
-  leftovers = ""
-  local expression = "(?|"
-  -- local expression = "(?J)"
-  for idx, delimiter in pairs(grind.config.delimiters) do
-    expression = expression .. delimiter-- .. "?"
-    if idx ~= #grind.config.delimiters then
-      expression = expression .. "|"
-    end
-  end
-  expression = expression .. ")"
-  log("Delimiter expression: " .. expression)
-  delimiter_rex = create_regex(expression)
-  if not delimiter_rex then
-    assert(false)
-  end
+  -- leftovers = ""
+  -- local expression = "(?|"
+  -- -- local expression = "(?J)"
+  -- for idx, delimiter in pairs(grind.config.delimiters) do
+  --   expression = expression .. delimiter-- .. "?"
+  --   if idx ~= #grind.config.delimiters then
+  --     expression = expression .. "|"
+  --   end
+  -- end
+  -- expression = expression .. ")"
+  -- log("Delimiter expression: " .. expression)
+  -- delimiter_rex = create_regex(expression)
+  -- if not delimiter_rex then
+  --   assert(false)
+  -- end
 
 end
 
@@ -81,11 +87,12 @@ end
 
 local show_two_times = 2
 
-function grind.handle(text)
+function grind.handle(text, glabel)
 
-  text = leftovers .. text
-  -- log("Handling '" .. text .. "'")
-
+  -- log("Handling '" .. text .. "' for " .. glabel)
+  local group = grind.groups[glabel]
+  text = group.leftovers .. text
+  local delimiter_rex = group.delimiter
   local entries = {}
   b,e,c,b2,e2,c2 = 0,0,nil,0,0,nil
   consumed = 0
@@ -110,7 +117,7 @@ function grind.handle(text)
 
     local entry = entry_t:new(nil, text:sub(e + 1, b2 - 1))
 
-    for _,group in pairs(grind.groups) do
+    -- for _,group in pairs(grind.groups) do
       log("Checking if group " .. group.label .. " is applicable for '" .. entry.meta.raw .. "'...")
 
 
@@ -211,17 +218,12 @@ function grind.handle(text)
         end
       end -- #captures > 0
 
-    end
+    -- end
   end
 
-  leftovers = text:sub(consumed)
-  print(consumed .. " bytes were consumed, and " .. #leftovers .. " bytes were left over.")
+  group.leftovers = text:sub(consumed)
+  print(consumed .. " bytes were consumed, and " .. #group.leftovers .. " bytes were left over.")
   -- print(leftovers)
-
-  if show_two_times < 2 then
-    show_two_times = show_two_times +1
-    print(leftovers)
-  end
 
   return nil
 end
@@ -230,27 +232,51 @@ function grind.add_delimiter(pattern)
   table.insert(grind.config.delimiters, pattern)
 end
 
-function grind.define_group(glabel, options)
+function grind.define_group(glabel, port, options)
   grind.groups = grind.groups or {}
   if grind.groups[glabel] then 
     log("An application group called '" .. glabel .. "' is already defined, ignoring.", log_level.notice)
     return true
   end
 
+  -- port must not be occupied
+  assert(grind.kernel:is_port_available(port), 
+    "Port " .. port .. " is unavailable, can not assign " .. glabel .. " feeder. Aborting.")
+
+  grind.kernel:register_feeder(glabel, port)
+
+  -- was the binding successful?
+  assert(grind.kernel:is_feeder_registered(glabel),
+    "Feeder couldn't be registered for the application group " .. glabel .. "! AAborting.")
+
   grind.groups[glabel] = {
     label = glabel,
+    port = port,
     initter = initter,
+    delimiter = nil,
     formatters = {},
     extractors = {},
     exclusive = false,
-    klasses = {}
+    klasses = {},
+    leftovers = ""
   }
 
   if options then
-    for k,v in pairs(options) do grind.groups[glabel][k] = v end
+    for k,v in pairs(options or {}) do grind.groups[glabel][k] = v end
   end
 
   log("Application group defined: " .. glabel)
+end
+
+function grind.define_delimiter(glabel, ptrn)
+  local group = grind.groups[glabel]
+  assert(group, "No application group called '" .. glabel .. "' is defined, can not define extractor!")
+
+  local rex = create_regex(ptrn)
+  assert(rex, "Invalid delimiter '" .. ptrn .. "' for group '" .. glabel .. "'")
+
+  group.delimiter = rex
+  log("Application group delimiter defined: " .. ptrn)
 end
 
 function grind.define_format(glabel, gformat, ptrn)

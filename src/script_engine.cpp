@@ -60,7 +60,7 @@ namespace grind {
       return handle_error();
     }
 
-    pass_to_lua("grind.start", 0);
+    pass_to_lua("grind.start", nullptr, 1, "grind::kernel", &kernel_);
 
     log_->infoStream() << "grind Lua engine has started.";
   }
@@ -184,7 +184,7 @@ namespace grind {
     return true;
   }
 
-  void script_engine::relay(string_t const& buf) {
+  void script_engine::relay(string_t const& buf, feeder* f) {
 
     // string_t result;
     pass_to_lua("grind.handle",
@@ -193,8 +193,9 @@ namespace grind {
                 //   result = lua_tostring(lua_, lua_gettop(lua_));
                 //   lua_remove(lua_, lua_gettop(lua_));
                 // },
-                1,
-                "std::string", &buf);
+                2,
+                "std::string", &buf,
+                "std::string", &f->label());
 
     // std::cout << "Result: \n" << result << '\n';
     // if (result != "[]") {

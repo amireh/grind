@@ -10,9 +10,11 @@
         html = "";
         html += "<li>";
         html += "<span>" + (i + 1) + "</span>";
+        // html += "<span>" + (group.port) + "</span>";
         html += "<a href=\"/" + group.label + "\">";
         html += group.label;
         html += "</a>";
+        html += " <small>(" + group.port + ")</small>";
           html += "<ol>";
           for (var ki = 0; ki < group.klasses.length; ++ki) {
             var klass = group.klasses[ki];

@@ -36,6 +36,7 @@ namespace grind {
 
   typedef boost::filesystem::path path_t;
   class kernel;
+  class feeder;
   class script_engine : public configurable, public logger {
   public:
     script_engine(kernel&);
@@ -51,7 +52,7 @@ namespace grind {
 
     void restart();
 
-    void relay(string_t const& buffer);
+    void relay(string_t const& buffer, feeder* f);
 
     // struct cmd_rc_t {
     //   bool      success;

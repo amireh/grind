@@ -2,7 +2,8 @@ grind.command("list_groups", function(cmd)
   local res = {}
   for _, group in pairs(grind.groups) do
     local entry = { 
-      label = group.label, 
+      label = group.label,
+      port = group.port,
       klasses = {}
     }
 

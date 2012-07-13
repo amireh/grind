@@ -39,6 +39,7 @@
 namespace grind {
 
   class connection;
+  class feeder;
   typedef boost::shared_ptr<connection> connection_ptr;
   typedef boost::function<void(connection_ptr)> close_handler_t;
   typedef boost::asio::ip::tcp::socket socket_t;
@@ -60,11 +61,11 @@ namespace grind {
   public:
     
     enum {
-      RECEIVER_CONNECTION,
+      FEEDER_CONNECTION,
       WATCHER_CONNECTION
     };
 
-    explicit connection(boost::asio::io_service& io_service, script_engine&, int type);
+    explicit connection(boost::asio::io_service& io_service, script_engine&, int type, feeder* = nullptr);
     virtual ~connection();
 
     boost::asio::ip::tcp::socket& socket();
@@ -72,7 +73,7 @@ namespace grind {
     void set_type(int);
     int type();
     bool is_watcher() const;
-    bool is_receiver() const;
+    bool is_feeder() const;
     
     void start();
     void stop();
@@ -96,6 +97,7 @@ namespace grind {
     string_t          remote_host_;
     ushort            remote_port_;
     string_t          whois_;
+    feeder*           feeder_;
 
   protected:
     void read();
