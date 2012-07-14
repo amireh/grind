@@ -6,11 +6,8 @@ grind.define_view("dakwak", "requests", "workflow",
     if fmt == "apache" then
       out = {
         Timestamp = entry.meta.timestamp,
-        FQDN = "-",
-        Context = "-",
         UUID = entry.meta.uuid,
         Application = "apache",
-        Module = "-",
         Message = entry.meta.url
       }
     else

@@ -14,7 +14,7 @@
       for (var i = 0; i < fields.length; ++i) {
       var k = fields[i];
       var v = msg.entry[k];
-      html += "<td data-name=\"" + k + "\">" + v + "</td>";
+      html += "<td data-name=\"" + k + "\">" + (v || "-") + "</td>";
     }
     // })
     // $.each(msg.entry, function(k,v) {
