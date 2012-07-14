@@ -157,7 +157,7 @@ function grind.handle(text, glabel)
           if klass:belongs_to(format) and klass.matcher(format, entry, klass.context) then
             log("  Found an applicable klass: " .. klass.label)
             for ___,view in pairs(klass.views) do
-              local res, formatted_entry, order_sensitive = view.formatter(format, view.context, entry, klass.context)
+              local res, formatted_entry, keep_context = view.formatter(format, view.context, entry, klass.context)
               if res and formatted_entry then
 
                 local encoded_entry = json.encode({ 
@@ -167,7 +167,7 @@ function grind.handle(text, glabel)
                   entry = formatted_entry
                 })
 
-                log("Committing an entry! : " .. encoded_entry)
+                -- log("Committing an entry! : " .. encoded_entry)
 
                 -- broadcast to all subscribed watchers
                 log("looking for watchers subscribed to "..
@@ -200,27 +200,30 @@ function grind.handle(text, glabel)
                           do_relay = false
                           break
                         end
-                      end
-                    end
+                      end -- view filters
+                    end -- if any filters are defined
 
                     if do_relay then
                       w:send(encoded_entry)
                     end
-                  end
-                end
+                  end -- the subscription is for this view
+                end -- subscription loop
 
                 -- reset the context
-                view.context = {}
-              end
-            end
-          end
-        end
+                if not keep_context then
+                  view.context = {}
+                end
+              end -- the view is comitting an entry
+            end -- the view loop
+          end -- the klass has matched
+        end -- the klass loop
 
-        if group.exclusive then
-          log("Group is exclusive, will discard entry now.")
-          break
-        end
-      end -- #captures > 0
+        -- if group.exclusive then
+        --   log("Group is exclusive, will discard entry now.")
+        --   break
+        -- end
+
+      end -- the format has matched
 
     -- end
   end
