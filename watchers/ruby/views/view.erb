@@ -243,7 +243,7 @@ $(function() {
 
   $("#reset").click(function() {
     $("tbody tr:hidden td[data-name]").each(function() { $(this).parent().show(); });
-    dehighlight();
+    // dehighlight();
   })
   // hide the feed options
   if (!debug)
@@ -272,7 +272,12 @@ $(function() {
   $("#filter_help").click(function() { $("#about_filters").toggle(); });
   $("#about_filters").hide();
 
-  $("#focus").click(focus_highlighted);
+  $("#focus").click(function() {
+    if (is_focused())
+      reset_focus();
+    else
+      focus();
+  });
 })
 
 </script>
@@ -285,7 +290,7 @@ $(function() {
 <% content_for :actions do %>
   <button title="reload grind gracefully (to apply new config)" id="reload">reload</button>
   <button title="retrieve the latest data from the Keeper's archive" id="fetch">fetch</button>
-  <button title="hide all un-highlighted rows" id="focus">focus</button>
+  <button data-togglable="unfocus" title="hide all un-highlighted rows" id="focus">focus</button>
   <button title="reset the filters and highlights applied on the current data" id="reset">reset</button>  
 
 <% end %>

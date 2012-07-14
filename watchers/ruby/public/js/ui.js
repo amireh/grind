@@ -1,4 +1,5 @@
 var highlighted = false;
+var focused = false;
 
 grind_ui = function() {
   var handlers = {
@@ -35,8 +36,12 @@ toggle_alterable = function(el) {
 highlight = function(name, value) {
   console.log("Highlighting all " + name + " columns with a value of: " + value)
 
-  var us = $("table td[data-name=" + name + "]:contains(" + value + ")"),
-      were_highlighted = false;
+  var us = [], were_highlighted = false;
+  $("table td[data-name=" + name + "]").each(function() {
+    if ($(this).html() == value)
+      us.push($(this).get(0));
+  });
+  us = $(us);
 
   if (us.length == 0) {
     highlighted = null;
@@ -63,12 +68,23 @@ dehighlight = function() {
   highlighted = null;
   $("tbody .highlighted").removeClass("highlighted");
 }
-focus_highlighted = function() {
+focus = function() {
   if (!highlighted)
     return;
 
   $("table tbody tr:not(.highlighted)").hide();
-};
+  focused = true;
+}
+reset_focus = function() {
+  if (!focused)
+    return;
+
+  $("table tbody tr:not(.highlighted)").show();
+  focused = false;
+}
+
+function is_highlighted() { return highlighted; }
+function is_focused() { return focused; }
 
 $(document).ready(function(){
   $("[data-alt-text],[data-alt-class]").click(function() { toggle_alterable($(this)); });
@@ -95,4 +111,13 @@ $(document).ready(function(){
 
   grind.on_connected(function() { $("#clear").click(); })
 
+  $("[data-togglable]").click(function() {
+    $(this).toggleClass("toggled");
+    var alt = $(this).attr("data-togglable");
+    if (typeof alt == "string" && alt.length != 0) {
+      var current = $(this).html();
+      $(this).html(alt);
+      $(this).attr("data-togglable", current);
+    }
+  })
 });

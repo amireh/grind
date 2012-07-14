@@ -100,7 +100,8 @@ button,
 
   /*box-shadow: 0 0 0 1px #222 inset;*/
   &:hover:not(:active),
-  &:focus:not(:active)
+  &:focus:not(:active),
+  &.toggled
   {
     background: $hover_bg;
     color: $hover_fg;
@@ -139,6 +140,7 @@ td.highlighted {
 table {
   border-spacing: 10px 0;
   width: 100%;
+  max-width: 100%;
 }
 
 tr:hover {
