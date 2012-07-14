@@ -1,6 +1,6 @@
 grind.define_view("dakwak", "errors", "system errors", 
   { "Timestamp", "FQDN", "Context", "Application", "Message" },
-  function(ctx, entry)
+  function(fmt, ctx, entry)
     if entry.meta.uuid then
       return false
     end

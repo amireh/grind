@@ -1,6 +1,6 @@
 grind.define_view("dakwak", "errors", "all errors",
   { "Timestamp", "FQDN", "Context", "Type", "Application", "Message" },
-  function(ctx, entry)
+  function(fmt, ctx, entry)
     return true, {
       Timestamp = entry.meta.timestamp,
       FQDN = entry.meta.fqdn,
