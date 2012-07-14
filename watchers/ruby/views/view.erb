@@ -4,11 +4,11 @@
   var klass = "<%= @klass %>";
   var view = "<%= @view %>";
   var tbody = null;
-  var nr_entries = 0;
+  var nr_entries = 0; var __total = 0;
   var fields = [];
   var debug = false;
   var format_entry = function(msg) {
-    html = "<tr>";
+    html = "<tr><td>" + ++__total + "</td>";
     console.log("Message: " + JSON.stringify( msg) )
     // $("table thead th").each(function() {
       for (var i = 0; i < fields.length; ++i) {
@@ -35,7 +35,7 @@
 
       grind.dispatch("query_view", { group: group, klass: klass, view: view }, function(msg) {
         // populate the table headings
-        html = "";
+        html = "<th class=\"sorttable_numeric\" data-name='__id'>id</th>";
         $.each(msg.result, function(_, column) {
           html += "<th data-name='" + column + "'>" + column + " <small>&#9608;</small></th>";
           fields.push(column);
