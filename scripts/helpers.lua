@@ -242,3 +242,12 @@ function load_script(script)
   package.loaded[script] = nil
   return require(script)
 end
+
+function typeof(var, var_name_str, expected_type_str)
+  local msg = "<" .. var_name_str .. "> is expected to be of type '" .. expected_type_str .. "', but got '" .. type(var) .. "'"
+  if type(var) ~= expected_type_str then
+    return false, msg
+  end
+
+  return true
+end

@@ -112,6 +112,7 @@ namespace grind {
     /** must be called after the kernel is stopped */
     void cleanup();
 
+    bool is_init() const;
     bool is_running() const;
     bool is_port_available(int) const;
     bool is_feeder_registered(string_t const&);

@@ -4,3 +4,4 @@ end
 
 local r = { foo() }
 print(r[2])
+

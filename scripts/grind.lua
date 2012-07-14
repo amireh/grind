@@ -16,6 +16,9 @@ function set_paths(root)
   package.path = root .. "/?.lua;" .. package.path
   package.cpath = "/usr/local/lib/?.so;" .. package.cpath
 
+  local STP = require "StackTracePlus"
+  debug.traceback = STP.stacktrace
+  
   grind.paths.root = root
 
   require 'helpers'
@@ -151,10 +154,10 @@ function grind.handle(text, glabel)
 
         -- any klasses defined?
         for __,klass in pairs(group.klasses) do
-          if klass.format == format and klass.matcher(entry, klass.context) then
+          if klass:belongs_to(format) and klass.matcher(format, entry, klass.context) then
             log("  Found an applicable klass: " .. klass.label)
             for ___,view in pairs(klass.views) do
-              local res, formatted_entry, order_sensitive = view.formatter(view.context, entry, klass.context)
+              local res, formatted_entry, order_sensitive = view.formatter(format, view.context, entry, klass.context)
               if res and formatted_entry then
 
                 local encoded_entry = json.encode({ 
@@ -359,16 +362,33 @@ end
 -- @param matcher a function that accepts the current entry and is expected
 --                to return a boolean indicating whether the entry should be
 --                passed on to the views or not
-function grind.define_klass(glabel,gformat, clabel, matcher)
+function grind.define_klass(glabel, gformats, clabel, matcher)
+  assert(typeof(glabel, "glabel", "string"))
+  assert(typeof(gformats, "gformats", "table"))
+  assert(typeof(clabel, "clabel", "string"))
+  assert(typeof(matcher, "matcher", "function"))
+
   local group = grind.groups[glabel]
   assert(group, "No application group called '" .. glabel .. "' is defined, can not define extractor!")
 
+  if not matcher and type(gformats) == "string" then gformats = { gformats } end
   -- for backwards compatibility, not assigning a gformat
-  if not matcher then matcher, clabel, gformat = clabel, gformat, "default" end
+  if not matcher then matcher, clabel, gformats = clabel, gformats, { "default" } end
 
-  assert(group.formatters[gformat], 
-    "No format defined as " .. gformat .. " for the application group " .. glabel .. " in klass " .. clabel)
-  group.klasses[clabel] = { label = clabel, matcher = matcher, format = gformat, views = {}, context = {} }
+
+  for format in ilist(gformats) do
+    assert(group.formatters[format], 
+      "No format defined as " .. format .. " for the application group " .. glabel .. " in klass " .. ( clabel or "") )
+  end
+
+  local klass = { label = clabel, matcher = matcher, formats = gformats, views = {}, context = {} }
+  group.klasses[clabel] = klass
+  
+  function klass:belongs_to(format)
+    for f in ilist(self.formats) do if f == format then return true end end
+    return false
+  end
+
   log("  Class defined: " .. glabel .. "[" .. clabel .. "]")
 end
 
@@ -476,3 +496,20 @@ function grind.remove_watcher(watcher)
   log("Watchers: " .. #grind.watchers)
 end
 
+
+
+function error_test(foo, bar)
+  print("HELLO THERE: " .. foo .. bar)
+  -- return "yarr", "moo"
+  return moo()
+end
+function moo()
+  print("HEY")
+  return zeeee()
+end
+function zeeee()
+  error("Fuck this shit")
+end
+
+-- if not debug then debug = {} end
+-- debug.traceback = function(_, __) print("oi") end

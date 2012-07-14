@@ -61,10 +61,15 @@ int main(int argc, char** argv)
   pthread_sigmask(SIG_BLOCK, &new_mask, &old_mask);
 
   grind::kernel kernel;
+  kernel.configure(config_file);
   kernel.init();
 
-  kernel.configure(config_file);
+  if (!kernel.is_init()) {
+    kernel.cleanup();
 
+    return 1;
+  }
+  
   boost::thread t(boost::bind(&grind::kernel::start, &kernel));
 
   // restore previous signals

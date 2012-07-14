@@ -19,13 +19,31 @@ namespace grind {
     logger("script_engine"),
     kernel_(kernel),
     lua_(nullptr),
-    stopping_(false)
+    stopping_(false),
+    running_(false)
   {
     config.error_handling = CATCH_AND_DIE;
     config.error_handling = CATCH_AND_THROW;
   }
 
   script_engine::~script_engine() {
+  }
+
+  static int stack_trace_printer(lua_State *L) {
+    lua_getfield(L, LUA_GLOBALSINDEX, "debug");
+    if (!lua_istable(L, -1)) {
+      lua_pop(L, 1);
+      return 1;
+    }
+    lua_getfield(L, -1, "traceback");
+    if (!lua_isfunction(L, -1)) {
+      lua_pop(L, 2);
+      return 1;
+    }
+    lua_pushvalue(L, 1);
+    lua_pushinteger(L, 2);
+    lua_call(L, 2, 1);
+    return 1;
   }
 
   void script_engine::start() {
@@ -39,11 +57,13 @@ namespace grind {
     log_->infoStream() << "scripts path set to: " << config.scripts_path;
     string_t entry_script = (path_t(config.scripts_path) / "grind.lua").string();
 
+    info() << "Lua stack[initial] size is: " << lua_gettop(lua_);
+
     int rc = luaL_dofile(lua_, entry_script.c_str());
     if (rc == 1) {
       return handle_error();
     }
-    lua_remove(lua_, lua_gettop(lua_));
+    // lua_remove(lua_, lua_gettop(lua_));
 
     lua_getglobal(lua_, "set_paths");
     if(!lua_isfunction(lua_, -1))
@@ -60,7 +80,12 @@ namespace grind {
       return handle_error();
     }
 
-    pass_to_lua("grind.start", nullptr, 1, "grind::kernel", &kernel_);
+    running_ = true;
+
+    pass_to_lua("grind.start", nullptr, 0, 1, "grind::kernel", &kernel_);
+
+    if (!running_)
+      return;
 
     log_->infoStream() << "grind Lua engine has started.";
   }
@@ -85,10 +110,10 @@ namespace grind {
     stopping_ = true;
 
     log_->infoStream() << "grind Lua is stopping...";
+    info() << "Lua stack has " << lua_gettop(lua_) << " elements";
 
     if (valid_state)
-      pass_to_lua("grind.stop", 0);
-
+      pass_to_lua("grind.stop");
 
     lua_close(lua_);
     lua_ = nullptr;
@@ -99,14 +124,20 @@ namespace grind {
   }
 
   void script_engine::handle_error() {
+    // Stk: Func(C.stp) String(error_msg)
+    info() << "Lua stack[error] has " << lua_gettop(lua_) << " elements.";
+
     const char* error_c = lua_tostring(lua_, -1);
     string_t error;
     if (error_c) {
-      // string_t error = lua_tostring(lua_, -1);
       error = string_t(error_c);
       log_->errorStream() << "Lua error: " << error;
-      lua_pop(lua_, -1);
+      lua_pop(lua_, 1); // Stk: Func(C.stp)
     }
+
+    lua_pop(lua_, 1); // Stk: 
+
+    running_ = false;
 
     stop(false);
 
@@ -115,12 +146,15 @@ namespace grind {
         throw std::runtime_error("Lua error: " + error);
         break;
       case CATCH_AND_DIE:
-        assert(false);
+        if (kernel_.is_running())
+          kernel_.stop();
         break;
       default:
         assert(false);
     }
   }
+
+  bool script_engine::is_running() { return running_; }
 
   void script_engine::set_option(const string_t &k, const string_t& v) {
     if (k == "error handling") {
@@ -144,11 +178,21 @@ namespace grind {
         SWIG_Lua_GetModule(lua_),
         (type + " *").c_str()),0);
   }
-  bool script_engine::pass_to_lua(const char* in_func, std::function<void()> arg_extractor, int argc, ...) {
+
+  bool script_engine::pass_to_lua(const char* in_func, std::function<void()> ret_extractor, int retc, int argc, ...) {
     scoped_lock lock(mtx_);
 
     va_list argp;
 
+    int initial_size = lua_gettop(lua_);
+    #ifdef DEBUG
+    info() << "Lua stack[pre_pass] has " << lua_gettop(lua_) << " elements.";
+    #endif
+
+    lua_pushcfunction(lua_, stack_trace_printer);
+    int error_index = lua_gettop(lua_);
+
+    // Stk: Func(C.stp) Func(lua.arb)
     lua_getfield(lua_, LUA_GLOBALSINDEX, "arbitrator");
     if(!lua_isfunction(lua_, -1))
     {
@@ -157,8 +201,8 @@ namespace grind {
       return false;
     }
 
-    lua_pushfstring(lua_, in_func);
-
+    lua_pushfstring(lua_, in_func); // Stk: Func(C.stp) Func(lua.arb) String
+    
     va_start(argp, argc);
     for (int i=0; i < argc; ++i) {
       const char* argtype = (const char*)va_arg(argp, const char*);
@@ -167,20 +211,44 @@ namespace grind {
         lua_pushfstring(lua_, ((string_t*)argv)->c_str());
       else
         push_userdata(argv, argtype);
+
+      // Stk: Func(C.stp) Func(lua.arb) String userdata[0]...userdata[i]
     }
     va_end(argp);
 
-    int ec = lua_pcall(lua_, argc+1, 1, 0);
+    // Stk: Func(C.stp) Func(lua.arb) String userdata[0]...userdata[argc]
+    #ifdef DEBUG
+    info() << "Lua stack[pre_invoke] has " << lua_gettop(lua_) << " elements.";
+    #endif
+
+    int ec = lua_pcall(lua_, argc+1, retc, error_index);
     if (ec != 0)
     {
-      // there was a lua error, dump the state and shut down the instance
       handle_error();
       return false;
     }
+    // info() << "Lua stack[post_invoke] has " << lua_gettop(lua_) << " elements.";
 
-    if (arg_extractor)
-      arg_extractor();
+    if (ret_extractor) {
+      // the extractor is responsible for cleaning up the stack
+      ret_extractor();
+    } else {
+      // clean up the stack ourselves
+      for (int i = 0; i < retc; ++i) {
+        lua_pop(lua_, 1);
+        // Stk: Func(C.stp) ret[0]...ret[retc-i]
+      }
+    }
 
+    // Stk: Func(C.stp)      
+    lua_pop(lua_, 1);
+    // Stk:    
+
+    #ifdef DEBUG
+    info() << "Lua stack[post_pass] has " << lua_gettop(lua_) << " elements.";
+    #endif
+
+    assert(lua_gettop(lua_) == initial_size);
     return true;
   }
 
@@ -189,6 +257,7 @@ namespace grind {
     // string_t result;
     pass_to_lua("grind.handle",
                 nullptr,
+                0,
                 // [&]() -> void {
                 //   result = lua_tostring(lua_, lua_gettop(lua_));
                 //   lua_remove(lua_, lua_gettop(lua_));
@@ -211,6 +280,7 @@ namespace grind {
     // string_t result;
     pass_to_lua("grind.handle_cmd",
                 nullptr,
+                0,
                 // [&]() -> void {
                 //   result = lua_tostring(lua_, lua_gettop(lua_));
                 //   lua_remove(lua_, lua_gettop(lua_));

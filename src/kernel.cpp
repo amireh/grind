@@ -61,11 +61,15 @@ namespace grind {
 
   void kernel::init()
   {
-    log_manager::singleton().init();
-    log_manager::singleton().configure();
+    se_.start();
+
+    init_ = se_.is_running();    
   }
 
   void kernel::configure(string_t const& path_to_config) {
+    log_manager::singleton().init();
+    log_manager::singleton().configure();
+
     info() << "configuring using file @ " << path_to_config;
 
     string_t data;
@@ -90,10 +94,6 @@ namespace grind {
   {
     info() << "accepting logs on: " << cfg.listen_interface << ":" << cfg.port;
     info() << "accepting watchers on: " << cfg.watcher_interface << ":" << cfg.watcher_port;
-
-    se_.start();
-
-    init_ = true;
 
     // open the client acceptor with the option to reuse the address (i.e. SO_REUSEADDR).
     // {
@@ -142,12 +142,12 @@ namespace grind {
 
   void kernel::cleanup()
   {
-    if (!init_) {
-      std::cerr
-        << "WARNING: attempting to clean up the kernel when it has "
-        << "already been cleaned, or not run at all!";
-      return;
-    }
+    // if (!init_) {
+    //   std::cerr
+    //     << "WARNING: attempting to clean up the kernel when it has "
+    //     << "already been cleaned, or not run at all!";
+    //   return;
+    // }
 
     info() << "cleaning up";
 
@@ -243,6 +243,9 @@ namespace grind {
 
   bool kernel::is_running() const {
     return running_;
+  }
+  bool kernel::is_init() const {
+    return init_;
   }
 
   void kernel::set_option(string_t const& key, string_t const& value)

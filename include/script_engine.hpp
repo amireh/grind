@@ -52,20 +52,56 @@ namespace grind {
 
     void restart();
 
+    /**
+     * Relays the given feed to the handler.
+     *
+     * @warn The feeder must point to a valid and registered one.
+     */
     void relay(string_t const& buffer, feeder* f);
 
-    // struct cmd_rc_t {
-    //   bool      success;
-    //   string_t  result;
-    // };
-
+    /**
+     * Relays a watcher command to the API module.
+     *
+     * @arg watcher a pointer to a grind::connection object of type WATCHER_CONNECTION
+     */
     void handle_cmd(string_t const&, void* watcher);
+
+    /**
+     * Invokes a Lua function identified by inFunc passing it
+     * the specified arguments, and optionally extracting its
+     * returned values.
+     *
+     * @arg inFunc: a fully-qualified function name
+     * @arg extractor:
+     *      a functor that consumes the returned values  values from
+     *      the Lua stack, note that if this argument is specified, it
+     *      is responsible for cleaning up the stack
+     * @arg retc: the expected number of returned values
+     * @arg argc: the number of arguments
+     * @arg ... 
+     *      ordered pairs of a string of the argument type, and a void*
+     *      pointer to the argument, ie:
+     *      "std::string", &mystring, "grind::kernel", &mykernel
+     *
+     * @note This method is thread-safe.
+     */
+    bool 
+    pass_to_lua(const char* inFunc, 
+                std::function<void()> extractor = nullptr, 
+                int retc = 0, 
+                int argc = 0, 
+                ...);
+
+    /**
+     * Whether the Lua state has been corrupted or not.
+     */
+    bool is_running();
 
     /** Destroys the Lua state, turning off the Lua engine. */
     void stop(bool valid_state = true);
 
+    /** Overridden from grind::configurable */
     virtual void set_option(const string_t&, const string_t&);
-    bool pass_to_lua(const char* inFunc, std::function<void()> = nullptr, int argc = 0, ...);
   private:
     void push_userdata(void* data, string_t type);
     void handle_error();
@@ -74,6 +110,7 @@ namespace grind {
     int         id_;
     bool        stopping_;
     kernel      &kernel_;
+    bool        running_;
 
     boost::interprocess::interprocess_mutex mtx_;
 

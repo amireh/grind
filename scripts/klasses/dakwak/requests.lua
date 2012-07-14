@@ -1,4 +1,4 @@
-grind.define_klass("dakwak", "requests", "requests", function(entry)
+grind.define_klass("dakwak", { "requests", "apache" }, "requests", function(fmt, entry)
   return entry.meta.uuid ~= false
 end)
 

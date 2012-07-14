@@ -6,7 +6,7 @@ local matchers = {
   { rex = create_regex([[^Font .*texture size]]), type = "font" },
   { rex = create_regex([[^Mesh: ]]), type = "mesh" }
 }
-grind.define_klass("OGRE", "resources", function(entry, klass_ctx)
+grind.define_klass("OGRE", { "default" }, "resources", function(entry, klass_ctx)
   for test in ilist(matchers) do
     if rex_pcre.match(entry.body, test.rex) ~= nil then
       klass_ctx.resource_type = test.type

@@ -1,6 +1,7 @@
 grind.define_view("dakwak", "apache", "access logs", 
   { "Timestamp", "VHost", "Port", "Forwarded-for", "UUID", "HTTP", "Method", "Referer", "Agent", "RC", "ID", "URL" },
-  function(ctx, entry)
+  function(fmt, ctx, entry)
+    print(type(entry))
     local out = {
       Timestamp = entry.meta.timestamp,
       VHost = entry.meta.vhost,
