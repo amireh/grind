@@ -34,7 +34,7 @@ body {
           box-sizing: border-box;
 }
 
-#status_bar {
+#action_bar {
   width: 100%;
   /*background: #fff;*/
   background: #111;
@@ -153,6 +153,12 @@ th {
   padding: 10px;
 }
 
+th:first-child {
+  background: green;
+}
+td:first-child,th:first-child {
+  opacity: 0.5;
+}
 td,th {
   /*font-family: monospace;*/
   /*font-size: 1.1em;*/
@@ -301,7 +307,7 @@ tr:nth-child(1) td {
   margin-top: 0;
 }
 
-#status_bar button.connected:not(:active):not(:focus):not(:hover),
+#action_bar button.connected:not(:active):not(:focus):not(:hover),
 .bad:not(:focus):not(:hover) {
   background: red;
 }
@@ -422,3 +428,15 @@ th small {
 }
 th.shrunk { opacity: 0.5; }
 th.shrunk, td.shrunk { font-size: 1px; }
+
+#status_bar {
+  width: 100%;
+  /*height: 40px;*/
+  position: fixed;
+  bottom: 36px;
+  background: rgba(255,255,255, 0.8);
+  box-shadow: 0 -10px 15px 0px #fff;
+  display: none;
+  margin: 0;
+  padding: 10px;
+}

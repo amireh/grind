@@ -5,6 +5,13 @@ grind_ui = function() {
   var handlers = {
     on_entry: []
   };
+  var status_timer = null;
+  var anime_dur = 250;
+  var status_shown = false;
+  var status_queue = [];
+  var defaults = {
+    status_bar: 1.5
+  };
 
   return {
     on_entry: function(handler) {
@@ -12,6 +19,41 @@ grind_ui = function() {
     },
     add_entry: function(entry) {
       foreach(handlers.on_entry, function(h) { h(entry); });
+    },
+    clear_status: function(cb) {
+      if (!$("#status_bar").is(":visible"))
+        return (cb || function() {})();
+
+      $("#status_bar").hide("slide", {}, anime_dur, function() {
+        status_shown = false;
+        
+        if (cb)
+          cb();
+
+        if (status_queue.length > 0) {
+          var status = status_queue.pop();
+          return ui.status(status[0], status[1]);
+        }
+      });
+      // $("#status_bar").html("");
+    },
+    status: function(text, seconds_to_show) {
+      if (!seconds_to_show)
+        seconds_to_show = defaults.status_bar;
+
+      if (status_shown) {
+        return status_queue.push([ text, seconds_to_show ]);
+      }
+
+      if (status_timer)
+        clearTimeout(status_timer)
+
+      ui.clear_status(function() {
+        status_timer = setTimeout("ui.clear_status()", seconds_to_show * 1000);
+        $("#status_bar").html(text).show("slide", {}, anime_dur);
+        status_shown = true;
+      });
+
     }
   }
 }
@@ -85,6 +127,8 @@ reset_focus = function() {
 
 function is_highlighted() { return highlighted; }
 function is_focused() { return focused; }
+
+
 
 $(document).ready(function(){
   $("[data-alt-text],[data-alt-class]").click(function() { toggle_alterable($(this)); });

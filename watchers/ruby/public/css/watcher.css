@@ -9,7 +9,7 @@ body {
           box-sizing: border-box;
 }
 
-#status_bar {
+#action_bar {
   width: 100%;
   background: #fff;
   /*color: #fff;*/
@@ -221,7 +221,7 @@ tr:nth-child(1) td {
   margin-top: 0;
 }
 
-#status_bar button.connected:not(:active):not(:focus):not(:hover),
+#action_bar button.connected:not(:active):not(:focus):not(:hover),
 .bad:not(:focus):not(:hover) {
   background: red;
 }

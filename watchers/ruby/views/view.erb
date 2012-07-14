@@ -122,18 +122,19 @@ $(function() {
   tbody = $("table tbody");
 
   $("#fetch").click(function() {
-    $("#clear").click();
     var hide_feed_options = false;
     if ($("#feed_options").is(":hidden")) {
       $("#feed_options").show();
       hide_feed_options = true;
     }
 
-
     var type = "GET";
     var data = { limit: $("#feed_limit").attr("value") };
     var filters = $("[data-dyn-entity=filters]:visible");
 
+    ui.status("Fetching " + data.limit + " entries from the Keeper archives.");
+    $("#clear").click();
+    
     if (filters.length > 0) {
       type = "POST";
       data.query = {};
@@ -243,6 +244,7 @@ $(function() {
 
   $("#reset").click(function() {
     $("tbody tr:hidden td[data-name]").each(function() { $(this).parent().show(); });
+    ui.status("Entries are no longer filtered.");
     // dehighlight();
   })
   // hide the feed options

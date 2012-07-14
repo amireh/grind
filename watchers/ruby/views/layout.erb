@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/css/fonts/ubuntu/stylesheet.css" type="text/css" />
     <!-- <link rel="stylesheet" href="/css/skin_grunge.css" type="text/css" /> -->
     <script type="text/javascript" src='/js/jquery.1.7.1.min.js'></script>
+    <script type="text/javascript" src='/js/jquery-ui-1.8.21.custom.min.js'></script>
     <script type="text/javascript" src='/js/grind.js'></script>
     <script type="text/javascript" src='/js/ui.js'></script>
     <script type="text/javascript" src='/js/dynamism.js'></script>
@@ -18,17 +19,23 @@
       
       grind.on_connected(function() {
         toggle_alterable($("#status"));
+        ui.status("Connected to grind.");
       });
       grind.on_disconnected(function() {
         toggle_alterable($("#status"));
+        ui.status("Disconnected from grind.");
       });
 
       $(function() {
-        $("#clear").click(function() { $("[data-clearable]").empty(); 
+        $("#clear").click(function() { 
+          $("[data-clearable]").empty();
           // $("#total_entries").html( $("#total_entries").html().replace(/(\d+)/, 0) );
         });
 
-        $("#purge").click(function() { grind.dispatch("purge", {}); });
+        $("#purge").click(function() { 
+          grind.dispatch("purge", {});
+          ui.status("Keeper archives have been purged.");
+        });
         
       });
 
