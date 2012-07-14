@@ -280,6 +280,74 @@ $(function() {
     else
       focus();
   });
+
+  $("#filter_selection").click(function() {
+    var my_text = get_selected_text();
+    if (!my_text || my_text.length == 0) {
+      return ui.status("You must select some text first!", "error", 3);
+    }
+
+    var last_highlight = get_highlight();
+    if (!last_highlight) {
+      return ui.status("You must highlight a column first!", "error", 3);
+    }
+    
+    if (!($("#feed_options").is(":visible")))
+      $("[data-dyn-action=toggle][data-dyn-target=feed_options]").click();
+    
+    $("#add_filter").click();
+    var filter_el = $("[data-dyn-entity=filters]:last");
+
+    var field = last_highlight.name;
+    filter_el.find("selected :selected").attr("selected", null);
+    filter_el.find("select option[value=" + field + "]").attr("selected", "selected");
+    filter_el.find("input[type=text]").attr("value", my_text);
+    filter_el.find("input[type=checkbox][name*=regex]").click();
+  });
+
+  dyn_register_callback(function(clone, action) {
+    if (action == "add" && clone.attr("data-dyn-entity") == "filters") {
+      var textfield = clone.find("input[type=text]");
+      var regexbox = clone.find("input[type=checkbox][name*=regex]");
+
+      textfield.keyup(function() {
+        var v = $(this).attr("value");
+        var r = regexbox;
+        if (v.length < 2) {
+          regexbox.attr("checked", null);
+          return;
+        }
+        if (v[0] == '/' && v[v.length - 1] == '/')
+          regexbox.attr("checked", "checked");
+        else
+          regexbox.attr("checked", null);
+      });
+      regexbox.change(function() {
+        if ($(this).is(":checked")) {
+          var curr_value = textfield.attr("value");
+          if (curr_value[0] == '/' && curr_value[curr_value.length - 1] == '/')
+            return;
+          if (curr_value[0] == '/')
+            textfield.attr("value", curr_value + '/');
+          else if (curr_value[curr_value.length - 1] == '/')
+            textfield.attr("value", '/' + curr_value);
+          else
+            textfield.attr("value", '/' + curr_value + '/');
+        } else {
+          var curr_value = textfield.attr("value");
+          if (curr_value[0] != '/' && curr_value[curr_value.length - 1] != '/')
+            return;
+
+          if (curr_value[0] == '/')
+            textfield.attr("value", curr_value.substring(1, curr_value.length - 1));
+          else if (curr_value[curr_value.length - 1] == '/')
+            textfield.attr("value", curr_value.substring(0, curr_value.length - 2));
+          else
+            textfield.attr("value", curr_value.substring(1, curr_value.length - 2));
+        }
+      });
+    }
+  });
 })
 
 </script>
@@ -294,6 +362,7 @@ $(function() {
   <button title="retrieve the latest data from the Keeper's archive" id="fetch">fetch</button>
   <button data-togglable="unfocus" title="hide all un-highlighted rows" id="focus">focus</button>
   <button title="reset the filters and highlights applied on the current data" id="reset">reset</button>  
+  <button title="create and show a filter based on the selected text" id="filter_selection">filter selection</button>  
 
 <% end %>
 
@@ -312,7 +381,6 @@ $(function() {
     <input type="number" value="50" step="100" id="feed_limit" min="1" max="2000" />
   </label>
   <h3>Feed filters
-    <button data-dyn-target="filters">&plus; add filter</button>
   </h3>
   <p class="usage_tip"><em>Tip: </em> feed filters support <a href="http://pcre.org">PCRE</a> regular expressions.
     You can make use of <a href="http://www.pcreck.com">PCREck</a> to edit and test your regexes.</p>
@@ -334,13 +402,17 @@ $(function() {
         <label>
           Negated? <input type="checkbox" name="filters[-1][negated]" />
         </label>
+        <label>
+          Regex? <input type="checkbox" name="filters[-1][regex]" />
+        </label>
         <button class="secondary" data-dyn-action="remove">&times;</button>
       </fieldset>
     </div>
 
   </section>
-  <button id="save_filters" data-content="Moo.">save filters</button>
-  <button title="Filter the current data" id="filter_current">filter current</button>
+  <button class="secondary" id="add_filter" data-dyn-target="filters">&plus; add filter</button>
+  <button class="secondary" id="save_filters" data-content="Moo.">save filters</button>
+  <button class="secondary" title="Filter the current data" id="filter_current">filter current</button>
   <button class="help" id="filter_help">?</button>
   <ul style="font-size:1em" id="about_filters">
     <li>

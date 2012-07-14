@@ -1,5 +1,21 @@
 var highlighted = false;
 var focused = false;
+var last_highlight = null;
+// credit goes to: http://www.codetoad.com/javascript_get_selected_text.asp
+function get_selected_text()
+{
+  var txt = '';
+  if (window.getSelection) {
+    txt = window.getSelection();
+  } else if (document.getSelection) {
+    txt = document.getSelection();
+  } else if (document.selection) {
+    txt = document.selection.createRange().text;
+  } else 
+    return null;
+
+  return txt;
+}
 
 grind_ui = function() {
   var handlers = {
@@ -32,17 +48,19 @@ grind_ui = function() {
 
         if (status_queue.length > 0) {
           var status = status_queue.pop();
-          return ui.status(status[0], status[1]);
+          return ui.status(status[0], status[1], status[2]);
         }
       });
       // $("#status_bar").html("");
     },
-    status: function(text, seconds_to_show) {
+    status: function(text, status, seconds_to_show) {
+      if (!status)
+        status = "notice";
       if (!seconds_to_show)
         seconds_to_show = defaults.status_bar;
 
       if (status_shown) {
-        return status_queue.push([ text, seconds_to_show ]);
+        return status_queue.push([ text, status, seconds_to_show ]);
       }
 
       if (status_timer)
@@ -50,7 +68,7 @@ grind_ui = function() {
 
       ui.clear_status(function() {
         status_timer = setTimeout("ui.clear_status()", seconds_to_show * 1000);
-        $("#status_bar").html(text).show("slide", {}, anime_dur);
+        $("#status_bar").removeClass("notice error").addClass(status).html(text).show("slide", {}, anime_dur);
         status_shown = true;
       });
 
@@ -103,10 +121,11 @@ highlight = function(name, value) {
   us.each(function() { $(this).parent().addClass("highlighted"); });
 
   $("#highlighted").html($("#highlighted").html().replace(/\d+/, us.length));
-  highlighted = true;
+  highlighted = { name: name, value: value };
 }
 dehighlight = function() {
   $("#highlighted").html($("#highlighted").html().replace(/\d+/, 0));
+  last_highlight = highlighted;
   highlighted = null;
   $("tbody .highlighted").removeClass("highlighted");
 }
@@ -126,8 +145,9 @@ reset_focus = function() {
 }
 
 function is_highlighted() { return highlighted; }
-function is_focused() { return focused; }
+function get_highlight() { return highlighted || last_highlight; }
 
+function is_focused() { return focused; }
 
 
 $(document).ready(function(){
@@ -145,7 +165,6 @@ $(document).ready(function(){
     // toggle_alterable($(this));
 
   }).click();
-
 
   ui.on_entry(function(row) {
     row.find("td[data-name]").click(function() {

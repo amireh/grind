@@ -341,6 +341,7 @@ tr:nth-child(1) td {
     -o-transition: background-color 0.2s ease 0s;  /* Opera 10.5+ */
     transition: background-color 0.2s ease 0s;
     background: none repeat scroll 0 0 rgba(0,0,0, 0.025);
+    background: none repeat scroll 0 0 rgba(255,255,255, 0.725);
     /*background: beige;*/
     /*border-color: -moz-use-text-color #FFFFFF #FFFFFF -moz-use-text-color;*/
     /*border-style: none solid solid none;*/
@@ -388,7 +389,7 @@ tr:nth-child(1) td {
 #feed_options {
   padding-left: 20px;
   hr { margin-left: -20px; }
-  width: 800px;
+  width: 875px;
 }
 fieldset {
   position: relative;
@@ -439,4 +440,8 @@ th.shrunk, td.shrunk { font-size: 1px; }
   display: none;
   margin: 0;
   padding: 10px;
+
+  &.error {
+    color: red;
+  }
 }
