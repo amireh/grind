@@ -27,7 +27,7 @@ function set_paths(root)
 end
 
 -- local leftovers = nil
--- local delimiter_rex = nil
+-- local signature_rex = nil
 -- function grind.leftovers() return leftovers end
 function grind.start(kernel)
   log("starting...", log_level.info)
@@ -43,8 +43,8 @@ function grind.start(kernel)
   -- end
 
   log("Delimiter patterns: ", log_level.info)
-  for delimiter in ilist(grind.config.delimiters) do
-    log("  " .. delimiter, log_level.info)
+  for signature in ilist(grind.config.signatures) do
+    log("  " .. signature, log_level.info)
   end
 
   for dir in ilist({ "groups", "klasses", "views" }) do
@@ -58,16 +58,16 @@ function grind.start(kernel)
   -- leftovers = ""
   -- local expression = "(?|"
   -- -- local expression = "(?J)"
-  -- for idx, delimiter in pairs(grind.config.delimiters) do
-  --   expression = expression .. delimiter-- .. "?"
-  --   if idx ~= #grind.config.delimiters then
+  -- for idx, signature in pairs(grind.config.signatures) do
+  --   expression = expression .. signature-- .. "?"
+  --   if idx ~= #grind.config.signatures then
   --     expression = expression .. "|"
   --   end
   -- end
   -- expression = expression .. ")"
   -- log("Delimiter expression: " .. expression)
-  -- delimiter_rex = create_regex(expression)
-  -- if not delimiter_rex then
+  -- signature_rex = create_regex(expression)
+  -- if not signature_rex then
   --   assert(false)
   -- end
 
@@ -96,27 +96,25 @@ function grind.handle(text, glabel)
   local group = grind.groups[glabel]
   assert(group)
   text = group.leftovers .. text
-  local delimiter_rex = group.delimiter
+  local signature_rex = group.signature
   local entries = {}
   b,e,c,b2,e2,c2 = 0,0,nil,0,0,nil
   consumed = 0
   while true do
 
-    b,e,c = delimiter_rex:find(text,e)
-    b2,e2,c2 = delimiter_rex:find(text,e)
+    b,e,c = signature_rex:find(text,e)
+    b2,e2,c2 = signature_rex:find(text,e)
 
     if b == nil or b2 == nil then
       break
     end
 
-    print('got summin')
-
     consumed = consumed + b2 - b
     -- local entry = entry_t:new(c, text:sub(e + 1, b2 - 1))
-    local delimiter_captures = { rex_pcre.find(text:sub(b, b2 - 1), delimiter_rex) }
-    if #delimiter_captures > 0 then -- strip out the match boundaries
-      table.remove(delimiter_captures,1)
-      table.remove(delimiter_captures,1)
+    local signature_captures = { rex_pcre.find(text:sub(b, b2 - 1), signature_rex) }
+    if #signature_captures > 0 then -- strip out the match boundaries
+      table.remove(signature_captures,1)
+      table.remove(signature_captures,1)
     end    
 
     local entry = entry_t:new(nil, text:sub(e + 1, b2 - 1))
@@ -142,7 +140,7 @@ function grind.handle(text, glabel)
       if format then
         log("Found an applicable group: " .. group.label .. " using format " .. format .. " for '" .. entry.meta.raw .. "'")
         -- local meta, body = group.extractor(entry.meta.timestamp, unpack(captures))
-        for k,v in pairs(delimiter_captures) do table.insert(captures, v) end
+        for k,v in pairs(signature_captures) do table.insert(captures, v) end
         local meta, body = group.extractors[format](unpack(captures))
 
         assert(type(meta) == "table", "Group " .. group.label .. "'s extractor returned no message.meta table!")
@@ -235,8 +233,8 @@ function grind.handle(text, glabel)
   return nil
 end
 
-function grind.add_delimiter(pattern)
-  table.insert(grind.config.delimiters, pattern)
+function grind.add_signature(pattern)
+  table.insert(grind.config.signatures, pattern)
 end
 
 function grind.define_group(glabel, port, options)
@@ -260,8 +258,8 @@ function grind.define_group(glabel, port, options)
     label = glabel,
     port = port,
     initter = initter,
-    __delimiter_patterns = {},
-    delimiter = nil,
+    __signature_patterns = {},
+    signature = nil,
     formatters = {},
     extractors = {},
     exclusive = false,
@@ -276,36 +274,36 @@ function grind.define_group(glabel, port, options)
   log("Application group defined: " .. glabel)
 end
 
-function grind.define_delimiter(glabel, ptrn)
+function grind.define_signature(glabel, ptrn)
   local group = grind.groups[glabel]
   assert(group, "No application group called '" .. glabel .. "' is defined, can not define extractor!")
 
   local rex = create_regex(ptrn)
-  assert(rex, "Invalid delimiter '" .. ptrn .. "' for group '" .. glabel .. "'")
+  assert(rex, "Invalid signature '" .. ptrn .. "' for group '" .. glabel .. "'")
 
-  table.insert(group.__delimiter_patterns, ptrn)
-  group.delimiter = nil
+  table.insert(group.__signature_patterns, ptrn)
+  group.signature = nil
   local expression = "(?|"
   -- local expression = "(?J)"
-  for idx, delimiter in pairs(group.__delimiter_patterns) do
-    expression = expression .. delimiter -- .. "?"
-    if idx ~= #group.__delimiter_patterns then
+  for idx, signature in pairs(group.__signature_patterns) do
+    expression = expression .. signature -- .. "?"
+    if idx ~= #group.__signature_patterns then
       expression = expression .. "|"
     end
   end
   expression = expression .. ")"
   log("Delimiter expression: " .. expression)
-  group.delimiter = create_regex(expression)
-  assert(group.delimiter)
+  group.signature = create_regex(expression)
+  assert(group.signature)
 
-  log("Application group delimiter defined: " .. expression)
-end
+  log("Application group signature defined: " .. expression)
+end; grind.define_delimiter = grind.define_signature
 
 function grind.define_format(glabel, gformat, ptrn)
   local group = grind.groups[glabel]
   assert(group, "No application group called '" .. glabel .. "' is defined, can not define format!")
 
-  assert(group.delimiter, "Application group " .. glabel .. " has no defined delimiter, can not continue.")
+  assert(group.signature, "Application group " .. glabel .. " has no defined signature, can not continue.")
 
   -- for backwards compatibility, not assigning a gformat
   if not ptrn then ptrn, gformat = gformat, "default" end
