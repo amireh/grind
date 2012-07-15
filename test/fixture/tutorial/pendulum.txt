@@ -1,0 +1,43 @@
+2012-07-15 19:21:31 [I] GameMgr: loading Pendulum config
+2012-07-15 19:21:31 [I] GameMgr: found existing configuration, parsing...
+2012-07-15 19:21:31 [I] InputMgr: up and running
+2012-07-15 19:21:31 [I] NetMgr: up and running
+2012-07-15 19:21:31 [I] EvtMgr: up and running
+2012-07-15 19:21:31 [I] GfxEngine: firing up
+2012-07-15 19:21:31 [I] UIEngine: firing up
+2012-07-15 19:21:31 [I] FxEngine: firing up
+2012-07-15 19:21:31 [I] ScriptEngine: firing up
+2012-07-15 19:21:31 [I] {1234} Battle: ---- Starting ----
+2012-07-15 19:21:31 [I] {1234} NetMgr: Connecting to server
+2012-07-15 19:21:31 [I] {1234} NetMgr: registered 3 patch mirrors
+2012-07-15 19:21:31 [I] {1234} NetMgr: attempting to connect to host pendulum.com
+2012-07-15 19:21:31 [I] {1234} Lua: UISheet: 'combat/ui.layout' created
+2012-07-15 19:21:31 [I] {1234} Lua: loading resources...
+2012-07-15 19:21:31 [I] {1234} Lua: unit defined: Fetish
+2012-07-15 19:21:31 [I] {1234} Lua: unit defined: SuperFetish
+2012-07-15 19:21:31 [I] {1234} Lua: unit defined: Balrog
+2012-07-15 19:21:31 [I] {1234} Lua: unit defined: Monkey
+2012-07-15 19:21:31 [I] {1234} Lua: resources loaded!
+2012-07-15 19:21:31 [I] {1234} Lua: hero defined: Kandie[0]
+2012-07-15 19:21:31 [I] {1234} Lua: hero defined: Tumbak[1]
+2012-07-15 19:21:31 [I] {1234} Lua: event: create_unit, args: [ name: Fetish, id: 2, owner: 0 ]
+2012-07-15 19:21:31 [I] {1234} Lua: event: create_unit, args: [ name: SuperFetish, id: 3, owner: 0 ]
+2012-07-15 19:21:31 [I] {1234} Lua: event: create_unit, args: [ name: Monkey, id: 4, owner: 1 ]
+2012-07-15 19:21:31 [I] {1234} Lua: event: attack_unit, args: [ attacker: 4, target: 2, dmg: 5 ]
+2012-07-15 19:21:31 [I] {1234} Lua: event: destroy_unit, args: [ id: 2 ]
+2012-07-15 19:21:31 [E] {1234} UIEngine: overlay 'status/unit_died' could not be found!
+2012-07-15 19:21:31 [I] {1234} Lua: event: attack_unit, args: [ attacker: 3, target: 1, dmg: 1000 ]
+2012-07-15 19:21:31 [I] {1234} Lua: event: destroy_hero, args: [ id: 1 ]
+2012-07-15 19:21:31 [I] {1234} Lua: event: victory, args: [ winner: 0 ]
+2012-07-15 19:21:31 [I] {1234} Battle: ---- Ending ----
+2012-07-15 19:21:31 [I] InputMgr: received Alt+F4, broadcasting "Quit" event
+2012-07-15 19:21:31 [I] GameMgr: player is quitting, shutting down cleanly...
+2012-07-15 19:21:31 [I] ScriptEngine: shutting down
+2012-07-15 19:21:31 [I] FxEngine: shutting down
+2012-07-15 19:21:31 [I] UIEngine: shutting down
+2012-07-15 19:21:31 [I] GfxEngine: shutting down
+2012-07-15 19:21:31 [I] InputMgr: cleaning up
+2012-07-15 19:21:31 [I] EvtMgr: cleaning up
+2012-07-15 19:21:31 [I] NetMgr: cleaning up
+2012-07-15 19:21:31 [I] InputMgr: cleaning up
+2012-07-15 19:21:31 [I] GameMgr: bye!
