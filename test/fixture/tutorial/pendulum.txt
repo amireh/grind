@@ -13,21 +13,21 @@
 2012-07-15 19:21:31 [I] {1234} NetMgr: attempting to connect to host pendulum.com
 2012-07-15 19:21:31 [I] {1234} Lua: UISheet: 'combat/ui.layout' created
 2012-07-15 19:21:31 [I] {1234} Lua: loading resources...
-2012-07-15 19:21:31 [I] {1234} Lua: unit defined: Fetish
-2012-07-15 19:21:31 [I] {1234} Lua: unit defined: SuperFetish
-2012-07-15 19:21:31 [I] {1234} Lua: unit defined: Balrog
-2012-07-15 19:21:31 [I] {1234} Lua: unit defined: Monkey
+2012-07-15 19:21:31 [I] {1234} Lua: monkey defined: Yellow
+2012-07-15 19:21:31 [I] {1234} Lua: monkey defined: Brown
+2012-07-15 19:21:31 [I] {1234} Lua: monkey defined: PurpleHaze
+2012-07-15 19:21:31 [I] {1234} Lua: monkey defined: Vanilla
 2012-07-15 19:21:31 [I] {1234} Lua: resources loaded!
-2012-07-15 19:21:31 [I] {1234} Lua: hero defined: Kandie[0]
-2012-07-15 19:21:31 [I] {1234} Lua: hero defined: Tumbak[1]
-2012-07-15 19:21:31 [I] {1234} Lua: event: create_unit, args: [ name: Fetish, id: 2, owner: 0 ]
-2012-07-15 19:21:31 [I] {1234} Lua: event: create_unit, args: [ name: SuperFetish, id: 3, owner: 0 ]
-2012-07-15 19:21:31 [I] {1234} Lua: event: create_unit, args: [ name: Monkey, id: 4, owner: 1 ]
-2012-07-15 19:21:31 [I] {1234} Lua: event: attack_unit, args: [ attacker: 4, target: 2, dmg: 5 ]
-2012-07-15 19:21:31 [I] {1234} Lua: event: destroy_unit, args: [ id: 2 ]
-2012-07-15 19:21:31 [E] {1234} UIEngine: overlay 'status/unit_died' could not be found!
-2012-07-15 19:21:31 [I] {1234} Lua: event: attack_unit, args: [ attacker: 3, target: 1, dmg: 1000 ]
-2012-07-15 19:21:31 [I] {1234} Lua: event: destroy_hero, args: [ id: 1 ]
+2012-07-15 19:21:31 [I] {1234} Lua: behemoth defined: Kandie[0]
+2012-07-15 19:21:31 [I] {1234} Lua: behemoth defined: Tumbak[1]
+2012-07-15 19:21:31 [I] {1234} Lua: event: create_monkey, args: [ color: Yellow, id: 2, owner: 0 ]
+2012-07-15 19:21:31 [I] {1234} Lua: event: create_monkey, args: [ color: PurpleHaze, id: 3, owner: 1 ]
+2012-07-15 19:21:31 [I] {1234} Lua: event: create_monkey, args: [ color: Brown, id: 4, owner: 0 ]
+2012-07-15 19:21:31 [I] {1234} Lua: event: attack_monkey, args: [ attacker: 4, target: 2, dmg: 5 ]
+2012-07-15 19:21:31 [I] {1234} Lua: event: destroy_monkey, args: [ id: 2 ]
+2012-07-15 19:21:31 [E] {1234} UIEngine: overlay 'status/monkey_died' could not be found!
+2012-07-15 19:21:31 [I] {1234} Lua: event: attack_monkey, args: [ attacker: 3, target: 1, dmg: 1000 ]
+2012-07-15 19:21:31 [I] {1234} Lua: event: destroy_behemoth, args: [ id: 1 ]
 2012-07-15 19:21:31 [I] {1234} Lua: event: victory, args: [ winner: 0 ]
 2012-07-15 19:21:31 [I] {1234} Battle: ---- Ending ----
 2012-07-15 19:21:31 [I] InputMgr: received Alt+F4, broadcasting "Quit" event
