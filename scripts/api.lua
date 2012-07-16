@@ -1,5 +1,13 @@
-local logger = lua_grind.logger("API")
-local log = logger:log()
+local log = logger:new("API")
+
+grind.command("group_ports", function(cmd)
+  local res = {}
+  for _, group in pairs(grind.groups) do
+    res[group.label] = group.port
+  end
+
+  return res
+end)
 
 grind.command("list_groups", function(cmd)
   local res = {}
@@ -137,7 +145,7 @@ grind.command("subscribe", function(cmd, watcher)
     return false, "Already subscribed."
   end
 
-  grind.subscriptions[watcher:whois()] = { group.label, klass.label, view.label, watcher }
+  grind.subscriptions[watcher:whois()] = { group.label, klass.label, view.label, watcher, filters = {} }
 
   log:info("Watcher#" .. watcher:whois() .. " has subscribed to " .. group.label .. ">>" .. klass.label .. ">>" .. view.label)
   return true
@@ -178,7 +186,7 @@ grind.command("clear_filters", function(cmd, watcher)
   if not sub then
     return false, "You must subscribe to a view first!"
   end
-  sub.filters = nil
+  sub.filters = {}
 end)
 
 grind.command("purge", function(cmd)

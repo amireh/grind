@@ -34,7 +34,7 @@ namespace grind {
     string_t  watcher_port;     /* default: 11142 */
   } kernel_cfg_t;
 
-  class kernel : public logger {
+  class kernel {
   public:
 
     grind::kernel_cfg_t cfg;

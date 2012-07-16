@@ -1664,11 +1664,9 @@ SWIG_Lua_dostring(lua_State *L, const char* str) {
 #define SWIGTYPE_p_grind__connection swig_types[0]
 #define SWIGTYPE_p_grind__kernel swig_types[1]
 #define SWIGTYPE_p_grind__kernel_cfg_t swig_types[2]
-#define SWIGTYPE_p_grind__logger swig_types[3]
-#define SWIGTYPE_p_log4cpp__Category swig_types[4]
-#define SWIGTYPE_p_std__string swig_types[5]
-static swig_type_info *swig_types[7];
-static swig_module_info swig_module = {swig_types, 6, 0, 0, 0, 0};
+#define SWIGTYPE_p_std__string swig_types[3]
+static swig_type_info *swig_types[5];
+static swig_module_info swig_module = {swig_types, 4, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -1711,17 +1709,6 @@ SWIGINTERN int SWIG_lua_isnilstring(lua_State *L, int idx) {
 
 
 #include <stdexcept>
-
-
-  #include "logger.hpp"
-  #include <log4cpp/Category.hh>
-  #include <log4cpp/Portability.hh>
-  #include <log4cpp/Appender.hh>
-  #include <log4cpp/LoggingEvent.hh>
-  #include <log4cpp/Priority.hh>
-  #include <log4cpp/CategoryStream.hh>
-  #include <log4cpp/threading/Threading.hh>
-  #include <log4cpp/convenience.h>
 
 
   #include "kernel.hpp"
@@ -1962,331 +1949,6 @@ static swig_lua_attribute swig_std_string_attributes[] = {
 static swig_lua_class *swig_std_string_bases[] = {0};
 static const char *swig_std_string_base_names[] = {0};
 static swig_lua_class _wrap_class_std_string = { "string", &SWIGTYPE_p_std__string,_wrap_new_string, swig_delete_string, swig_std_string_methods, swig_std_string_attributes, swig_std_string_bases, swig_std_string_base_names };
-
-static int _wrap_Category_debug(lua_State* L) {
-  int SWIG_arg = 0;
-  log4cpp::Category *arg1 = (log4cpp::Category *) 0 ;
-  std::string *arg2 = 0 ;
-  std::string temp2 ;
-  
-  SWIG_check_num_args("log4cpp::Category::debug",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("log4cpp::Category::debug",1,"log4cpp::Category *");
-  if(!lua_isstring(L,2)) SWIG_fail_arg("log4cpp::Category::debug",2,"std::string const &");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_log4cpp__Category,0))){
-    SWIG_fail_ptr("Category_debug",1,SWIGTYPE_p_log4cpp__Category);
-  }
-  
-  temp2.assign(lua_tostring(L,2),lua_rawlen(L,2)); arg2=&temp2;
-  (arg1)->debug((std::string const &)*arg2);
-  
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_Category_info(lua_State* L) {
-  int SWIG_arg = 0;
-  log4cpp::Category *arg1 = (log4cpp::Category *) 0 ;
-  std::string *arg2 = 0 ;
-  std::string temp2 ;
-  
-  SWIG_check_num_args("log4cpp::Category::info",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("log4cpp::Category::info",1,"log4cpp::Category *");
-  if(!lua_isstring(L,2)) SWIG_fail_arg("log4cpp::Category::info",2,"std::string const &");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_log4cpp__Category,0))){
-    SWIG_fail_ptr("Category_info",1,SWIGTYPE_p_log4cpp__Category);
-  }
-  
-  temp2.assign(lua_tostring(L,2),lua_rawlen(L,2)); arg2=&temp2;
-  (arg1)->info((std::string const &)*arg2);
-  
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_Category_notice(lua_State* L) {
-  int SWIG_arg = 0;
-  log4cpp::Category *arg1 = (log4cpp::Category *) 0 ;
-  std::string *arg2 = 0 ;
-  std::string temp2 ;
-  
-  SWIG_check_num_args("log4cpp::Category::notice",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("log4cpp::Category::notice",1,"log4cpp::Category *");
-  if(!lua_isstring(L,2)) SWIG_fail_arg("log4cpp::Category::notice",2,"std::string const &");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_log4cpp__Category,0))){
-    SWIG_fail_ptr("Category_notice",1,SWIGTYPE_p_log4cpp__Category);
-  }
-  
-  temp2.assign(lua_tostring(L,2),lua_rawlen(L,2)); arg2=&temp2;
-  (arg1)->notice((std::string const &)*arg2);
-  
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_Category_warn(lua_State* L) {
-  int SWIG_arg = 0;
-  log4cpp::Category *arg1 = (log4cpp::Category *) 0 ;
-  std::string *arg2 = 0 ;
-  std::string temp2 ;
-  
-  SWIG_check_num_args("log4cpp::Category::warn",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("log4cpp::Category::warn",1,"log4cpp::Category *");
-  if(!lua_isstring(L,2)) SWIG_fail_arg("log4cpp::Category::warn",2,"std::string const &");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_log4cpp__Category,0))){
-    SWIG_fail_ptr("Category_warn",1,SWIGTYPE_p_log4cpp__Category);
-  }
-  
-  temp2.assign(lua_tostring(L,2),lua_rawlen(L,2)); arg2=&temp2;
-  (arg1)->warn((std::string const &)*arg2);
-  
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_Category_error(lua_State* L) {
-  int SWIG_arg = 0;
-  log4cpp::Category *arg1 = (log4cpp::Category *) 0 ;
-  std::string *arg2 = 0 ;
-  std::string temp2 ;
-  
-  SWIG_check_num_args("log4cpp::Category::error",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("log4cpp::Category::error",1,"log4cpp::Category *");
-  if(!lua_isstring(L,2)) SWIG_fail_arg("log4cpp::Category::error",2,"std::string const &");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_log4cpp__Category,0))){
-    SWIG_fail_ptr("Category_error",1,SWIGTYPE_p_log4cpp__Category);
-  }
-  
-  temp2.assign(lua_tostring(L,2),lua_rawlen(L,2)); arg2=&temp2;
-  (arg1)->error((std::string const &)*arg2);
-  
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_Category_crit(lua_State* L) {
-  int SWIG_arg = 0;
-  log4cpp::Category *arg1 = (log4cpp::Category *) 0 ;
-  std::string *arg2 = 0 ;
-  std::string temp2 ;
-  
-  SWIG_check_num_args("log4cpp::Category::crit",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("log4cpp::Category::crit",1,"log4cpp::Category *");
-  if(!lua_isstring(L,2)) SWIG_fail_arg("log4cpp::Category::crit",2,"std::string const &");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_log4cpp__Category,0))){
-    SWIG_fail_ptr("Category_crit",1,SWIGTYPE_p_log4cpp__Category);
-  }
-  
-  temp2.assign(lua_tostring(L,2),lua_rawlen(L,2)); arg2=&temp2;
-  (arg1)->crit((std::string const &)*arg2);
-  
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_Category_alert(lua_State* L) {
-  int SWIG_arg = 0;
-  log4cpp::Category *arg1 = (log4cpp::Category *) 0 ;
-  std::string *arg2 = 0 ;
-  std::string temp2 ;
-  
-  SWIG_check_num_args("log4cpp::Category::alert",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("log4cpp::Category::alert",1,"log4cpp::Category *");
-  if(!lua_isstring(L,2)) SWIG_fail_arg("log4cpp::Category::alert",2,"std::string const &");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_log4cpp__Category,0))){
-    SWIG_fail_ptr("Category_alert",1,SWIGTYPE_p_log4cpp__Category);
-  }
-  
-  temp2.assign(lua_tostring(L,2),lua_rawlen(L,2)); arg2=&temp2;
-  (arg1)->alert((std::string const &)*arg2);
-  
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_Category_emerg(lua_State* L) {
-  int SWIG_arg = 0;
-  log4cpp::Category *arg1 = (log4cpp::Category *) 0 ;
-  std::string *arg2 = 0 ;
-  std::string temp2 ;
-  
-  SWIG_check_num_args("log4cpp::Category::emerg",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("log4cpp::Category::emerg",1,"log4cpp::Category *");
-  if(!lua_isstring(L,2)) SWIG_fail_arg("log4cpp::Category::emerg",2,"std::string const &");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_log4cpp__Category,0))){
-    SWIG_fail_ptr("Category_emerg",1,SWIGTYPE_p_log4cpp__Category);
-  }
-  
-  temp2.assign(lua_tostring(L,2),lua_rawlen(L,2)); arg2=&temp2;
-  (arg1)->emerg((std::string const &)*arg2);
-  
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_Category_fatal(lua_State* L) {
-  int SWIG_arg = 0;
-  log4cpp::Category *arg1 = (log4cpp::Category *) 0 ;
-  std::string *arg2 = 0 ;
-  std::string temp2 ;
-  
-  SWIG_check_num_args("log4cpp::Category::fatal",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("log4cpp::Category::fatal",1,"log4cpp::Category *");
-  if(!lua_isstring(L,2)) SWIG_fail_arg("log4cpp::Category::fatal",2,"std::string const &");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_log4cpp__Category,0))){
-    SWIG_fail_ptr("Category_fatal",1,SWIGTYPE_p_log4cpp__Category);
-  }
-  
-  temp2.assign(lua_tostring(L,2),lua_rawlen(L,2)); arg2=&temp2;
-  (arg1)->fatal((std::string const &)*arg2);
-  
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static void swig_delete_Category(void *obj) {
-log4cpp::Category *arg1 = (log4cpp::Category *) obj;
-delete arg1;
-}
-static swig_lua_method swig_log4cpp_Category_methods[] = {
-    {"debug", _wrap_Category_debug}, 
-    {"info", _wrap_Category_info}, 
-    {"notice", _wrap_Category_notice}, 
-    {"warn", _wrap_Category_warn}, 
-    {"error", _wrap_Category_error}, 
-    {"crit", _wrap_Category_crit}, 
-    {"alert", _wrap_Category_alert}, 
-    {"emerg", _wrap_Category_emerg}, 
-    {"fatal", _wrap_Category_fatal}, 
-    {0,0}
-};
-static swig_lua_attribute swig_log4cpp_Category_attributes[] = {
-    {0,0,0}
-};
-static swig_lua_class *swig_log4cpp_Category_bases[] = {0};
-static const char *swig_log4cpp_Category_base_names[] = {0};
-static swig_lua_class _wrap_class_log4cpp_Category = { "Category", &SWIGTYPE_p_log4cpp__Category,0, swig_delete_Category, swig_log4cpp_Category_methods, swig_log4cpp_Category_attributes, swig_log4cpp_Category_bases, swig_log4cpp_Category_base_names };
-
-static int _wrap_new_logger(lua_State* L) {
-  int SWIG_arg = 0;
-  string_t arg1 ;
-  grind::logger *result = 0 ;
-  
-  SWIG_check_num_args("grind::logger::logger",1,1)
-  if(!lua_isstring(L,1)) SWIG_fail_arg("grind::logger::logger",1,"string_t");
-  (&arg1)->assign(lua_tostring(L,1),lua_rawlen(L,1));
-  result = (grind::logger *)new grind::logger(arg1);
-  SWIG_NewPointerObj(L,result,SWIGTYPE_p_grind__logger,1); SWIG_arg++; 
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static int _wrap_logger_log(lua_State* L) {
-  int SWIG_arg = 0;
-  grind::logger *arg1 = (grind::logger *) 0 ;
-  log4cpp::Category *result = 0 ;
-  
-  SWIG_check_num_args("grind::logger::log",1,1)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("grind::logger::log",1,"grind::logger *");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_grind__logger,0))){
-    SWIG_fail_ptr("logger_log",1,SWIGTYPE_p_grind__logger);
-  }
-  
-  result = (log4cpp::Category *)(arg1)->log();
-  SWIG_NewPointerObj(L,result,SWIGTYPE_p_log4cpp__Category,0); SWIG_arg++; 
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}
-
-
-static void swig_delete_logger(void *obj) {
-grind::logger *arg1 = (grind::logger *) obj;
-delete arg1;
-}
-static swig_lua_method swig_grind_logger_methods[] = {
-    {"log", _wrap_logger_log}, 
-    {0,0}
-};
-static swig_lua_attribute swig_grind_logger_attributes[] = {
-    {0,0,0}
-};
-static swig_lua_class *swig_grind_logger_bases[] = {0};
-static const char *swig_grind_logger_base_names[] = {0};
-static swig_lua_class _wrap_class_grind_logger = { "logger", &SWIGTYPE_p_grind__logger,_wrap_new_logger, swig_delete_logger, swig_grind_logger_methods, swig_grind_logger_attributes, swig_grind_logger_bases, swig_grind_logger_base_names };
 
 static int _wrap_kernel_cfg_t_feeder_interface_set(lua_State* L) {
   int SWIG_arg = 0;
@@ -2639,6 +2301,23 @@ fail:
 }
 
 
+static int _wrap_new_kernel(lua_State* L) {
+  int SWIG_arg = 0;
+  grind::kernel *result = 0 ;
+  
+  SWIG_check_num_args("grind::kernel::kernel",0,0)
+  result = (grind::kernel *)new grind::kernel();
+  SWIG_NewPointerObj(L,result,SWIGTYPE_p_grind__kernel,1); SWIG_arg++; 
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
 static void swig_delete_kernel(void *obj) {
 grind::kernel *arg1 = (grind::kernel *) obj;
 delete arg1;
@@ -2654,9 +2333,9 @@ static swig_lua_attribute swig_grind_kernel_attributes[] = {
     { "cfg", _wrap_kernel_cfg_get, _wrap_kernel_cfg_set},
     {0,0,0}
 };
-static swig_lua_class *swig_grind_kernel_bases[] = {0,0};
-static const char *swig_grind_kernel_base_names[] = {"grind::logger *",0};
-static swig_lua_class _wrap_class_grind_kernel = { "kernel", &SWIGTYPE_p_grind__kernel,0, swig_delete_kernel, swig_grind_kernel_methods, swig_grind_kernel_attributes, swig_grind_kernel_bases, swig_grind_kernel_base_names };
+static swig_lua_class *swig_grind_kernel_bases[] = {0};
+static const char *swig_grind_kernel_base_names[] = {0};
+static swig_lua_class _wrap_class_grind_kernel = { "kernel", &SWIGTYPE_p_grind__kernel,_wrap_new_kernel, swig_delete_kernel, swig_grind_kernel_methods, swig_grind_kernel_attributes, swig_grind_kernel_bases, swig_grind_kernel_base_names };
 
 static int _wrap_connection_send(lua_State* L) {
   int SWIG_arg = 0;
@@ -2742,38 +2421,27 @@ static swig_lua_const_info swig_constants[] = {
 
 /* -------- TYPE CONVERSION AND EQUIVALENCE RULES (BEGIN) -------- */
 
-static void *_p_grind__kernelTo_p_grind__logger(void *x, int *SWIGUNUSEDPARM(newmemory)) {
-    return (void *)((grind::logger *)  ((grind::kernel *) x));
-}
 static swig_type_info _swigt__p_grind__connection = {"_p_grind__connection", "grind::connection *", 0, 0, (void*)&_wrap_class_grind_connection, 0};
 static swig_type_info _swigt__p_grind__kernel = {"_p_grind__kernel", "grind::kernel *", 0, 0, (void*)&_wrap_class_grind_kernel, 0};
 static swig_type_info _swigt__p_grind__kernel_cfg_t = {"_p_grind__kernel_cfg_t", "grind::kernel_cfg_t *", 0, 0, (void*)&_wrap_class_grind_kernel_cfg_t, 0};
-static swig_type_info _swigt__p_grind__logger = {"_p_grind__logger", "grind::logger *", 0, 0, (void*)&_wrap_class_grind_logger, 0};
-static swig_type_info _swigt__p_log4cpp__Category = {"_p_log4cpp__Category", "log4cpp::Category *", 0, 0, (void*)&_wrap_class_log4cpp_Category, 0};
 static swig_type_info _swigt__p_std__string = {"_p_std__string", "std::string *|string_t *", 0, 0, (void*)&_wrap_class_std_string, 0};
 
 static swig_type_info *swig_type_initial[] = {
   &_swigt__p_grind__connection,
   &_swigt__p_grind__kernel,
   &_swigt__p_grind__kernel_cfg_t,
-  &_swigt__p_grind__logger,
-  &_swigt__p_log4cpp__Category,
   &_swigt__p_std__string,
 };
 
 static swig_cast_info _swigc__p_grind__connection[] = {  {&_swigt__p_grind__connection, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_grind__kernel[] = {  {&_swigt__p_grind__kernel, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_grind__kernel_cfg_t[] = {  {&_swigt__p_grind__kernel_cfg_t, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_grind__logger[] = {  {&_swigt__p_grind__logger, 0, 0, 0},  {&_swigt__p_grind__kernel, _p_grind__kernelTo_p_grind__logger, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_log4cpp__Category[] = {  {&_swigt__p_log4cpp__Category, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_std__string[] = {  {&_swigt__p_std__string, 0, 0, 0},{0, 0, 0, 0}};
 
 static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_grind__connection,
   _swigc__p_grind__kernel,
   _swigc__p_grind__kernel_cfg_t,
-  _swigc__p_grind__logger,
-  _swigc__p_log4cpp__Category,
   _swigc__p_std__string,
 };
 

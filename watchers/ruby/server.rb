@@ -53,7 +53,7 @@ EventMachine.run {
 
     ws.onopen {
       channel = EM::Channel.new
-      comlink = EventMachine::connect '127.0.0.1', 11141, Watcher
+      comlink = EventMachine::connect '127.0.0.1', 11142, Watcher
       comlink.set_channel(channel)
       sid = channel.subscribe { |msg| ws.send msg }
       # t = Terminal.new

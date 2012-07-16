@@ -10,9 +10,10 @@ do
   cli:add_opt("-k, --klass=ID", "klass identifier", "klass")
   cli:add_opt("-v, --view=ID", "view identifier", "view")
   cli:add_opt("-h, --host=HOST", "the host IP on which grind is running", "host", "127.0.0.1")
-  cli:add_opt("-p, --port=PORT", "the port on which grind is running", "port", 11141)
+  cli:add_opt("-p, --port=PORT", "the port on which grind is running", "port", 11142)
   cli:add_opt("-t, --timeout=MS", "amount of milliseconds to wait before interrupting the connection", "tt", 1)
-  cli:add_opt("-a, --arg=\"KEY=VAL\"", "arbitrary arguments", "extra_args", {})
+  cli:add_flag("-R, --result-only", "displays the result without any extra data", "ro", false)
+  
 
   args = cli:parse_args()
   if not args then
@@ -33,15 +34,32 @@ cmd_args.tt = nil
 client:send(json.encode({ id = args.cmd, args = cmd_args }))
 
 local data,err,partial = client:receive('*a')
-if data then
-  print(data)
-end
+-- if data then
+  -- print(data)
+-- end
 if partial and #partial > 0 then
-  print(partial)
+  data = (data or "") .. partial
 end
 if err and err ~= "timeout" then
   print("ERROR: " .. err)
 end
 
+if args["ro"] then
+  function table.dump(t, indent)
+    if not indent then indent = 0 end
+    local padding = ""
+    for i=0,indent do padding = padding .. "  " end
+    for k,v in pairs(t) do
+      if type(v) == "table" then 
+        table.dump(v, indent + 1)
+      else
+        print(padding .. tostring(k) .. " => " .. tostring(v))
+      end
+    end
+  end  
+  table.dump(json.decode(data).result)
+else
+  print(data)
+end
 client:close()
 client:shutdown()

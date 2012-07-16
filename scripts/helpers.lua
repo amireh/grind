@@ -1,8 +1,7 @@
 require 'lfs'
 require 'rex_pcre'
 
-local logger = lua_grind.logger("utility")
-local log = logger:log()
+local log = logger:new("utility")
 
 -- Locates the function identified by @name and passes it
 -- the arguments. This is used by the C/C++ wrapper.

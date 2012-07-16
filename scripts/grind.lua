@@ -10,7 +10,8 @@ grind = grind or {
   subscriptions = {}
 }
 
-local logger, log = nil, nil
+-- local logger, log = nil, nil
+local log = nil
 
 function grind.init(root)
   if grind.config.debug then
@@ -20,13 +21,14 @@ function grind.init(root)
   
   grind.paths.root = root
 
+  require 'logger'
   require 'helpers'
-  -- require 'logging'
 
-  logger = lua_grind.logger("grind")
-  log = logger:log()
+  -- logger = lua_grind.logger("grind")
+  -- log = logger:log()
+  log = logger:new("grind")
 
-  log:info("Loading from " .. root)
+  log:info("Running from " .. root)
 end
 
 -- local leftovers = nil
@@ -94,9 +96,8 @@ function grind.handle(text, glabel)
   assert(group)
   text = group.leftovers .. text
   local signature_rex = group.signature
-  local entries = {}
-  b,e,c,b2,e2,c2 = 0,0,nil,0,0,nil
-  consumed = 0
+  local b,e,c,b2,e2,c2 = 0,0,nil,0,0,nil
+  local consumed = 0
   while true do
 
     b,e,c = signature_rex:find(text,e)
@@ -107,7 +108,6 @@ function grind.handle(text, glabel)
     end
 
     consumed = consumed + b2 - b
-    -- local entry = entry_t:new(c, text:sub(e + 1, b2 - 1))
     local signature_captures = { rex_pcre.find(text:sub(b, b2 - 1), signature_rex) }
     if #signature_captures > 0 then -- strip out the match boundaries
       table.remove(signature_captures,1)
@@ -115,112 +115,118 @@ function grind.handle(text, glabel)
     end    
 
     local entry = entry_t:new(nil, text:sub(e + 1, b2 - 1))
+    local captures = {}
+    local formats = {}
+    for format, formatter in pairs(group.formatters) do
+      captures = formatter(entry.meta.raw)
+      if #captures > 0 then
+        table.insert(formats, format)
+      end
+    end
 
-    -- for _,group in pairs(grind.groups) do
-      log:debug("Checking if group " .. group.label .. " is applicable for '" .. entry.meta.raw .. "'...")
-
-
-      -- local captures = group.formatter(entry.meta.raw)
-      local captures = {}
-      local format = nil
-      for _format, formatter in pairs(group.formatters) do
-        -- local raw = entry.meta.raw
-        -- log("checking if format " .. _format .. " is compatible on: " .. entry.meta.raw)
-        captures = formatter(entry.meta.raw)
-        -- print(raw)
-        if #captures > 0 then
-          format = _format
-          break
-        end
+    for format in ilist(formats) do
+      log:debug("Group: " .. group.label .. ", applicable format: " .. format .. " on '" .. entry.meta.raw .. "'")
+      
+      -- append the signature format captures to the format captures
+      for k,v in pairs(signature_captures) do 
+        table.insert(captures, v)
       end
 
-      if format then
-        log:debug("Found an applicable group: " .. group.label .. " using format " .. format .. " for '" .. entry.meta.raw .. "'")
-        -- local meta, body = group.extractor(entry.meta.timestamp, unpack(captures))
-        for k,v in pairs(signature_captures) do table.insert(captures, v) end
-        local meta, body = group.extractors[format](unpack(captures))
+      -- get a hold on the entry structure
+      local meta, body = group.extractors[format](unpack(captures))
 
-        assert(type(meta) == "table", "Group " .. group.label .. "'s extractor returned no message.meta table!")
-        assert(type(body) == "string", "Group " .. group.label .. "'s extractor returned no message.body string!")
+      assert(type(meta) == "table", "Group " .. group.label .. "'s extractor returned no message.meta table!")
+      assert(type(body) == "string", "Group " .. group.label .. "'s extractor returned no message.body string!")
 
-        for k,v in pairs(meta) do entry.meta[k] = v end
-        entry.body = body
-        -- entry.meta.raw = nil
+      -- define the entry
+      entry.body = body
+      for k,v in pairs(meta) do 
+        entry.meta[k] = v
+      end
 
-        -- any klasses defined?
-        for __,klass in pairs(group.klasses) do
-          if klass:belongs_to(format) and klass.matcher(format, entry, klass.context) then
-            log:debug("  Found an applicable klass: " .. klass.label)
-            for ___,view in pairs(klass.views) do
-              local res, formatted_entry, keep_context = view.formatter(format, view.context, entry, klass.context)
-              if res and formatted_entry then
+      -- keep the raw version
+      -- entry.meta.raw = nil
 
-                local encoded_entry = json.encode({ 
-                  group = group.label, 
-                  klass = klass.label, 
-                  view = view.label,
-                  entry = formatted_entry
-                })
+      -- see if any eligible klass is interested in the entry
+      -- TODO: this can be optimized if we link klasses directly
+      -- to the formats when they bind
+      for __,klass in pairs(group.klasses) do
+        if klass:belongs_to(format) and klass.matcher(format, entry, klass.context) then
+          log:debug("  Found an applicable klass: " .. klass.label)
 
-                -- log("Committing an entry! : " .. encoded_entry)
+          -- invoke the view formatters
+          for ___,view in pairs(klass.views) do
+            local do_commit, formatted_entry, keep_context = view.formatter(format, view.context, entry, klass.context)
 
-                -- broadcast to all subscribed watchers
-                log:debug("looking for watchers subscribed to "..
-                    group.label .. ">>" .. klass.label .. ">>" .. view.label)
-                for w_id,s in pairs(grind.subscriptions) do
-                  if s[1] == "*" or
-                     (s[1] == group.label and
-                     s[2] == klass.label and
-                     s[3] == view.label)
-                  then
-                    local w = s[4]
-                    local do_relay = true
-                    log:debug("Relaying to Watcher#" .. w:whois())
-                    if s.filters then
-                      for field, match in pairs(s.filters) do
-                        local match_res = true
-                        if match[1] then -- a regex
-                          match_res = rex_pcre.match(formatted_entry[field] or "", match[2])
-                        else
-                          match_res = (formatted_entry[field] or "") == match[2]
-                        end
+            if do_commit and formatted_entry then
 
-                        -- is it a negated filter?
-                        if match[3] then match_res = not match_res end
+              local encoded_entry = json.encode({ 
+                group = group.label, 
+                klass = klass.label, 
+                view = view.label,
+                entry = formatted_entry
+              })
 
-                        if not match_res then
-                          table.dump(formatted_entry)
-                          log:debug("Filter on " .. field .. " => " .. tostring(match[2]) ..
-                           " failed, will not relay to " .. w:whois() .. " (" .. (formatted_entry[field] or "") .. ")")
-                          do_relay = false
-                          break
-                        end
-                      end -- view filters
-                    end -- if any filters are defined
+              -- log("Committing an entry! : " .. encoded_entry)
 
-                    if do_relay then
-                      w:send(encoded_entry)
+              -- broadcast to all subscribed watchers
+              log:debug("looking for watchers subscribed to " ..
+                        group.label .. ">>" .. klass.label .. ">>" .. view.label)
+
+              for w_id,sub in pairs(grind.subscriptions) do
+                if sub[1] == "*" or
+                   (sub[1] == group.label and
+                    sub[2] == klass.label and
+                    sub[3] == view.label) then
+
+                  local w = sub[4]
+                  local do_relay = true
+
+                  log:debug("Relaying to Watcher#" .. w:whois())
+
+                  -- respect the subscription's filters, if any
+                  for field, filter in pairs(sub.filters) do
+                    local passed = true
+                    
+                    -- filter structure is: { is_regex_or_not, regex_or_string, is_negated_or_not }
+
+                    -- a regex?
+                    if filter[1] then
+                      passed = rex_pcre.match(formatted_entry[field] or "", filter[2])
+                    -- a literal comparison
+                    else
+                      passed = (formatted_entry[field] or "") == filter[2]
                     end
-                  end -- the subscription is for this view
-                end -- subscription loop
 
-                -- reset the context
-                if not keep_context then
-                  view.context = {}
-                end
-              end -- the view is comitting an entry
-            end -- the view loop
-          end -- the klass has matched
-        end -- the klass loop
+                    -- is it a negated filter?
+                    if filter[3] then passed = not passed end
 
-        -- if group.exclusive then
-        --   log("Group is exclusive, will discard entry now.")
-        --   break
-        -- end
+                    if not passed then
+                      -- table.dump(formatted_entry)
+                      log:debug("Filter on " .. field .. " => " .. tostring(filter[2]) ..
+                                " failed, will not relay to " .. w:whois() .. 
+                                " (" .. (formatted_entry[field] or "") .. ")")
 
-      end -- the format has matched
+                      do_relay = false
+                      break
+                    end
+                  end -- view filters
 
-    -- end
+                  if do_relay then
+                    w:send(encoded_entry)
+                  end
+                end -- the subscription is for this view
+              end -- subscription loop
+
+              -- reset the context
+              if not keep_context then
+                view.context = {}
+              end
+            end -- the view is comitting an entry
+          end -- the view loop
+        end -- the klass has matched
+      end -- the klass loop
+    end -- the format has matched
   end
 
   group.leftovers = text:sub(consumed)
