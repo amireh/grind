@@ -38,7 +38,7 @@ int main(int argc, char** argv)
 {
   using grind::string_t;
 
-  string_t config_file = "grind.cfg";
+  string_t config_file = "";
   if (argc > 1) {
     for (int i = 1; i < argc; ++i) {
       string_t arg(argv[i]);
@@ -61,8 +61,8 @@ int main(int argc, char** argv)
   pthread_sigmask(SIG_BLOCK, &new_mask, &old_mask);
 
   grind::kernel kernel;
-  kernel.configure(config_file);
-  kernel.init();
+  kernel.init(config_file);
+  // kernel.init();
 
   if (!kernel.is_init()) {
     kernel.cleanup();

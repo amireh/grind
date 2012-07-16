@@ -35,8 +35,7 @@ namespace grind {
   }
 
   log_manager::log_manager()
-  : configurable(),
-    log_appender_(0),
+  : log_appender_(0),
     log_layout_(0),
     log_category_(0),
     log_(0),
@@ -190,47 +189,4 @@ namespace grind {
 
   }
 
-  void log_manager::set_option(string_t const& key, string_t const& value)
-  {
-    if (key == "log_device" || key == "log interface" || key == "log device" || key == "device")
-    {
-      if (value == "syslog")
-        cfg.log_device = value;
-      else if (value == "stdout")
-        cfg.log_device = value;
-      else if (value == "file")
-        cfg.log_device = value;
-      else {
-        log_->warnStream() << "unknown logging mechanism specified '" << value << "', falling back to 'file'";
-        cfg.log_device = "file";
-      }
-    }
-    else if (key == "log_filesize" || key == "log filesize") {
-      cfg.log_filesize = value;
-    }
-    else if (key == "log_name" || key == "log filename") {
-      cfg.log_name = value;
-    }
-    else if (key == "log_dir" || key == "log directory") {
-      cfg.log_dir = value;
-    }
-    else if (key == "log_level" || key == "log level") {
-      cfg.log_level = value;
-    }
-    // else if (key == "app_name" || key == "app name") {
-    //   cfg.app_name = value;
-    // }
-    // else if (key == "app_version" || key == "app version") {
-    //   cfg.app_version = value;
-    // }
-    else if (key == "app_website" || key == "app website") {
-      cfg.app_website = value;
-    }
-    else if (key == "log header") {
-      cfg.silent = (value == "false") ? true : false;
-    }
-    else {
-      log_->warnStream() << "unknown log_manager config setting '" << key << "' => '" << value << "', discarding";
-    }
-  }
 } // namespace grind

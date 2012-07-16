@@ -26,8 +26,6 @@
 
 #include "grind.hpp"
 #include "logger.hpp"
-#include "configurable.hpp"
-// #include "watcher.hpp"
 #include "script_engine.hpp"
 
 #include <string>
@@ -41,6 +39,7 @@
 #include <boost/thread.hpp>
 #include <boost/interprocess/sync/interprocess_mutex.hpp>
 #include <boost/interprocess/sync/scoped_lock.hpp>
+#include <boost/filesystem.hpp>
 
 namespace grind {
 
@@ -51,6 +50,7 @@ namespace grind {
   typedef boost::interprocess::scoped_lock<mutex_t> scoped_lock;
   typedef boost::asio::ip::tcp::acceptor acceptor_t;
   typedef boost::asio::io_service io_service_t;
+  typedef boost::filesystem::path path_t;
 
   class feeder {
   public:
@@ -60,6 +60,8 @@ namespace grind {
     string_t const& label() const;
     int port() const;
     void listen();
+
+    void stop();
 
   protected:
     friend class connection;
@@ -82,23 +84,25 @@ namespace grind {
     int             port_;
   };
 
-  class kernel : public logger, public configurable {
+  typedef struct {
+    string_t  feeder_interface; /* default: 0.0.0.0 */
+    string_t  watcher_interface; /* default: 0.0.0.0 */
+    string_t  watcher_port;     /* default: 11142 */
+  } kernel_cfg_t;
+
+  class kernel : public logger {
   public:
-    struct {
-      string_t  listen_interface; /* default: 0.0.0.0 */
-      string_t  watcher_interface; /* default: 0.0.0.0 */
-      string_t  port;             /* default: 11142 */
-      string_t  watcher_port;     /* default: 11144 */
-    } cfg;
+    
+    kernel_cfg_t cfg;
 
     explicit kernel();
     virtual ~kernel();
     kernel(const kernel&) = delete;
     kernel& operator=(const kernel&) = delete;
 
-    void init();
+    // bool init();
 
-    virtual void configure(string_t const& path_to_config);
+    virtual bool init(string_t const& path_to_config);
 
     /**
      * Starts the kernel, launches the Watcher, and begins accepting watcher
@@ -116,8 +120,6 @@ namespace grind {
     bool is_running() const;
     bool is_port_available(int) const;
     bool is_feeder_registered(string_t const&);
-
-    void set_option(string_t const& key, string_t const& value);
 
     bool register_feeder(string_t const& application_group, int port);
 
@@ -144,21 +146,23 @@ namespace grind {
     boost::asio::io_service io_service_;
     boost::asio::strand strand_;
     boost::thread_group workers_;
-    boost::asio::ip::tcp::acceptor acceptor_;
-    boost::asio::ip::tcp::acceptor watcher_acceptor_;
+    // acceptor_t acceptor_;
+    acceptor_t watcher_acceptor_;
 
     // the next connection to be accepted
     feeders_t feeders_;
-    connection_ptr new_connection_;
+    // connection_ptr new_connection_;
     connection_ptr new_watcher_connection_;
     std::list<connection_ptr> connections_;
-    std::list<connection_ptr> paused_connections_;
+    // std::list<connection_ptr> paused_connections_;
     mutex_t conn_mtx_, feeder_mtx_;
 
     bool running_; /** set to TRUE when the kernel is online and accepting connections */
     bool init_; /** set to TRUE when the kernel has allocated its resources properly */
 
     // std::vector<watcher*> watchers_;
+
+    path_t root_path_, bin_path_;
 
     script_engine se_;
   };

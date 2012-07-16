@@ -24,8 +24,8 @@
 #ifndef H_GRIND_LOG_MANAGER_H
 #define H_GRIND_LOG_MANAGER_H
 
+#include "grind.hpp"
 #include "log.hpp"
-#include "configurable.hpp"
 
 #include <boost/filesystem.hpp>
 
@@ -46,7 +46,7 @@ namespace grind {
    * Actual logging of the messages should be done by by instances derived from
    * grind::logger (see grind_logger.hpp).
    */
-  class log_manager : public configurable {
+  class log_manager {
   public:
 
     /* the log manager's config context is "log manager" */
@@ -109,9 +109,6 @@ namespace grind {
      *  configurator::subscribe(&log_manager::singleton(), "log manager");
      */
     virtual void configure();
-
-    /** overridden from grind::configurable */
-    virtual void set_option(string_t const& key, string_t const& value);
 
     /** a log that can be used by any entity that is not a derivative of grind::logger */
     log_t* log();

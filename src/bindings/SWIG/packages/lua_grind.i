@@ -9,5 +9,6 @@ typedef std::string string_t;
 %include "std_string.i"
 %include "std_vector.i"
 
+%include "logger.i"
 %include "kernel.i"
 %include "connection.i"

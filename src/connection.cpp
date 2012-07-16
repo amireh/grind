@@ -39,7 +39,7 @@ namespace grind {
   }
 
   connection::~connection() {
-    std::cout << "connection being destroyed\n";
+    // std::cout << "connection being destroyed\n";
   }
 
   boost::asio::ip::tcp::socket& connection::socket() {

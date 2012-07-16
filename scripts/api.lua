@@ -1,3 +1,6 @@
+local logger = lua_grind.logger("API")
+local log = logger:log()
+
 grind.command("list_groups", function(cmd)
   local res = {}
   for _, group in pairs(grind.groups) do
@@ -35,7 +38,7 @@ grind.command("query_group", function(cmd)
 
   local group = grind.groups[cmd.args.group]
   if not group then 
-    log("No such application group '" .. cmd.args.group .. "'.", log_level.error)
+    log:error("No such application group '" .. cmd.args.group .. "'.")
     return false, "No such application group '" .. cmd.args.group .. "'"
   end
 
@@ -60,13 +63,13 @@ grind.command("query_klass", function(cmd)
 
   local group = grind.groups[cmd.args.group]
   if not group then 
-    log("No such application group '" .. cmd.args.group .. "'.", log_level.error)
+    log:error("No such application group '" .. cmd.args.group .. "'.")
     return false, "No such application group '" .. cmd.args.group .. "'"
   end
 
   local klass = group.klasses[cmd.args.klass]
   if not klass then 
-    log("No such klass '" .. cmd.args.klass .. "'.", log_level.error)
+    log:error("No such klass '" .. cmd.args.klass .. "'.")
     return false, "No such klass '" .. cmd.args.klass .. "'"
   end
 
@@ -116,7 +119,7 @@ grind.command("subscribe", function(cmd, watcher)
 
   if cmd.args.group == "*" then
     grind.subscriptions[watcher:whois()] = { "*", "*", "*", watcher }
-    log("Watcher#" .. watcher:whois() .. " has subscribed to *")
+    log:info("Watcher#" .. watcher:whois() .. " has subscribed to *")
     return "Subscribed."
   end
 
@@ -136,7 +139,7 @@ grind.command("subscribe", function(cmd, watcher)
 
   grind.subscriptions[watcher:whois()] = { group.label, klass.label, view.label, watcher }
 
-  log("Watcher#" .. watcher:whois() .. " has subscribed to " .. group.label .. ">>" .. klass.label .. ">>" .. view.label)
+  log:info("Watcher#" .. watcher:whois() .. " has subscribed to " .. group.label .. ">>" .. klass.label .. ">>" .. view.label)
   return true
 end)
 
@@ -162,7 +165,7 @@ grind.command("add_filters", function(cmd, watcher)
     else
       filters[field] = { false, pair.value, pair.is_negated }
     end
-    log("Filter defined for " .. watcher:whois() .. ": " .. field .. " => " .. pair.value .. "(" .. tostring(pair.is_regex) .. ")")
+    log:info("Filter defined for " .. watcher:whois() .. ": " .. field .. " => " .. pair.value .. "(" .. tostring(pair.is_regex) .. ")")
   end
 
   sub.filters = filters
@@ -183,7 +186,7 @@ grind.command("purge", function(cmd)
   for w in ilist(grind.watchers) do
     local sub = grind.subscriptions[w:whois()]
     if sub and sub[1] == '*' then -- it's a keeper
-      log("Ordering Keeper#" .. w:whois() .. " to purge its archive.", log_level.log_notice)
+      log:notice("Ordering Keeper#" .. w:whois() .. " to purge its archive.")
       w:send(purge_cmd)
     end
   end

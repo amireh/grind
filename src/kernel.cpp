@@ -27,28 +27,23 @@
 
 #include "kernel.hpp"
 #include "connection.hpp"
-#include "configurator.hpp"
 #include "utility.hpp"
 
 namespace grind {
 
   kernel::kernel()
   : logger("grind"),
-    configurable({ "grind" }),
     io_service_(),
     strand_(io_service_),
-    acceptor_(io_service_),
     watcher_acceptor_(io_service_),
-    new_connection_(),
     new_watcher_connection_(),
     running_(false),
     init_(false),
     se_(*this)
   {
-    cfg.listen_interface = "0.0.0.0";
+    cfg.feeder_interface = "0.0.0.0";
     cfg.watcher_interface = "0.0.0.0";
-    cfg.port = "11142";
-    cfg.watcher_port = "11144";
+    cfg.watcher_port = "11142";
   }
 
   kernel::~kernel()
@@ -59,40 +54,67 @@ namespace grind {
 	 *	bootstrap
 	 * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ */
 
-  void kernel::init()
-  {
-    se_.start();
+  // void kernel::init()
+  // {
+  // }
 
-    init_ = se_.is_running();    
-  }
-
-  void kernel::configure(string_t const& path_to_config) {
+  bool kernel::init(string_t const& path_to_config) {
     log_manager::singleton().init();
     log_manager::singleton().configure();
 
-    info() << "configuring using file @ " << path_to_config;
+    // locate the binary and build its path
+    // use binreloc and boost::filesystem to build up our paths
+    // int brres = br_init(0);
+    // if (brres == 0) {
+    //   std::cerr << "file_manager: binreloc could not be initialised, can not resolve paths\n";
+    //   return;
+    // }
 
-    string_t data;
-    std::ifstream cfg_stream(path_to_config);
-    if (cfg_stream.is_open() && cfg_stream.good()) {
-      cfg_stream.seekg(0, std::ios::end);
-      data.reserve(cfg_stream.tellg());
-      cfg_stream.seekg(0, std::ios::beg);
+    // char *p = br_find_exe_dir(".");
+    // bin_path_ = std::string(p);
+    // free(p);
+    // bin_path_ = path_t(bin_path_).make_preferred();
 
-      data.assign((std::istreambuf_iterator<char>(cfg_stream)),
-                       std::istreambuf_iterator<char>());
-    } else {
-      error() << "unable to configure; invalid config file @ " << path_to_config;
-      return;
+    // application root path:
+    // path_t root = path_t(bin_path_);
+    // for (int i=0; i < 1; ++i) {
+    //   root = root.remove_leaf();
+    // }
+
+    // root_path_ = root.make_preferred();
+
+    try {
+      se_.start(path_to_config);
+    } catch (std::exception& e) {
+      error() << e.what();
+      return false;
     }
 
-    configurator c(data);
-    c.run();
+    init_ = se_.is_running();
+    return init_;
+    // info() << "configuring using file @ " << path_to_config;
+
+    // string_t data;
+    // std::ifstream cfg_stream(path_to_config);
+    // if (cfg_stream.is_open() && cfg_stream.good()) {
+    //   cfg_stream.seekg(0, std::ios::end);
+    //   data.reserve(cfg_stream.tellg());
+    //   cfg_stream.seekg(0, std::ios::beg);
+
+    //   data.assign((std::istreambuf_iterator<char>(cfg_stream)),
+    //                    std::istreambuf_iterator<char>());
+    // } else {
+    //   error() << "unable to configure; invalid config file @ " << path_to_config;
+    //   return;
+    // }
+
+    // configurator c(data);
+    // c.run();
   }
 
   void kernel::start()
   {
-    info() << "accepting logs on: " << cfg.listen_interface << ":" << cfg.port;
+    info() << "accepting logs on: " << cfg.feeder_interface;
     info() << "accepting watchers on: " << cfg.watcher_interface << ":" << cfg.watcher_port;
 
     // open the client acceptor with the option to reuse the address (i.e. SO_REUSEADDR).
@@ -151,7 +173,7 @@ namespace grind {
 
     info() << "cleaning up";
 
-    new_connection_.reset();
+    // new_connection_.reset();
     new_watcher_connection_.reset();
     connections_.clear();
 
@@ -200,9 +222,11 @@ namespace grind {
 
     for (auto conn : connections_)
       conn->stop();
+    for (auto pair : feeders_)
+      pair.second->stop();
 
     connections_.clear();
-    new_connection_.reset();
+    // new_connection_.reset();
 
     io_service_.stop();
 
@@ -246,23 +270,6 @@ namespace grind {
   }
   bool kernel::is_init() const {
     return init_;
-  }
-
-  void kernel::set_option(string_t const& key, string_t const& value)
-  {
-    if (key == "listen_interface")
-      cfg.listen_interface = value;
-    else if (key == "port")
-      cfg.port = value;
-    else if (key == "watcher_interface")
-      cfg.watcher_interface = value;
-    else if (key == "watcher_port")
-      cfg.watcher_port = value;
-
-    else {
-      log_->warnStream() << "unknown grind config setting '"
-        << key << "' => '" << value << "', discarding";
-    }
   }
 
   // void kernel::broadcast(string_t const& msg) {
@@ -356,7 +363,7 @@ namespace grind {
   void feeder::listen() {
     // open the client acceptor with the option to reuse the address (i.e. SO_REUSEADDR).
     boost::asio::ip::tcp::resolver resolver(io_service_);
-    boost::asio::ip::tcp::resolver::query query(kernel_.cfg.listen_interface, utility::stringify(port_));
+    boost::asio::ip::tcp::resolver::query query(kernel_.cfg.feeder_interface, utility::stringify(port_));
     boost::asio::ip::tcp::endpoint endpoint = *resolver.resolve(query);
     acceptor_.open(endpoint.protocol());
     acceptor_.set_option(boost::asio::ip::tcp::acceptor::reuse_address(true));
@@ -397,5 +404,10 @@ namespace grind {
 
   int feeder::port() const { return port_; }
   string_t const& feeder::label() const { return label_; }
+
+  void feeder::stop() {
+    for (auto c : connections_)
+      c->stop();
+  }
 
 } // namespace grind

@@ -10,42 +10,53 @@ grind = grind or {
   subscriptions = {}
 }
 
-function set_paths(root)
-  package.path = "?.lua;" .. package.path -- for absolute paths
-  package.path = root .. "/../?.lua;" .. package.path -- for relative paths
-  package.path = root .. "/?.lua;" .. package.path
-  package.cpath = "/usr/local/lib/?.so;" .. package.cpath
+local logger, log = nil, nil
 
-  local STP = require "StackTracePlus"
-  debug.traceback = STP.stacktrace
+function grind.init(root)
+  if grind.config.debug then
+    local STP = require "StackTracePlus"
+    debug.traceback = STP.stacktrace
+  end
   
   grind.paths.root = root
 
-  require 'helpers'
-  require 'logging'
   require "lua_grind"
+  require 'helpers'
+  -- require 'logging'
+
+  logger = lua_grind.logger("grind")
+  log = logger:log()
 end
 
 -- local leftovers = nil
 -- local signature_rex = nil
 -- function grind.leftovers() return leftovers end
 function grind.start(kernel)
-  log("starting...", log_level.info)
+  log:info("starting...")
 
   grind.kernel = kernel
+  -- configure the kernel
+  do
+    local option_set = function(ctx, option, in_type)
+      return type(grind.config[ctx][option]) == in_type
+    end
+    -- the watcher listening interface
+    if not option_set("kernel", "watcher_interface", "string") then
+      return log:error("Watcher listening interface must be specified.")
+    else
+      kernel.cfg.watcher_interface = grind.config.kernel.watcher_interface
+    end
+    -- the watcher port
+    if not option_set("kernel", "watcher_port", "string") then
+      return log:error("No port specified for watcher connections.")
+    else
+      kernel.cfg.watcher_port = grind.config.kernel.watcher_port
+    end
+  end
 
-  load_script('grind_cfg')
+  -- load the rest of the scripts
   load_script('api')
   load_script('entry')
-
-  -- for group,port in pairs(grind.config.groups or {}) do
-  --   kernel:register_feeder(group, port)
-  -- end
-
-  log("Delimiter patterns: ", log_level.info)
-  for signature in ilist(grind.config.signatures) do
-    log("  " .. signature, log_level.info)
-  end
 
   for dir in ilist({ "groups", "klasses", "views" }) do
     for filename in dirtree(grind.paths.root .. '/' .. dir) do
@@ -55,27 +66,12 @@ function grind.start(kernel)
     end
   end
 
-  -- leftovers = ""
-  -- local expression = "(?|"
-  -- -- local expression = "(?J)"
-  -- for idx, signature in pairs(grind.config.signatures) do
-  --   expression = expression .. signature-- .. "?"
-  --   if idx ~= #grind.config.signatures then
-  --     expression = expression .. "|"
-  --   end
-  -- end
-  -- expression = expression .. ")"
-  -- log("Delimiter expression: " .. expression)
-  -- signature_rex = create_regex(expression)
-  -- if not signature_rex then
-  --   assert(false)
-  -- end
-
+  return true
 end
 
 
 function grind.stop()
-  log("Cleaning up", log_level.info)
+  log:info("Cleaning up")
   for _, group in pairs(grind.groups) do
     for __, klass in pairs(group.klasses) do
       klass.views = nil
@@ -120,7 +116,7 @@ function grind.handle(text, glabel)
     local entry = entry_t:new(nil, text:sub(e + 1, b2 - 1))
 
     -- for _,group in pairs(grind.groups) do
-      log("Checking if group " .. group.label .. " is applicable for '" .. entry.meta.raw .. "'...")
+      log:debug("Checking if group " .. group.label .. " is applicable for '" .. entry.meta.raw .. "'...")
 
 
       -- local captures = group.formatter(entry.meta.raw)
@@ -138,7 +134,7 @@ function grind.handle(text, glabel)
       end
 
       if format then
-        log("Found an applicable group: " .. group.label .. " using format " .. format .. " for '" .. entry.meta.raw .. "'")
+        log:debug("Found an applicable group: " .. group.label .. " using format " .. format .. " for '" .. entry.meta.raw .. "'")
         -- local meta, body = group.extractor(entry.meta.timestamp, unpack(captures))
         for k,v in pairs(signature_captures) do table.insert(captures, v) end
         local meta, body = group.extractors[format](unpack(captures))
@@ -153,7 +149,7 @@ function grind.handle(text, glabel)
         -- any klasses defined?
         for __,klass in pairs(group.klasses) do
           if klass:belongs_to(format) and klass.matcher(format, entry, klass.context) then
-            log("  Found an applicable klass: " .. klass.label)
+            log:debug("  Found an applicable klass: " .. klass.label)
             for ___,view in pairs(klass.views) do
               local res, formatted_entry, keep_context = view.formatter(format, view.context, entry, klass.context)
               if res and formatted_entry then
@@ -168,7 +164,7 @@ function grind.handle(text, glabel)
                 -- log("Committing an entry! : " .. encoded_entry)
 
                 -- broadcast to all subscribed watchers
-                log("looking for watchers subscribed to "..
+                log:debug("looking for watchers subscribed to "..
                     group.label .. ">>" .. klass.label .. ">>" .. view.label)
                 for w_id,s in pairs(grind.subscriptions) do
                   if s[1] == "*" or
@@ -178,7 +174,7 @@ function grind.handle(text, glabel)
                   then
                     local w = s[4]
                     local do_relay = true
-                    log("Relaying to Watcher#" .. w:whois())
+                    log:debug("Relaying to Watcher#" .. w:whois())
                     if s.filters then
                       for field, match in pairs(s.filters) do
                         local match_res = true
@@ -193,7 +189,7 @@ function grind.handle(text, glabel)
 
                         if not match_res then
                           table.dump(formatted_entry)
-                          log("Filter on " .. field .. " => " .. tostring(match[2]) ..
+                          log:debug("Filter on " .. field .. " => " .. tostring(match[2]) ..
                            " failed, will not relay to " .. w:whois() .. " (" .. (formatted_entry[field] or "") .. ")")
                           do_relay = false
                           break
@@ -240,7 +236,7 @@ end
 function grind.define_group(glabel, port, options)
   grind.groups = grind.groups or {}
   if grind.groups[glabel] then 
-    log("An application group called '" .. glabel .. "' is already defined, ignoring.", log_level.notice)
+    log:notice("An application group called '" .. glabel .. "' is already defined, ignoring.")
     return true
   end
 
@@ -271,7 +267,7 @@ function grind.define_group(glabel, port, options)
     for k,v in pairs(options or {}) do grind.groups[glabel][k] = v end
   end
 
-  log("Application group defined: " .. glabel)
+  log:debug("Application group defined: " .. glabel)
 end
 
 function grind.define_signature(glabel, ptrn)
@@ -292,11 +288,11 @@ function grind.define_signature(glabel, ptrn)
     end
   end
   expression = expression .. ")"
-  log("Delimiter expression: " .. expression)
+  -- log:debug("Delimiter expression: " .. expression)
   group.signature = create_regex(expression)
   assert(group.signature)
 
-  log("Application group signature defined: " .. expression)
+  log:info("Signature format defined for " .. glabel .. " => " .. expression)
 end; grind.define_delimiter = grind.define_signature
 
 function grind.define_format(glabel, gformat, ptrn)
@@ -312,7 +308,7 @@ function grind.define_format(glabel, gformat, ptrn)
   local rex = create_regex(ptrn)
   assert(rex, "Invalid formatter '" .. ptrn .. "' for group '" .. glabel .. "'")
 
-  log("Formatter defined for " .. glabel .. ": " .. gformat .. " => " .. ptrn)
+  log:info("Message format defined for " .. glabel .. ": " .. gformat .. " => " .. ptrn)
   group.formatters[gformat] = function(message_content)
     -- if this message does belong to us, return the
     -- captured parts that we'll be using later to parse it
@@ -390,7 +386,7 @@ function grind.define_klass(glabel, gformats, clabel, matcher)
     return false
   end
 
-  log("  Class defined: " .. glabel .. "[" .. clabel .. "]")
+  log:info("  Class defined: " .. glabel .. "[" .. clabel .. "]")
 end
 
 -- grind.define_view():
@@ -417,7 +413,7 @@ function grind.define_view(glabel, clabel, vlabel, skeleton, formatter)
 
   grind.groups[glabel].klasses[clabel].views[vlabel] = { label = vlabel, skeleton = skeleton, context = {}, formatter = formatter }
 
-  log("    View defined: " .. glabel .. "[" ..  clabel .. "][" .. vlabel .. "]")
+  log:info("    View defined: " .. glabel .. "[" ..  clabel .. "][" .. vlabel .. "]")
 end
 
 --- grind.command():
@@ -443,23 +439,23 @@ end
 function grind.handle_cmd(buf, watcher)
   local res = {}
 
-  log("Incoming command: " .. buf)
+  log:debug("Incoming command: " .. buf)
 
   local cmd = json.decode(buf)
-  if not cmd then
-    log("Unable to decode command, aborting", log_level.error)
+  if not cmd or type(cmd) ~= "table" then
+    log:error("Unable to decode command, aborting")
     return watcher:send( grind.report_api_error("Unable to decode command."))
   end
 
   if not cmd.id then
-    log("Invalid command structure; missing id", log_level.error)
+    log:error("Invalid command structure; missing id")
     return watcher:send( grind.report_api_error("Invalid command structure; missing 'id' field."))
   end
 
-  log("Command: " .. cmd.id )
+  log:debug("Command: " .. cmd.id )
 
   if not grind.commands[cmd.id] then
-    log("Unsupported command " .. cmd.id, log_level.error)
+    log:error("Unsupported command " .. cmd.id)
     return watcher:send( grind.report_api_error("Unsupported command " .. cmd.id .. ".") )
   end
 
@@ -472,7 +468,7 @@ function grind.handle_cmd(buf, watcher)
       return watcher:send( grind.report_api_error("Error: " .. err))
     end
     
-    log("Command " .. cmd.id .. " handling failed", log_level.notice)
+    log:notice("Command " .. cmd.id .. " handling failed")
     return watcher:send( grind.report_api_error("Command " .. cmd.id .. " handling failed.") )
   end
 
@@ -487,14 +483,14 @@ end
 
 function grind.add_watcher(watcher)
   table.insert(grind.watchers, watcher)
-  log("Watcher added: " .. watcher:whois())
-  log("Watchers: " .. #grind.watchers)
+  log:info("Watcher added: " .. watcher:whois())
+  log:info("Watchers: " .. #grind.watchers)
 end
 function grind.remove_watcher(watcher)
   remove_by_cond(grind.watchers, function(_,w) return w:whois() == watcher:whois() end)
   grind.subscriptions[watcher:whois()] = nil
-  log("Watcher removed: " .. watcher:whois())
-  log("Watchers: " .. #grind.watchers)
+  log:info("Watcher removed: " .. watcher:whois())
+  log:info("Watchers: " .. #grind.watchers)
 end
 
 

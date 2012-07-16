@@ -1,6 +1,8 @@
 require 'lfs'
 require 'rex_pcre'
-require 'logging'
+
+local logger = lua_grind.logger("utility")
+local log = logger:log()
 
 -- Locates the function identified by @name and passes it
 -- the arguments. This is used by the C/C++ wrapper.
@@ -224,14 +226,14 @@ end
 function create_regex(ptrn)
   local regex = rex_pcre.new(ptrn)
   if not regex then
-    return log("Invalid PCRE regex pattern '" .. ptrn .. "'", log_level.error)
+    return log:error("Invalid PCRE regex pattern '" .. ptrn .. "'")
   end
 
   -- test the pattern just in case there's a capture error
   local str = "test_string"
   local res, msg = pcall( rex_pcre.gsub, str, regex, "foobar" )
   if not res then
-    return log( "Invalid PCRE regex '" .. ptrn .."'. Cause: " .. msg, log_level.error)
+    return log:error( "Invalid PCRE regex '" .. ptrn .."'. Cause: " .. msg)
   end
 
   return regex

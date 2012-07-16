@@ -27,7 +27,6 @@
 #include <lua.hpp>
 
 #include "logger.hpp"
-#include "configurable.hpp"
 #include <boost/thread.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/interprocess/sync/interprocess_mutex.hpp>
@@ -37,7 +36,7 @@ namespace grind {
   typedef boost::filesystem::path path_t;
   class kernel;
   class feeder;
-  class script_engine : public configurable, public logger {
+  class script_engine : public logger {
   public:
     script_engine(kernel&);
     virtual ~script_engine();
@@ -48,7 +47,7 @@ namespace grind {
     } config;
 
     /** Builds the Lua state and starts Lua script_engine. */
-    void start();
+    void start(string_t const& config_path);
 
     void restart();
 
@@ -100,8 +99,6 @@ namespace grind {
     /** Destroys the Lua state, turning off the Lua engine. */
     void stop(bool valid_state = true);
 
-    /** Overridden from grind::configurable */
-    virtual void set_option(const string_t&, const string_t&);
   private:
     void push_userdata(void* data, string_t type);
     void handle_error();
@@ -111,6 +108,7 @@ namespace grind {
     bool        stopping_;
     kernel      &kernel_;
     bool        running_;
+    path_t      cfg_path_;
 
     boost::interprocess::interprocess_mutex mtx_;
 

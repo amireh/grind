@@ -1,4 +1,6 @@
 SET(GRIND_SRCS
+  #binreloc.c
+
   main.cpp
   kernel.cpp
   # watcher.cpp
@@ -11,8 +13,8 @@ SET(GRIND_SRCS
   log4cpp/file_log_layout.cpp
   log4cpp/syslog_log_layout.cpp
 
-  configurator.cpp
-  configurable.cpp
+  #configurator.cpp
+  #configurable.cpp
   script_engine.cpp
 )
 

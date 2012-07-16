@@ -28,8 +28,17 @@
 
 namespace grind {
 
-  class kernel : public logger, public configurable {
+  typedef struct {
+    string_t  feeder_interface; /* default: 0.0.0.0 */
+    string_t  watcher_interface; /* default: 0.0.0.0 */
+    string_t  watcher_port;     /* default: 11142 */
+  } kernel_cfg_t;
+
+  class kernel : public logger {
   public:
+
+    grind::kernel_cfg_t cfg;
+
     bool is_running() const;
     bool is_port_available(int) const;
     bool is_feeder_registered(string_t const&);

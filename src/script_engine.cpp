@@ -15,8 +15,7 @@ extern "C" {
 namespace grind {
 
   script_engine::script_engine(kernel& kernel)
-  : configurable({ "script_engine" }),
-    logger("script_engine"),
+  : logger("script_engine"),
     kernel_(kernel),
     lua_(nullptr),
     stopping_(false),
@@ -46,43 +45,93 @@ namespace grind {
     return 1;
   }
 
-  void script_engine::start() {
+  static path_t locate_file(std::vector<string_t> directories, string_t filename) {
+    using boost::filesystem::is_directory;
+
+    for ( string_t const& d_str : directories ) {
+      path_t d(d_str);
+
+      if (!is_directory(d))
+        continue;
+
+      path_t file = d / "grind.lua";
+
+      if (exists(file))
+        return file;
+    }
+    return path_t();
+  }
+  
+  static path_t locate_config() {
+    return locate_file({
+      "/etc/grind",
+      "/usr/share/grind",
+      "/usr/local/share/grind"
+    }, "config.lua");
+  }
+  static path_t locate_scripts() {
+    return locate_file({
+      "/usr/lib/lua",
+      "/usr/lib/lua/5.1",
+      "/usr/local/lib/lua",
+      "/usr/local/lib/lua/5.1",
+      "/opt/grind",
+      "/opt/grind/scripts",
+      "/usr/local/grind/scripts",
+      "/usr/local/src/grind/scripts",
+    }, "grind.lua");
+  }
+
+  void script_engine::start(string_t const& in_cfg_path) {
     if (lua_)
       return;
 
-    log_->infoStream() << "grind Lua engine is starting...";
+    if (in_cfg_path.empty()) {
+      cfg_path_ = locate_config();
+      if (cfg_path_.empty()) {
+        throw std::runtime_error("Unable to locate grind configuration file!");
+      }
+    } else {
+      cfg_path_ = path_t(in_cfg_path);
+      if (!exists(cfg_path_))
+        throw std::runtime_error("Specified configuration file is invalid: " + in_cfg_path);
+      else if(is_directory(cfg_path_))
+        throw std::runtime_error("Please specify a grind configuration file, not a directory: " + in_cfg_path);
+    }
+
+    // configure
+    log_->infoStream() << "configuring from: " << cfg_path_.string();
 
     lua_ = lua_open();
     luaL_openlibs(lua_);
-    log_->infoStream() << "scripts path set to: " << config.scripts_path;
-    string_t entry_script = (path_t(config.scripts_path) / "grind.lua").string();
-
-    info() << "Lua stack[initial] size is: " << lua_gettop(lua_);
-
-    int rc = luaL_dofile(lua_, entry_script.c_str());
+    int rc = luaL_dofile(lua_, cfg_path_.string().c_str());
     if (rc == 1) {
       return handle_error();
     }
-    // lua_remove(lua_, lua_gettop(lua_));
 
-    lua_getglobal(lua_, "set_paths");
-    if(!lua_isfunction(lua_, -1))
-    {
-      log_->errorStream() << "could not find Lua path initter! Corrupt state?";
-      return handle_error();
-    }
+    info() << "Lua stack[initial] size is: " << lua_gettop(lua_);
 
-    lua_pushfstring(lua_, config.scripts_path.c_str());
-    int ec = lua_pcall(lua_, 1, 0, 0);
-    if (ec != 0)
-    {
-      // there was a lua error, dump the state and shut down the instance
-      return handle_error();
-    }
+    // lua_getglobal(lua_, "set_paths");
+    // if(!lua_isfunction(lua_, -1))
+    // {
+    //   log_->errorStream() << "could not find Lua path initter! Corrupt state?";
+    //   return handle_error();
+    // }
+
+    // lua_pushfstring(lua_, config.scripts_path.c_str());
+    // int ec = lua_pcall(lua_, 1, 0, 0);
+    // if (ec != 0)
+    // {
+    //   // there was a lua error, dump the state and shut down the instance
+    //   return handle_error();
+    // }
 
     running_ = true;
 
-    pass_to_lua("grind.start", nullptr, 0, 1, "grind::kernel", &kernel_);
+    pass_to_lua("grind.start", [&]() -> void {
+      running_ = lua_toboolean(lua_, -1);
+      lua_pop(lua_, 1);
+    }, 1, 1, "grind::kernel", &kernel_);
 
     if (!running_)
       return;
@@ -97,7 +146,7 @@ namespace grind {
     log_->infoStream() << "restarting the Lua state...";
     // pass_to_lua("script_engine.restart", 0);
     stop();
-    start();
+    start(cfg_path_.string());
 
     log_->infoStream() << "Lua state has been restarted.";
   }
@@ -155,18 +204,6 @@ namespace grind {
   }
 
   bool script_engine::is_running() { return running_; }
-
-  void script_engine::set_option(const string_t &k, const string_t& v) {
-    if (k == "error handling") {
-      if (v == "exception")
-        config.error_handling = script_engine::CATCH_AND_THROW;
-      else
-        config.error_handling = script_engine::CATCH_AND_DIE;
-    }
-    else if (k == "scripts path") {
-      config.scripts_path = v;
-    }
-  }
 
   void script_engine::push_userdata(void* data, string_t type)
   {

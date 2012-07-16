@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-valgrind --show-reachable=yes --leak-check=full --log-file=./valgrind.out ./grind
+valgrind --show-reachable=yes --leak-check=full --log-file=./valgrind.out ./grind $@
