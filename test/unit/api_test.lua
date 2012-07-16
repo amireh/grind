@@ -10,8 +10,9 @@ do
   cli:add_opt("-k, --klass=ID", "klass identifier", "klass")
   cli:add_opt("-v, --view=ID", "view identifier", "view")
   cli:add_opt("-h, --host=HOST", "the host IP on which grind is running", "host", "127.0.0.1")
-  cli:add_opt("-p, --port=PORT", "the port on which grind is running", "port", 11144)
+  cli:add_opt("-p, --port=PORT", "the port on which grind is running", "port", 11141)
   cli:add_opt("-t, --timeout=MS", "amount of milliseconds to wait before interrupting the connection", "tt", 1)
+  cli:add_opt("-a, --arg=\"KEY=VAL\"", "arbitrary arguments", "extra_args", {})
 
   args = cli:parse_args()
   if not args then
