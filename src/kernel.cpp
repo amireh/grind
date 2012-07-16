@@ -101,10 +101,8 @@ namespace grind {
   {
     info() << "cleaning up";
 
-    new_watcher_connection_.reset();
-    connections_.clear();
-
-    se_.stop();
+    if (is_running())
+      stop();
 
     for (auto pair : feeders_)
       delete pair.second;
@@ -144,10 +142,12 @@ namespace grind {
     for (auto pair : feeders_)
       pair.second->stop();
 
+    new_watcher_connection_.reset();
     connections_.clear();
-    // new_connection_.reset();
 
     io_service_.stop();
+    
+    se_.stop();
 
     info() << "stopped";
     running_ = false;
@@ -310,8 +310,15 @@ namespace grind {
   string_t const& feeder::label() const { return label_; }
 
   void feeder::stop() {
-    for (auto c : connections_)
+    scoped_lock lock(conn_mtx_);
+
+    for (auto c : connections_) {
+      c->assign_close_handler(0);
       c->stop();
+      
+    }
+
+    connections_.clear();
   }
 
 } // namespace grind

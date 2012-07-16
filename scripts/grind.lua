@@ -285,21 +285,26 @@ function grind.define_signature(glabel, ptrn)
   assert(rex, "Invalid signature '" .. ptrn .. "' for group '" .. glabel .. "'")
 
   table.insert(group.__signature_patterns, ptrn)
-  group.signature = nil
-  local expression = "(?|"
-  -- local expression = "(?J)"
-  for idx, signature in pairs(group.__signature_patterns) do
-    expression = expression .. signature -- .. "?"
-    if idx ~= #group.__signature_patterns then
-      expression = expression .. "|"
+  if #group.__signature_patterns > 1 then
+    group.signature = nil
+    local expression = "(?|"
+    -- local expression = "(?J)"
+    for idx, signature in pairs(group.__signature_patterns) do
+      expression = expression .. signature -- .. "?"
+      if idx ~= #group.__signature_patterns then
+        expression = expression .. "|"
+      end
     end
+    expression = expression .. ")"
+    -- log:debug("Delimiter expression: " .. expression)
+    group.signature = create_regex(expression)
+  else
+    group.signature = create_regex(ptrn)
   end
-  expression = expression .. ")"
-  -- log:debug("Delimiter expression: " .. expression)
-  group.signature = create_regex(expression)
+
   assert(group.signature)
 
-  log:info("Signature format defined for " .. glabel .. " => " .. expression)
+  log:info("Signature format defined for " .. glabel .. " => " .. (expression or ptrn) )
 end; grind.define_delimiter = grind.define_signature
 
 function grind.define_format(glabel, gformat, ptrn)

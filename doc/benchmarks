@@ -1,0 +1,38 @@
+0.3.0:
+
+  > --- #1 ---
+  > using test/fixture/grind/benchmarker.txt - 9.8MB
+  > under gdb: yes
+  > &> /dev/null: no
+  >
+  > real  0m36.346s
+  > user  0m0.103s
+  > sys 0m0.117s
+
+  > --- #2 ---
+  > using test/fixture/grind/benchmarker.txt - 9.8MB
+  > under gdb: no
+  > &> /dev/null: yes
+  >
+  > =================
+  >   real  0m10.679s
+  >   user  0m0.043s
+  >   sys 0m0.017s
+  > =================
+  >   real  0m11.293s
+  >   user  0m0.040s
+  >   sys 0m0.033s
+  > =================
+  >   real  0m11.192s
+  >   user  0m0.043s
+  >   sys 0m0.030s
+
+
+  > --- #3 ---
+  > using test/fixture/grind/benchmarker.txt - 9.8MB
+  > under gdb: no
+  > &> /dev/null: no
+  >
+  > real  0m36.484s
+  > user  0m0.120s
+  > sys 0m0.107s
