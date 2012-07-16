@@ -1,3 +1,4 @@
 grind.define_klass("pendulum", { "battles" }, "battles", function(fmt, entry)
-  return entry.meta.battle_id
+  -- table.dump(entry)
+  return entry.battle_id
 end)

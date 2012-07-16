@@ -115,16 +115,18 @@ function grind.handle(text, glabel)
     end    
 
     local entry = entry_t:new(nil, text:sub(e + 1, b2 - 1))
-    local captures = {}
     local formats = {}
     for format, formatter in pairs(group.formatters) do
-      captures = formatter(entry.meta.raw)
+      local captures = formatter(entry.meta.raw)
       if #captures > 0 then
-        table.insert(formats, format)
+        table.insert(formats, { format, captures })
       end
     end
 
-    for format in ilist(formats) do
+    for format_and_captures in ilist(formats) do
+      local format = format_and_captures[1]
+      local captures = format_and_captures[2]
+
       log:debug("Group: " .. group.label .. ", applicable format: " .. format .. " on '" .. entry.meta.raw .. "'")
       
       -- append the signature format captures to the format captures
@@ -135,14 +137,17 @@ function grind.handle(text, glabel)
       -- get a hold on the entry structure
       local meta, body = group.extractors[format](unpack(captures))
 
-      assert(type(meta) == "table", "Group " .. group.label .. "'s extractor returned no message.meta table!")
-      assert(type(body) == "string", "Group " .. group.label .. "'s extractor returned no message.body string!")
+      table.dump(meta)
+
+      -- assert(type(meta) == "table", "Group " .. group.label .. "'s extractor returned no message.meta table!")
+      -- assert(type(body) == "string", "Group " .. group.label .. "'s extractor returned no message.body string!")
 
       -- define the entry
-      entry.body = body
+      -- entry.body = body
       for k,v in pairs(meta) do 
-        entry.meta[k] = v
+        entry[k] = v
       end
+      if body then entry.body = body end
 
       -- keep the raw version
       -- entry.meta.raw = nil
@@ -355,6 +360,20 @@ function grind.define_extractor(glabel, gformat, extractor)
 
   -- for backwards compatibility, not assigning a gformat
   if not extractor then extractor, gformat = gformat, "default" end
+
+  if type(extractor) == "table" then
+    local field_map = extractor
+    extractor = function(...)
+      -- local fields = { unpack(arg) }
+      local fields = arg
+      -- table.dump(fields)
+      local out = {}
+      for i,field in pairs(field_map) do
+        out[field] = fields[i]
+      end
+      return out
+    end
+  end
 
   grind.groups[glabel].extractors[gformat] = extractor
 end

@@ -10,7 +10,7 @@ grind.define_view("pendulum", "battles", "monkeys",
   function(fmt, ctx, entry)
     
     -- for easy access
-    local battle = entry.meta.battle_id
+    local battle = entry.battle_id
 
     -- is it a behemoth?
     local _,_,behemoth,id = extractors.behemoth:find(entry.body)
@@ -32,7 +32,7 @@ grind.define_view("pendulum", "battles", "monkeys",
     local _,_,name,id,owner = extractors.monkey:find(entry.body)
     if name then
       return true, { 
-        Battle = entry.meta.battle_id,
+        Battle = entry.battle_id,
         Owner = behemoths[battle][owner], -- look up the behemoth we tracked earlier
         ["Monkey ID"] = id, -- we must surround the key by [""] since it has a space
         Color = name
