@@ -54,34 +54,9 @@ namespace grind {
 	 *	bootstrap
 	 * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ */
 
-  // void kernel::init()
-  // {
-  // }
-
   bool kernel::init(string_t const& path_to_config) {
     log_manager::singleton().init();
     log_manager::singleton().configure();
-
-    // locate the binary and build its path
-    // use binreloc and boost::filesystem to build up our paths
-    // int brres = br_init(0);
-    // if (brres == 0) {
-    //   std::cerr << "file_manager: binreloc could not be initialised, can not resolve paths\n";
-    //   return;
-    // }
-
-    // char *p = br_find_exe_dir(".");
-    // bin_path_ = std::string(p);
-    // free(p);
-    // bin_path_ = path_t(bin_path_).make_preferred();
-
-    // application root path:
-    // path_t root = path_t(bin_path_);
-    // for (int i=0; i < 1; ++i) {
-    //   root = root.remove_leaf();
-    // }
-
-    // root_path_ = root.make_preferred();
 
     try {
       se_.start(path_to_config);
@@ -92,45 +67,12 @@ namespace grind {
 
     init_ = se_.is_running();
     return init_;
-    // info() << "configuring using file @ " << path_to_config;
-
-    // string_t data;
-    // std::ifstream cfg_stream(path_to_config);
-    // if (cfg_stream.is_open() && cfg_stream.good()) {
-    //   cfg_stream.seekg(0, std::ios::end);
-    //   data.reserve(cfg_stream.tellg());
-    //   cfg_stream.seekg(0, std::ios::beg);
-
-    //   data.assign((std::istreambuf_iterator<char>(cfg_stream)),
-    //                    std::istreambuf_iterator<char>());
-    // } else {
-    //   error() << "unable to configure; invalid config file @ " << path_to_config;
-    //   return;
-    // }
-
-    // configurator c(data);
-    // c.run();
   }
 
   void kernel::start()
   {
     info() << "accepting logs on: " << cfg.feeder_interface;
     info() << "accepting watchers on: " << cfg.watcher_interface << ":" << cfg.watcher_port;
-
-    // open the client acceptor with the option to reuse the address (i.e. SO_REUSEADDR).
-    // {
-    //   // boost::asio::ip::tcp::resolver resolver(io_service_pool_.get_io_service());
-    //   boost::asio::ip::tcp::resolver resolver(io_service_);
-    //   boost::asio::ip::tcp::resolver::query query(cfg.listen_interface, cfg.port);
-    //   boost::asio::ip::tcp::endpoint endpoint = *resolver.resolve(query);
-    //   acceptor_.open(endpoint.protocol());
-    //   acceptor_.set_option(boost::asio::ip::tcp::acceptor::reuse_address(true));
-    //   acceptor_.bind(endpoint);
-    //   acceptor_.listen();
-
-    //   // accept connections
-    //   accept();
-    // }
 
     // open the client acceptor with the option to reuse the address (i.e. SO_REUSEADDR).
     {
@@ -149,14 +91,7 @@ namespace grind {
 
     running_ = true;
 
-    // if (!cfg.watched_file.empty()) {
-      // watchers_.push_back(new watcher(cfg.watched_file));
-      // workers_.create_thread(boost::bind(&watcher::watch, watchers_.back()));
-      // watchers_.back()->watch();
-    // }
-
     workers_.create_thread(boost::bind(&kernel::work, boost::ref(this)));
-
 
     // wait for all threads in the pool to exit
     workers_.join_all();
@@ -164,26 +99,10 @@ namespace grind {
 
   void kernel::cleanup()
   {
-    // if (!init_) {
-    //   std::cerr
-    //     << "WARNING: attempting to clean up the kernel when it has "
-    //     << "already been cleaned, or not run at all!";
-    //   return;
-    // }
-
     info() << "cleaning up";
 
-    // new_connection_.reset();
     new_watcher_connection_.reset();
     connections_.clear();
-
-    // for (auto watcher : watchers_)
-      // watcher->stop();
-
-    // while (!watchers_.empty()) {
-      // delete watchers_.back();
-      // watchers_.pop_back();
-    // }
 
     se_.stop();
 
@@ -271,21 +190,6 @@ namespace grind {
   bool kernel::is_init() const {
     return init_;
   }
-
-  // void kernel::broadcast(string_t const& msg) {
-  //   conn_mtx_.lock();
-
-  //   int nr_watchers = 0;
-  //   for (auto c : connections_) {
-  //     if (c->is_watcher()) {
-  //     	c->send(msg);
-  //       ++nr_watchers;      
-		// 	}
-  //   }
-
-  //   info() << "broadcasting to " << nr_watchers << " watchers";
-  //   conn_mtx_.unlock();
-  // }
 
   bool kernel::is_port_available(int port) const {
     for (auto pair : feeders_) {

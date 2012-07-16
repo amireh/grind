@@ -62,7 +62,6 @@ int main(int argc, char** argv)
 
   grind::kernel kernel;
   kernel.init(config_file);
-  // kernel.init();
 
   if (!kernel.is_init()) {
     kernel.cleanup();

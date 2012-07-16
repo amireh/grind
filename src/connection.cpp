@@ -115,16 +115,10 @@ namespace grind {
       string_t data(data_);
 
       if (type_ == WATCHER_CONNECTION) {
-        
-        // script_engine::cmd_rc_t rc = se_.handle_cmd(data, this);
+        // it's an API command
         se_.handle_cmd(data, this);
-
-        // if (rc.success) {
-        //   info() << "returning command response: " << rc.result;
-        //   do_send(rc.result, true);
-        // }
-
       } else {
+        // it's a log message
         se_.relay(data, feeder_);
       }
 
@@ -143,23 +137,15 @@ namespace grind {
   void connection::do_send(string_t msg, bool single_buffer)
   {
     boost::system::error_code ec;
-    size_t n = 0;
-    //if (single_buffer) {
-      n = boost::asio::write(socket_, boost::asio::buffer(msg.c_str(), msg.size()), boost::asio::transfer_all(), ec);
-    //} else {
-      //std::ostream stream(&response_);
-      //stream << msg;
-
-      //n = boost::asio::write(socket_, response_.data(), boost::asio::transfer_all(), ec);
-      //response_.consume(n);
-    //}
+    size_t n = boost::asio::write(socket_, boost::asio::buffer(msg.c_str(), msg.size()), boost::asio::transfer_all(), ec);
 
     debug() << "wrote " << n << " out of " << msg.size() << " bytes";
+
+    assert(n == msg.size());
 
     if (ec) {
       return stop();
     }
-
   }
 
   int connection::type() {

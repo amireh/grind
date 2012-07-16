@@ -20,12 +20,13 @@ function grind.init(root)
   
   grind.paths.root = root
 
-  require "lua_grind"
   require 'helpers'
   -- require 'logging'
 
   logger = lua_grind.logger("grind")
   log = logger:log()
+
+  log:info("Loading from " .. root)
 end
 
 -- local leftovers = nil

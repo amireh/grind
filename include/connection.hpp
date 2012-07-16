@@ -52,7 +52,7 @@ namespace grind {
    * \addtogroup Console
    * @{
    * @class connection
-   * Represents a stream connection from a log providor.
+   * Represents a stream connection from a feeder, or a consumer from a watcher.
    **/
   class connection
     : public boost::enable_shared_from_this<connection>,
