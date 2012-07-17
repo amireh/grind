@@ -29,6 +29,8 @@ function grind.init(root)
   log = logger:new("grind")
 
   log:info("Running from " .. root)
+
+  grind.log = log
 end
 
 -- local leftovers = nil
@@ -137,8 +139,6 @@ function grind.handle(text, glabel)
       -- get a hold on the entry structure
       local meta, body = group.extractors[format](unpack(captures))
 
-      table.dump(meta)
-
       -- assert(type(meta) == "table", "Group " .. group.label .. "'s extractor returned no message.meta table!")
       -- assert(type(body) == "string", "Group " .. group.label .. "'s extractor returned no message.body string!")
 
@@ -157,10 +157,12 @@ function grind.handle(text, glabel)
       -- to the formats when they bind
       for __,klass in pairs(group.klasses) do
         if klass:belongs_to(format) and klass.matcher(format, entry, klass.context) then
-          log:debug("  Found an applicable klass: " .. klass.label)
+          log:indent()
+          log:debug("Found an applicable klass: " .. klass.label)
 
           -- invoke the view formatters
           for ___,view in pairs(klass.views) do
+            log:indent()
             local do_commit, formatted_entry, keep_context = view.formatter(format, view.context, entry, klass.context)
 
             if do_commit and formatted_entry then
@@ -228,7 +230,11 @@ function grind.handle(text, glabel)
                 view.context = {}
               end
             end -- the view is comitting an entry
+
+            log:deindent()
           end -- the view loop
+
+          log:deindent()
         end -- the klass has matched
       end -- the klass loop
     end -- the format has matched
@@ -341,32 +347,52 @@ end
 -- define_extractor():
 --
 -- An extractor is a function exclusive to an application group
--- that locates and defines the metadata (if any) and the content
--- from the raw entry. 
+-- message format that defines the structure of entries for that
+-- format. 
+--
+-- The structure is directly based on what's captured
+-- from the format's regular expression written in grind.define_format()
+-- above.
 --
 -- @param glabel the application group this extractor applies to
--- @param extractor the extractor function, see below
+-- @param gformat the message format the extractor is for
+-- @param extractor the extractor function or list, see below
 --
--- The extractor's arguments:
---   1. the message's timestamp
---   2. the subpatterns captured by the group capturer in define_group()
+-- If the extractor is specified as a list, ie:
+--   { "timestamp", "context" }
+-- then grind will internally define the fields [timestamp] and [context]
+-- in the format entries which can be access using entry.timestamp, or
+-- entry.context accordingly. 
 --
--- Two values are expected to be returned:
---   1. a table to be used as the message's meta
---   2. the message content
+-- However, if you need to customize or control the captures (for example,
+-- converting a timestamp to epoch), you can define a function that will
+-- receive a number of arguments equal to the number of subpatterns defined
+-- in the @gformat expression. The function is expected to return a table of 
+-- fields and their values to be merged with the entry.
+--
+-- Example extractor function:
+--
+-- function(timestamp, context) <--- if one wasn't captured, it will be set to false
+--   return { timestamp = timestamp, context = context }
+-- end
 function grind.define_extractor(glabel, gformat, extractor)
+  assert(typeof(glabel, "glabel", "string"))
+  assert(typeof(gformat, "gformat", "string"))
+  assert(typeof(extractor, "extractor", { "function", "table" }))
+
   local group = grind.groups[glabel]
   assert(group, "No application group called '" .. glabel .. "' is defined, can not define extractor!")
 
-  -- for backwards compatibility, not assigning a gformat
+  -- for backwards compatibility ( not assigning a gformat )
   if not extractor then extractor, gformat = gformat, "default" end
 
+  -- if a list was provided instead of a function, then we'll
+  -- define the extractor function for the user using the
+  -- fields specified in the list
   if type(extractor) == "table" then
     local field_map = extractor
     extractor = function(...)
-      -- local fields = { unpack(arg) }
       local fields = arg
-      -- table.dump(fields)
       local out = {}
       for i,field in pairs(field_map) do
         out[field] = fields[i]
