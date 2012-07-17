@@ -169,16 +169,27 @@ function table.contains(table, item)
   return find_by_value(table, item) ~= nil
 end
 
-function table.dump(t, indent)
+function table.dump(t, indent, logger)
   if not indent then indent = 0 end
   local padding = ""
   for i=0,indent do padding = padding .. "  " end
   -- print("Dumping table " .. tostring(t) .. " which has " .. #t .. " elements")
+
+  local printer = function(k,v)
+    local m = padding .. tostring(k) .. ": "
+    if v then
+      m = m .. tostring(v):gsub("\n", "")
+    end
+
+    if logger then logger:debug(m) else print(m) end
+  end
+
   for k,v in pairs(t) do
-    if type(v) == "table" then 
-      table.dump(v, indent + 1)
+    if type(v) == "table" then
+      printer(k)
+      table.dump(v, indent + 1, logger)
     else
-      print(padding .. tostring(k) .. " => " .. tostring(v))
+      printer(k,v)
     end
   end
 end
@@ -244,11 +255,25 @@ function load_script(script)
   return require(script)
 end
 
-function typeof(var, var_name_str, expected_type_str)
-  local msg = "<" .. var_name_str .. "> is expected to be of type '" .. expected_type_str .. "', but got '" .. type(var) .. "'"
-  if type(var) ~= expected_type_str then
-    return false, msg
+function typeof(var, var_name_str, expected_types)
+  if type(expected_types) == "string" then
+    expected_types = { expected_types }
+  end
+  local expected_types_s = ""
+  
+  for i,_type in pairs(expected_types) do 
+    expected_types_s = _type .. (i ~= #expected_types and ", " or "") .. expected_types_s
   end
 
-  return true
+  local msg = "<" .. var_name_str .. "> is expected to be of " ..
+              "type(s): '" .. expected_types_s .. "', " ..
+              "but got '" .. type(var) .. "'"
+  
+  for _type in ilist(expected_types) do
+    if type(var) == _type then
+      return true
+    end
+  end
+
+  return false, msg
 end
