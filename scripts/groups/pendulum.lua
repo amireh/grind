@@ -1,5 +1,5 @@
 grind.define_group("pendulum", 11151)
-grind.define_signature("pendulum", [[(\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2})]])
+grind.define_signature("pendulum", [[(\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}) ]])
 
 grind.define_format("pendulum", "sessions", [==[(\[[A-Z]\]) (\w+): (.*)]==])
 grind.define_extractor("pendulum", "sessions", 

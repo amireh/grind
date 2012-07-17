@@ -383,9 +383,6 @@ function grind.define_extractor(glabel, gformat, extractor)
   local group = grind.groups[glabel]
   assert(group, "No application group called '" .. glabel .. "' is defined, can not define extractor!")
 
-  -- for backwards compatibility ( not assigning a gformat )
-  if not extractor then extractor, gformat = gformat, "default" end
-
   -- if a list was provided instead of a function, then we'll
   -- define the extractor function for the user using the
   -- fields specified in the list
