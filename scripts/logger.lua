@@ -15,6 +15,7 @@ function logger:new(ctx, obj)
   setmetatable(o, { __index = self })
   self.__index = self
   o.ctx = ctx
+  o.padding = ""
 
   return o
 end
@@ -25,8 +26,15 @@ end
 
 for level, token in pairs(levels) do
   logger[level] = function(self, msg)
-    print( timestamp() .. token .. " " .. self.ctx .. ": " .. msg)
+    print( timestamp() .. token .. " " .. self.ctx .. ": " .. self.padding .. msg)
 
     return nil
   end
+end
+
+function logger:indent()
+  self.padding = self.padding .. "  "
+end
+function logger:deindent()
+  self.padding = self.padding:sub(0, #self.padding - 2)
 end
