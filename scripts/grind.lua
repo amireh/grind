@@ -546,21 +546,3 @@ function grind.remove_watcher(watcher)
   log:info("Watcher removed: " .. watcher:whois())
   log:info("Watchers: " .. #grind.watchers)
 end
-
-
-
-function error_test(foo, bar)
-  print("HELLO THERE: " .. foo .. bar)
-  -- return "yarr", "moo"
-  return moo()
-end
-function moo()
-  print("HEY")
-  return zeeee()
-end
-function zeeee()
-  error("Fuck this shit")
-end
-
--- if not debug then debug = {} end
--- debug.traceback = function(_, __) print("oi") end

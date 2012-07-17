@@ -31,6 +31,18 @@ grind = function() {
       handle_cmd(feed);
       return;
     }
+    else if (typeof(feed) == "object" && feed.notice) {
+      if (feed.notice == "disconnected") {
+        grind.disconnect();
+      }
+      else if (feed.notice == "connected") {
+        connected = true;
+        log("Connected.")
+        foreach(handlers.on_connected, function(h) { h(); });
+      }
+
+      return;
+    }
 
     // for (var i =0; i < feed.length; ++i) {
       foreach(handlers.on_message, function(e) { e(feed); });
@@ -59,9 +71,7 @@ grind = function() {
   };
 
   function ws_onopen() {
-    connected = true;
-    log("Connected.")
-    foreach(handlers.on_connected, function(h) { h(); });
+
   };
 
   function send_cmd(cmd) {

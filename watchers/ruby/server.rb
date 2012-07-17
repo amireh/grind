@@ -42,11 +42,14 @@ EventMachine.run {
       # once a full JSON object has been parsed from the stream
       # object_parsed will be called, and passed the constructed object
       @parser.on_parse_complete = method(:object_parsed)
+      puts "connected to grind"
+      @channel.push({ notice: "connected" }.to_json)
     end    
 
-    # def unbind
-    #   EventMachine::stop_event_loop
-    # end
+    def unbind
+      @channel.push({ notice: "disconnected" }.to_json)
+      # EventMachine::stop_event_loop
+    end
   end
 
   EventMachine::WebSocket.start(:host => "0.0.0.0", :port => 8181, :debug => true) do |ws|
@@ -54,11 +57,9 @@ EventMachine.run {
     ws.onopen {
       channel = EM::Channel.new
       comlink = EventMachine::connect '127.0.0.1', 11142, Watcher
+      puts comlink.error?
       comlink.set_channel(channel)
       sid = channel.subscribe { |msg| ws.send msg }
-      # t = Terminal.new
-      # @comlink.add_terminal(t)
-      # @channel.push "#{sid} connected!"
 
       ws.onmessage { |msg|
         puts "Message received from <#{sid}>: #{msg}"

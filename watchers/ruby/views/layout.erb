@@ -20,6 +20,7 @@
       grind.on_connected(function() {
         toggle_alterable($("#status"));
         ui.status("Connected to grind.");
+        $("#clear").click();
       });
       grind.on_disconnected(function() {
         toggle_alterable($("#status"));
@@ -37,7 +38,9 @@
           ui.status("Keeper archives have been purged.");
         });
         
+        $("#connect").click();
       });
+
 
     </script>
     <% yield_content :js %>

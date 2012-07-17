@@ -69,18 +69,6 @@ namespace grind {
       "/usr/local/share/grind"
     }, "config.lua");
   }
-  static path_t locate_scripts() {
-    return locate_file({
-      "/usr/lib/lua",
-      "/usr/lib/lua/5.1",
-      "/usr/local/lib/lua",
-      "/usr/local/lib/lua/5.1",
-      "/opt/grind",
-      "/opt/grind/scripts",
-      "/usr/local/grind/scripts",
-      "/usr/local/src/grind/scripts",
-    }, "grind.lua");
-  }
 
   void script_engine::start(string_t const& in_cfg_path) {
     if (lua_)

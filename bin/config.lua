@@ -36,7 +36,7 @@ if load(root .. "/grind") then
   return start(root)
 end
 
--- Look for the scripts in one of the default paths:
+-- Look for the scripts in some system paths:
 local default_paths = {
   "/usr/lib/lua",
   "/usr/lib/lua/5.1",

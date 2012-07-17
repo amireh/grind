@@ -26,7 +26,7 @@ end
 
 for level, token in pairs(levels) do
   logger[level] = function(self, msg)
-    print( timestamp() .. token .. " " .. self.ctx .. ": " .. self.padding .. msg)
+    print( string.format("%s%s %s: %s%s", timestamp(), token, self.ctx, self.padding, msg) )
 
     return nil
   end
