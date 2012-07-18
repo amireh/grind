@@ -6,10 +6,15 @@ require 'json'
 configure do
   enable :sessions
 
-  @@settings = JSON.parse(File.read(File.join(File.dirname(__FILE__), "config.json")))
+  set :cfg_path, File.join(File.dirname(__FILE__), "config.json")
+  @@settings = JSON.parse(File.read(settings.cfg_path))
 end
 
 before do
+  if !@@settings then
+    @@settings = JSON.parse(File.read(settings.cfg_path))
+  end
+
   @settings = @@settings
 end
 
@@ -24,6 +29,13 @@ get '/skins/:skin' do |skin|
 end
 
 get '/settings' do
+  erb :settings
+end
+post '/settings' do
+  File.open(settings.cfg_path, "w") { |f|
+    f.write(params.to_json)
+  }
+
   erb :settings
 end
 
