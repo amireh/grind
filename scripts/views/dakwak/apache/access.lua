@@ -3,19 +3,19 @@ grind.define_view("dakwak", "apache", "access logs",
   function(fmt, ctx, entry)
     print(type(entry))
     local out = {
-      Timestamp = entry.meta.timestamp,
-      VHost = entry.meta.vhost,
-      Port = entry.meta.port,
-      ["Forwarded-for"] = entry.meta.fwd,
-      UUID = entry.meta.uuid,
-      Host = entry.meta.host,
-      HTTP = entry.meta.http_version or "-",
-      Method = entry.meta.url and entry.meta.method or "-",
-      Referer = entry.meta.referer,
-      Agent = entry.meta.agent,
-      RC = entry.meta.http_rc,
-      ID = entry.meta.id,
-      URL = entry.meta.url and entry.meta.url or entry.meta.method
+      Timestamp = entry.timestamp,
+      VHost = entry.vhost,
+      Port = entry.port,
+      ["Forwarded-for"] = entry.fwd,
+      UUID = entry.uuid,
+      Host = entry.host,
+      HTTP = entry.http_version or "-",
+      Method = entry.url and entry.method or "-",
+      Referer = entry.referer,
+      Agent = entry.agent,
+      RC = entry.http_rc,
+      ID = entry.id,
+      URL = entry.url and entry.url or entry.method
     }
 
     return true, out

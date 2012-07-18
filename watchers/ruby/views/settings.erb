@@ -1,0 +1,41 @@
+<% content_for :js do %>
+<script>
+</script>
+<% end %>
+
+<% content_for :nav do %>
+<h2>settings</h2>
+<% end %>
+
+<form method="POST" action="/settings">
+  <h2>watcher connectivity</h2>
+  <p>You must specify a Watcher to connect to.</p>
+
+  <label>
+    Address:
+    <input type="text" name="watcher[address]" value="<%= @settings["watcher"]["address"] %>" />
+  </label>
+
+  <label>
+    Port:
+    <input type="text" name="watcher[port]" size="2" value="<%= @settings["watcher"]["port"] %>" />
+  </label>
+
+  <h2>grind connectivity</h2>
+  <p>The grind instance you would like the Watcher to connect to.</p>
+
+  <label>
+    Address:
+    <input type="text" name="grind[address]" value="<%= @settings["grind"]["address"] %>" />
+  </label>
+
+  <label>
+    Port:
+    <input type="text" name="grind[port]" size="2" value="<%= @settings["grind"]["port"] %>" />
+  </label>
+
+
+  <br />
+  <br />
+  <input type="submit" class="button" value="save" />
+</form>

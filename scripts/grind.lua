@@ -220,6 +220,7 @@ function grind.handle(text, glabel)
                   end -- view filters
 
                   if do_relay then
+                    log:debug(encoded_entry)
                     w:send(encoded_entry)
                   end
                 end -- the subscription is for this view
@@ -423,9 +424,6 @@ function grind.define_klass(glabel, gformats, clabel, matcher)
   assert(group, "No application group called '" .. glabel .. "' is defined, can not define extractor!")
 
   if not matcher and type(gformats) == "string" then gformats = { gformats } end
-  -- for backwards compatibility, not assigning a gformat
-  if not matcher then matcher, clabel, gformats = clabel, gformats, { "default" } end
-
 
   for format in ilist(gformats) do
     assert(group.formatters[format], 

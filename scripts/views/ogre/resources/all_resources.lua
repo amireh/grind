@@ -18,7 +18,7 @@ grind.define_view("OGRE", "resources", "all resources",
     end
 
     local out = {
-      -- Timestamp = entry.meta.timestamp,
+      -- Timestamp = entry.timestamp,
       ["Resource Group"] = kctx.rgroup,
       Type = nil,
       Identifier = nil,

@@ -14,7 +14,8 @@ grind = function() {
       socket = null,
       host = "127.0.0.1",
       port = "8181",
-      connected = false;
+      connected = false,
+      settings = {};
 
 
   function ws_onmessage(evt) {
@@ -100,11 +101,16 @@ grind = function() {
   return {
     // log: log,
     // this: this,
+    settings: settings,
     connect: function() {
       if (connected)
         return;
 
-      socket = new WebSocket("ws://127.0.0.1:8181/websocket");
+      socket = 
+        new WebSocket("ws://" + this.settings.watcher.address 
+        + ":" 
+        + this.settings.watcher.port + "/websocket");
+        
       socket.onopen = ws_onopen;            
       socket.onclose = ws_onclose;            
       socket.onmessage = ws_onmessage;

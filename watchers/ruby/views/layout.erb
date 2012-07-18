@@ -16,6 +16,11 @@
     <script>
       grind = grind();
       ui = grind_ui();
+
+      grind.settings = <%= @settings.to_json %>;
+      ui.settings = <%= @settings.to_json %>;
+
+      console.log(grind.settings);
       
       grind.on_connected(function() {
         toggle_alterable($("#status"));
@@ -55,7 +60,7 @@
         <% yield_content :nav %>
         <div id="grind_controls">
           <a class="button" href="/settings">settings</a>
-          <a class="button" href="/skins/<%= skin == 'minimal' ? 'grunge' : 'minimal' %>">switch skin</a>          
+          <!-- <a class="button" href="/skins/<%= skin == 'minimal' ? 'grunge' : 'minimal' %>">switch skin</a>           -->
         </div>
       </nav>
     </header>

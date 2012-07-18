@@ -11,7 +11,7 @@ grind.define_view("OGRE", "errors", "bad attributes",
     local b,e, cause, el, container = rex_pcre.find(entry.body, extractor)
 
     local out = {
-      Timestamp = entry.meta.timestamp,
+      Timestamp = entry.timestamp,
       Element = el,
       Container = container,
       Cause = cause

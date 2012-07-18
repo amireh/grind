@@ -1,16 +1,16 @@
 grind.define_view("dakwak", "errors", "request errors", 
   { "Timestamp", "FQDN", "Context", "UUID", "Application", "Message" },
   function(fmt, ctx, entry)
-    if not entry.meta.uuid then
+    if not entry.uuid then
       return false
     end
     
     return true, {
-      Timestamp = entry.meta.timestamp,
-      FQDN = entry.meta.fqdn,
-      Context = entry.meta.context,
-      UUID = entry.meta.uuid,
-      Application = entry.meta.app,
+      Timestamp = entry.timestamp,
+      FQDN = entry.fqdn,
+      Context = entry.context,
+      UUID = entry.uuid,
+      Application = entry.app,
       Message = entry.body
     }
   end)

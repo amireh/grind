@@ -6,7 +6,7 @@ grind.define_view("pendulum", "battles", "events",
     local b,e,event,args = evt_extractor:find(entry.body)
     if b ~= nil then
       return true, { 
-        Battle = entry.meta.battle_id,
+        Battle = entry.battle_id,
         Event = event,
         Arguments = args
       }      

@@ -19,7 +19,7 @@ grind.define_view("dakwak", "requests", "identifiers",
       b,e,captured_url = extractors.url:find(entry.body)
       if b ~= nil then
         ctx.url = captured_url
-        ctx.uuid = entry.meta.uuid
+        ctx.uuid = entry.uuid
       end
     -- we're done, commit the entry
     else

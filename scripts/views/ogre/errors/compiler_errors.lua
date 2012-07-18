@@ -13,7 +13,7 @@ grind.define_view("OGRE", "errors", "compiler errors",
     if not cause then cause = err_type; err_type = "N/A" end
 
     local out = {
-      Timestamp = entry.meta.timestamp,
+      Timestamp = entry.timestamp,
       File = file,
       Line = line,
       Type = err_type or "N/A",

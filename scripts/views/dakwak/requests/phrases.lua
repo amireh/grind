@@ -25,9 +25,9 @@ grind.define_view("dakwak", "requests", "phrases",
   function(fmt, ctx, entry)
     -- we know the messages we need only come from this app, so there's
     -- no need to waste regex tests on other entries
-    if entry.meta.app ~= "dakapi" or
-       not (entry.meta.module:match("handler") or
-            entry.meta.module:match("db_manager")) then
+    if entry.app ~= "dakapi" or
+       not (entry.module:match("handler") or
+            entry.module:match("db_manager")) then
       return false
     end
 
@@ -52,7 +52,7 @@ grind.define_view("dakwak", "requests", "phrases",
       local b,e,phrase = extractors.phrase:find(entry.body)
       if b ~= nil then
         ctx.phrase = phrase
-        ctx.uuid = entry.meta.uuid
+        ctx.uuid = entry.uuid
       end
     elseif not ctx.digest then
       local b,e,digest = extractors.digest:find(entry.body)
