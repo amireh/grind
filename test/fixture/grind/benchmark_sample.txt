@@ -1,0 +1,10 @@
+2012-07-15 19:21:31 [I] GameMgr: loading Pendulum config
+2012-07-15 19:21:31 [I] GameMgr: found existing configuration, parsing...
+2012-07-15 19:21:31 [I] InputMgr: up and running
+2012-07-15 19:21:31 [I] NetMgr: up and running
+2012-07-15 19:21:31 [I] EvtMgr: up and running
+2012-07-15 19:21:31 [I] GfxEngine: firing up
+2012-07-15 19:21:31 [I] UIEngine: firing up
+2012-07-15 19:21:31 [I] FxEngine: firing up
+2012-07-15 19:21:31 [I] ScriptEngine: firing up
+2012-07-15 19:21:31 [I] {1234} Battle: ---- Starting ---

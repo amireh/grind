@@ -1,5 +1,6 @@
 require 'rex_pcre'
-json = require 'dkjson'
+-- json = require 'dkjson'
+json = require 'cjson'
 
 grind = grind or { 
   config = {}, 

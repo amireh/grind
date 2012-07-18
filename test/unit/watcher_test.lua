@@ -9,8 +9,8 @@ do
   cli:add_arg("GROUP", "application group identifier", "group")
   cli:add_arg("KLASS", "klass identifier", "klass")
   cli:add_arg("VIEW", "view identifier", "view")
-  cli:add_opt("-h, --host", "the host IP on which grind is running", "host", "127.0.0.1")
-  cli:add_opt("-p, --port", "the port on which grind is running", "port", 11144)
+  cli:add_opt("-h, --host=HOST", "the host IP on which grind is running", "host", "127.0.0.1")
+  cli:add_opt("-p, --port=PORT", "the port on which grind is running", "port", 11144)
   cli:add_opt("-t, --timeout=VALUE", "amount of milliseconds to wait before interrupting the connection", "tt", 100)
 
   args = cli:parse_args()

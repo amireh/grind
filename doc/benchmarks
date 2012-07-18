@@ -1,18 +1,20 @@
-0.3.0:
+0.2.0:
 
   > --- #1 ---
-  > using test/fixture/grind/benchmarker.txt - 9.8MB
+  > file: test/fixture/grind/benchmarker.txt - 9.8MB
   > under gdb: yes
   > &> /dev/null: no
+  > encoding: dkjson
   >
   > real  0m36.346s
   > user  0m0.103s
   > sys 0m0.117s
 
   > --- #2 ---
-  > using test/fixture/grind/benchmarker.txt - 9.8MB
+  > file: test/fixture/grind/benchmarker.txt - 9.8MB
   > under gdb: no
   > &> /dev/null: yes
+  > encoding: dkjson
   >
   > =================
   >   real  0m10.679s
@@ -29,10 +31,26 @@
 
 
   > --- #3 ---
-  > using test/fixture/grind/benchmarker.txt - 9.8MB
+  > file: test/fixture/grind/benchmarker.txt - 9.8MB
   > under gdb: no
   > &> /dev/null: no
+  > encoding: dkjson
   >
   > real  0m36.484s
   > user  0m0.120s
   > sys 0m0.107s
+
+  > --- #4 ---
+  > file: test/fixture/grind/benchmarker.txt - 9.8MB
+  > under gdb: no
+  > &> /dev/null: yes
+  > encoding: cjson
+  >
+  > =================
+  > real  0m5.557s
+  > user  0m0.037s
+  > sys 0m0.007s
+  > =================
+  > real  0m5.536s
+  > user  0m0.020s
+  > sys 0m0.020s
