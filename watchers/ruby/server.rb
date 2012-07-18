@@ -4,7 +4,6 @@ require 'em-websocket'
 require 'json'
 require 'socket'
 require 'yajl'
-require 'yaml'
 
 EventMachine.run {
   # @channel = EM::Channel.new
@@ -35,7 +34,7 @@ EventMachine.run {
       # puts obj.inspect
       @data = ""
       @channel.push obj.to_json
-      puts "Publishing #{obj.to_yaml}"
+      puts "Publishing #{obj.to_json}"
     end    
 
     def connection_completed

@@ -1,14 +1,24 @@
 #!/usr/bin/env lua
 
--- This needs to point to the directory that contains grind.lua
+-- This needs to point to the directory that contains grind.lua,
+-- by default it is in the scripts/ directory within the grind
+-- repository root.
 local root = "/home/kandie/Workspace/Projects/grind/scripts"
+
 local cfg = {
   kernel = {
+    -- the ethernet interface to use for accepting feeders
     feeder_interface = "127.0.0.1",
+    -- the ethernet interface to use for accepting watchers
     watcher_interface = "127.0.0.1",
+    -- the port to use for watcher connections
     watcher_port = "11142"
   }
 }
+
+-- -------------------------------------------------- --
+-- THE REMAINDER OF THIS SCRIPT SHOULD NOT BE CHANGED --
+-- -------------------------------------------------- --
 
 package.path = "?.lua;" .. package.path -- for absolute paths
 package.cpath = "/usr/local/lib/?.so;" .. package.cpath
