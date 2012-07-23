@@ -3,7 +3,7 @@
 #include "kernel.hpp"
 
 extern "C" {
-  #include "dTE/swigluaruntime.h"
+  #include "swigluaruntime.h"
 
   struct swig_module_info;
   struct swig_type_info;

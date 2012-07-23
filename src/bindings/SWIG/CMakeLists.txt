@@ -18,7 +18,7 @@ SET_SOURCE_FILES_PROPERTIES( ${WRAPPER} PROPERTIES GENERATED 1)
 ADD_CUSTOM_TARGET(${LIBNAME}_SWIG DEPENDS ${WRAPPER})
 
 IF(NOT EXISTS "${WRAPPER}")
-  MESSAGE(STATUS "Lua dTE SWIG bindings are not yet generated, forcing generation. Generate manually using make ${LIBNAME}_SWIG")
+  MESSAGE(STATUS "grind Lua SWIG bindings are not yet generated, forcing generation. Generate manually using make ${LIBNAME}_SWIG")
   ADD_DEPENDENCIES(${LIBNAME} ${LIBNAME}_SWIG)
 ENDIF()
 
