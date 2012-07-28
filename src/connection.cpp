@@ -141,7 +141,7 @@ namespace grind {
 
     debug() << "wrote " << n << " out of " << msg.size() << " bytes";
 
-    assert(n == msg.size());
+    // assert(n == msg.size());
 
     if (ec) {
       return stop();
