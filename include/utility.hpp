@@ -272,7 +272,7 @@ namespace utility {
    * @param fill The suffix character to fill the string with
    */
   inline static
-  string_t expand(string_t const& in, size_t size, char fill)
+  string_t expand(string_t const& in, size_t size, char fill = ' ')
   {
     if (in.size() >= size)
       return in;

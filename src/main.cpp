@@ -33,6 +33,23 @@
 #include <signal.h>
 
 #include "kernel.hpp"
+#include "utility.hpp"
+
+int print_usage() {
+  using std::cout;
+  using grind::utility::expand;
+
+  static int keysz = 20;
+
+  cout << "grind: a log analyzing and aggregation tool\n";
+  cout << "USAGE: grind [OPTIONS]\n\n";
+  
+  cout << "Options:\n";
+  cout << expand("-c PATH", keysz) << "path to grind configuration script (config.lua)\n";
+  cout << expand("-h, --help", keysz) << "display this help listing\n";
+
+  return 0;
+}
 
 int main(int argc, char** argv)
 {
@@ -50,6 +67,9 @@ int main(int argc, char** argv)
         }
 
         config_file = argv[++i];
+      }
+      else if (arg == "-h" || arg == "--help") {
+        return print_usage();
       }
     }
   }
