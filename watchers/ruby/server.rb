@@ -27,7 +27,7 @@ EventMachine.run {
         begin
           @parser.parse(@data)
         rescue Exception => e
-          puts "ERROR: #{e.what}"
+          puts "ERROR: #{e.message}"
           puts "Gracefully emptying buffer"
           @data = ""
         end
