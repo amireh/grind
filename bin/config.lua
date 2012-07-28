@@ -13,7 +13,11 @@ local cfg = {
     watcher_interface = "127.0.0.1",
     -- the port to use for watcher connections
     watcher_port = "11142"
-  }
+  },
+
+  -- accepted log levels (ordered):
+  -- debug, info, notice, warn, error, crit, alert
+  log_level = "debug"
 }
 
 -- -------------------------------------------------- --
