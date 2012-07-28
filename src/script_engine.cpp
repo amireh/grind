@@ -54,10 +54,11 @@ namespace grind {
       if (!is_directory(d))
         continue;
 
-      path_t file = d / "grind.lua";
+      path_t file = d / "config.lua";
 
       if (exists(file))
         return file;
+      
     }
     return path_t();
   }
