@@ -3,7 +3,7 @@
 local args = nil
 do
   local cli = require "cliargs"
-  cli:set_name("grind_test.lua")
+  cli:set_name("grind-test")
   cli:add_arg("PORT", "the feeder port", "port")
   cli:add_opt("-i FILE", "path to a text file which will be grinded", "input_path")
 
