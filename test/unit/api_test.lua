@@ -1,6 +1,7 @@
 local cli = require 'cliargs'
 local socket = require "socket"
-local json = require "dkjson"
+-- local json = require "dkjson"
+local json = require "cjson"
 
 local args = nil
 do
