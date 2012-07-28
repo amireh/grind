@@ -7,8 +7,10 @@ grind.define_view("dakwak", "requests", "workflow",
       out = {
         Timestamp = entry.timestamp,
         UUID = entry.uuid,
-        Application = "apache",
-        Message = entry.url
+        FQDN = entry.fqdn,
+        Application = entry.app,
+        Module = entry.vhost,
+        Message = entry.uri
       }
     else
       out = {
@@ -18,7 +20,7 @@ grind.define_view("dakwak", "requests", "workflow",
         UUID = entry.uuid,
         Application = entry.app,
         Module = entry.module,
-        Message = entry.body
+        Message = entry.content
       }
     end
 

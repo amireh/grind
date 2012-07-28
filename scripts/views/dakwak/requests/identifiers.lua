@@ -6,6 +6,11 @@ local extractors = {
 grind.define_view("dakwak", "requests", "identifiers", 
   { "uuid", "apikey", "url" },
   function(fmt, ctx, entry)
+
+    if fmt == "apache" then
+      return false
+    end
+
     -- capture the APIKey
     local b,e,captured = nil,nil,nil
     
