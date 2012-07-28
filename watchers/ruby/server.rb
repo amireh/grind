@@ -24,7 +24,13 @@ EventMachine.run {
         puts "Chunk received: #{data.size}: \n<<!#{data}!>>"
         # puts "--\n Buffer was: \n<<!#{@data}!>>"
         @data << data
-        @parser.parse(@data)
+        begin
+          @parser.parse(@data)
+        rescue Exception => e
+          puts "ERROR: #{e.what}"
+          puts "Gracefully emptying buffer"
+          @data = ""
+        end
       end
     end
     
