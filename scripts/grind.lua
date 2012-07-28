@@ -138,17 +138,14 @@ function grind.handle(text, glabel)
       end
 
       -- get a hold on the entry structure
-      local meta, body = group.extractors[format](unpack(captures))
+      local meta = group.extractors[format](unpack(captures))
 
       -- assert(type(meta) == "table", "Group " .. group.label .. "'s extractor returned no message.meta table!")
-      -- assert(type(body) == "string", "Group " .. group.label .. "'s extractor returned no message.body string!")
 
       -- define the entry
-      -- entry.body = body
       for k,v in pairs(meta) do 
         entry[k] = v
       end
-      if body then entry.body = body end
 
       -- keep the raw version
       -- entry.meta.raw = nil
