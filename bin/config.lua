@@ -17,7 +17,16 @@ local cfg = {
 
   -- accepted log levels (ordered):
   -- debug, info, notice, warn, error, crit, alert
-  log_level = "debug"
+  log_level = "debug",
+
+  -- paths that will be searched for grind entity definitions
+  -- (your group, klass, and view configuration scripts)
+  entity_paths = {
+    "/etc/grind",
+    root .. "/groups",
+    root .. "/klasses",
+    root .. "/views",
+  }
 }
 
 -- -------------------------------------------------- --

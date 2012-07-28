@@ -64,8 +64,8 @@ function grind.start(kernel)
   load_script('api')
   load_script('entry')
 
-  for dir in ilist({ "groups", "klasses", "views" }) do
-    for filename in dirtree(grind.paths.root .. '/' .. dir) do
+  for dir in ilist(grind.config.entity_paths) do
+    for filename in dirtree(dir) do
       if filename:find(".lua") and not filename:find("exclude") then
         load_script(filename)
       end
