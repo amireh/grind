@@ -65,7 +65,7 @@ namespace grind {
       se_.pass_to_lua("grind.add_watcher", NULL, 0, 1, "grind::connection", this);
     }
 
-    info() << "connection started from: " << whois();
+    info() << "connection started from: " << whois() << '\n';
     
     read();
   }

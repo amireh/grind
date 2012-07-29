@@ -8,6 +8,7 @@ grind = grind or {
   groups = {}, 
   commands = {}, 
   watchers = {},
+  keepers = {},
   subscriptions = {}
 }
 
@@ -94,8 +95,6 @@ function grind.stop()
   grind.config = {}
 end
 
-local show_two_times = 2
-
 function grind.handle(text, glabel)
 
   -- log("Handling '" .. text .. "' for " .. glabel)
@@ -105,6 +104,7 @@ function grind.handle(text, glabel)
   local signature_rex = group.signature
   local b,e,c,b2,e2,c2 = 0,0,nil,0,0,nil
   local consumed = 0
+  local has_keepers = #grind.keepers > 0
   while true do
 
     -- local signature_captures = { signature_rex:find(text,e) }
@@ -128,10 +128,9 @@ function grind.handle(text, glabel)
 
     local entry = entry_t:new(text:sub(e + 1, b2 - 1))
     -- local entry = entry_t:new(signature_captures[#signature_captures])
-    -- print(entry.meta.raw)
     local formats = {}
     for flabel, format in pairs(group.formats) do
-      if format.nr_active_klasses > 0  then
+      if format.nr_active_klasses > 0 or has_keepers  then
         local captures = format.matcher(entry.meta.raw)
         if #captures > 0 then
           table.insert(formats, { format, captures })
@@ -168,17 +167,27 @@ function grind.handle(text, glabel)
       -- TODO: this can be optimized if we link klasses directly
       -- to the formats when they bind
       -- for __,klass in pairs(group.klasses) do
-      for klabel,active_views in pairs(format.active_klasses) do
+      local active_klasses =
+        has_keepers and group.klasses or format.active_klasses
+
+      -- for klabel,active_views in pairs(format.active_klasses) do
+      for klabel,active_views_or_klass in pairs(active_klasses) do
         local klass = group.klasses[klabel]
+
+        local active_views = 
+          has_keepers and klass.views or active_views_or_klass
+
         -- if klass:belongs_to(format) and klass.matcher(format, entry, klass.context) then
         if klass.matcher(format.label, entry, klass.context) then
           log:indent()
           log:debug("Found an applicable klass: " .. klass.label)
+          log:debug("Any Keeper attached? " .. tostring(has_keepers) .. ", #views: " .. #active_views)
 
           -- invoke the view formatters
           -- for ___,view in pairs(klass.views) do
-          for view in ilist(active_views) do
+          for _,view in pairs(active_views) do
             log:indent()
+            log:debug("Looking for an application view")
             local do_commit, formatted_entry, keep_context = view.formatter(format.label, view.context, entry, klass.context)
 
             if do_commit and formatted_entry then
@@ -190,7 +199,7 @@ function grind.handle(text, glabel)
                 entry = formatted_entry
               })
 
-              -- log("Committing an entry! : " .. encoded_entry)
+              -- log:debug("Committing an entry! : " .. encoded_entry)
 
               -- broadcast to all subscribed watchers
               log:debug("looking for watchers subscribed to " ..
@@ -577,12 +586,21 @@ end
 function grind.remove_watcher(watcher)
   remove_by_cond(grind.watchers, function(_,w) return w:whois() == watcher:whois() end)
   local sub = grind.subscriptions[watcher:whois()]
-  if sub then
+  if sub and sub[1] == "*" then
+    remove_by_cond(grind.keepers, function(_,k) return k:whois() == watcher:whois() end)
+  elseif sub then
+    repeat
     -- mark the subscription's view as inactive in the format
     --
     -- subscription structure:
     -- { group.label, klass.label, view.label, watcher, filters = {} }
     local group = grind.groups[sub[1]]
+    if not group then
+      log:error("Invalid subscription or something! Look at it: ")
+      table.dump(sub)
+      break
+    end
+
     local klass = group.klasses[sub[2]]
     local view_label = sub[3]
 
@@ -606,7 +624,7 @@ function grind.remove_watcher(watcher)
         log:notice("Format has " .. format.nr_active_klasses .. " active klasses remaining.")
       end
     end
-
+    until true
   end
 
   sub = nil

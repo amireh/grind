@@ -126,7 +126,8 @@ grind.command("subscribe", function(cmd, watcher)
   end
 
   if cmd.args.group == "*" then
-    grind.subscriptions[watcher:whois()] = { "*", "*", "*", watcher }
+    grind.subscriptions[watcher:whois()] = { "*", "*", "*", watcher, filters = {} }
+    table.insert(grind.keepers, watcher)
     log:info("Watcher#" .. watcher:whois() .. " has subscribed to *")
     return "Subscribed."
   end
@@ -211,10 +212,11 @@ grind.command("purge", function(cmd)
 end)
 
 grind.command("reload", function(cmd)
-  grind.stop();
-  grind.start();
+  -- grind.stop();
+  -- grind.start();
 
-  return true, "Reloaded."
+  -- return true, "Reloaded."
+  return false, "Reloading is currently disabled."
 end)
 
 grind.command("leftovers", function(cmd, watcher)
