@@ -59,7 +59,7 @@ end
 def start_websocket_server()
 
   EventMachine::WebSocket.start(
-    :host => Settings["watcher"]["address"], 
+    :host => "0.0.0.0", 
     :port => Settings["watcher"]["port"],
     :debug => false) do |ws|
 
