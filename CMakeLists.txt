@@ -25,9 +25,12 @@ SET(EXECUTABLE_OUTPUT_PATH "${CMAKE_CURRENT_SOURCE_DIR}/bin")
 
 ADD_SUBDIRECTORY(src)
 
-INSTALL(FILES share/config.lua DESTINATION share/grind)
+# Install the default configuration and examples
+INSTALL(DIRECTORY share/grind DESTINATION share)
+
+# Install the configuration file to /etc only if it's not there
 IF(NOT EXISTS /etc/grind/config.lua)
-  INSTALL(FILES share/config.lua DESTINATION /etc/grind)
+  INSTALL(FILES share/grind/config.lua DESTINATION /etc/grind)
 ENDIF()
 
 # Install the helpers and rename them

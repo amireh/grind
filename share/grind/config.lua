@@ -3,7 +3,7 @@
 -- This needs to point to the directory that contains grind.lua,
 -- by default it is in the scripts/ directory within the grind
 -- repository root.
-local root = "/home/kandie/Workspace/Projects/grind/scripts"
+local root = "/usr/local/src/grind"
 
 local cfg = {
   kernel = {
@@ -17,16 +17,15 @@ local cfg = {
 
   -- accepted log levels (ordered):
   -- debug, info, notice, warn, error, crit, alert
-  -- log_level = "debug",
-  log_level = "warn",
+  log_level = "debug",
 
   -- paths that will be searched for grind entity definitions
   -- (your group, klass, and view configuration scripts)
   entity_paths = {
-    "/etc/grind",
-    root .. "/groups",
-    root .. "/klasses",
-    root .. "/views",
+    "/etc/grind"
+    -- ,"/etc/grind/groups"
+    -- ,"/etc/grind/klasses"
+    -- ,"/etc/grind/views
   }
 }
 
