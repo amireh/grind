@@ -107,27 +107,27 @@ function grind.handle(text, glabel)
   local consumed = 0
   while true do
 
-    local signature_captures = { signature_rex:find(text,e) }
-    b = signature_captures[1]
-    e = signature_captures[2]
-    -- b,e,c = signature_rex:find(text,e)
-    -- b2,e2,c2 = signature_rex:find(text,e)
+    -- local signature_captures = { signature_rex:find(text,e) }
+    -- b = signature_captures[1]
+    -- e = signature_captures[2]
+    b,e,c = signature_rex:find(text,e)
+    b2,e2,c2 = signature_rex:find(text,e)
 
-    -- if b == nil or b2 == nil then
-    if b == nil then
+    if b == nil or b2 == nil then
+    -- if b == nil then
       break
     end
 
-    -- consumed = consumed + b2 - b
-    consumed = consumed + e
-    -- local signature_captures = { signature_rex:find(text:sub(b, b2 - 1)) }
-    -- if #signature_captures > 0 then -- strip out the match boundaries
-    --   table.remove(signature_captures,1)
-    --   table.remove(signature_captures,1)
-    -- end    
+    consumed = consumed + b2 - b
+    -- consumed = consumed + e
+    local signature_captures = { signature_rex:find(text:sub(b, b2 - 1)) }
+    if #signature_captures > 0 then -- strip out the match boundaries
+      table.remove(signature_captures,1)
+      table.remove(signature_captures,1)
+    end 
 
-    -- local entry = entry_t:new(nil, text:sub(e + 1, b2 - 1))
-    local entry = entry_t:new(signature_captures[#signature_captures])
+    local entry = entry_t:new(text:sub(e + 1, b2 - 1))
+    -- local entry = entry_t:new(signature_captures[#signature_captures])
     -- print(entry.meta.raw)
     local formats = {}
     for flabel, format in pairs(group.formats) do
