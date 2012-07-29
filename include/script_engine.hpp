@@ -86,7 +86,7 @@ namespace grind {
      */
     bool 
     pass_to_lua(const char* inFunc, 
-                std::function<void()> extractor = nullptr, 
+                boost::function<void()> extractor = NULL, 
                 int retc = 0, 
                 int argc = 0, 
                 ...);
@@ -102,6 +102,8 @@ namespace grind {
   private:
     void push_userdata(void* data, string_t type);
     void handle_error();
+
+    void on_grind_start();
 
     lua_State  *lua_;
     int         id_;

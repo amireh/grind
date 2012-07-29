@@ -22,67 +22,59 @@
  */
 
 #include "logger.hpp"
+#include <iomanip>
 
 namespace grind {
 
-  logger::logger(const char* context)
-  : log_(nullptr)
-  {
-    if (context)
-      __create_logger(context);
+  static char levels[] = { 'D','I','N','W','E','A','C' };
+  static char threshold = 'D';
+
+  ostringstream logger::sink;
+
+  void logger::set_threshold(char level) {
+    threshold = level;
   }
 
   logger::logger(string_t context)
-  : log_(nullptr)
+  : context_(context)
   {
-    if (!context.empty())
-      __create_logger(context.c_str());
-  }
-
-  logger::logger(const logger& src)
-  {
-    log_ = src.log_;
   }
 
   logger::~logger()
   {
-    if (log_)
-      delete log_;
-
-    log_ = nullptr;
   }
 
-  logger& logger::operator=(const logger& rhs)
-  {
-    if (this != &rhs) log_ = rhs.log_;
+  ostream& logger::log(char lvl) {
+    bool enabled = false;
+    for (int i = 0; i < 7; ++i)
+      if (levels[i] == threshold) { enabled = true; break; }
+      else if (levels[i] == lvl) break;
 
-    return *this;
+    if (!enabled)
+      return sink;
+
+    struct tm *pTime;
+    time_t ctTime; time(&ctTime);
+    pTime = localtime( &ctTime );
+    std::ostringstream timestamp;
+    timestamp
+      << std::setw(2) << std::setfill('0') << pTime->tm_mon
+      << '-' << std::setw(2) << std::setfill('0') << pTime->tm_mday
+      << '-' << std::setw(4) << std::setfill('0') << pTime->tm_year + 1900
+      << ' ' << std::setw(2) << std::setfill('0') << pTime->tm_hour
+      << ":" << std::setw(2) << std::setfill('0') << pTime->tm_min
+      << ":" << std::setw(2) << std::setfill('0') << pTime->tm_sec
+      << " ";
+
+    std::cout << timestamp.str() << "[" << lvl << "]" << " " << context_ << ": ";
+    return std::cout;
   }
 
-  log4cpp::Category* logger::log() {
-    return log_;
-  }
-
-  void logger::__create_logger(const char* context)
-  {
-    context_ = string_t(context);
-
-    log_manager &mgr = log_manager::singleton();
-    log_ = new log4cpp::FixedContextCategory(mgr.category(), context);
-  }
-
-  void logger::__destroy_logger() {
-    if (log_)
-      delete log_;
-
-    log_ = nullptr;
-  }
-
-  log4cpp::CategoryStream logger::debug() { return log_->debugStream(); }
-  log4cpp::CategoryStream logger::info() { return log_->infoStream(); }
-  log4cpp::CategoryStream logger::notice() { return log_->noticeStream(); }
-  log4cpp::CategoryStream logger::warn() { return log_->warnStream(); }
-  log4cpp::CategoryStream logger::error() { return log_->errorStream(); }
-  log4cpp::CategoryStream logger::alert() { return log_->alertStream(); }
-  log4cpp::CategoryStream logger::crit() { return log_->critStream(); }
+  ostream& logger::debug()  { return log('D'); }
+  ostream& logger::info()   { return log('I'); }
+  ostream& logger::notice() { return log('N'); }
+  ostream& logger::warn()   { return log('W'); }
+  ostream& logger::error()  { return log('E'); }
+  ostream& logger::alert()  { return log('A'); }
+  ostream& logger::crit()   { return log('C'); }
 }

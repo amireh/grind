@@ -25,50 +25,36 @@
 #define H_GRIND_LOGGER_H
 
 #include "grind.hpp"
-#include "log.hpp"
-#include "log_manager.hpp"
+#include <sstream>
+#include <iostream>
 
 namespace grind {
 
-  /**
-   * \addtogroup Core
-   * @{
-   * @class logger
-   * Logger instances can log messages using the grind::log_manager system.
-	 */
+  using std::ostream;
+  using std::ostringstream;
+
 	class logger
 	{
 	public:
 
-    /**
-     * @param context
-     *  A prefix prepended to every message logged by this system. This should
-     *  normally denote the name of the logging module.
-     */
-		explicit logger(const char* context);
-    explicit logger(string_t context);
-		logger(const logger& src);
+    logger(string_t context);
 		virtual ~logger();
-    logger& operator=(const logger& rhs);
 
-    log4cpp::Category* log();
+    static void set_threshold(char level);
 
-    log4cpp::CategoryStream debug();
-    log4cpp::CategoryStream info();
-    log4cpp::CategoryStream notice();
-    log4cpp::CategoryStream warn();
-    log4cpp::CategoryStream error();
-    log4cpp::CategoryStream alert();
-    log4cpp::CategoryStream crit();
-
-	protected:
-		log4cpp::Category* log_;
-
-    void __create_logger(const char* context);
-    void __destroy_logger();
+    ostream& debug();
+    ostream& info();
+    ostream& notice();
+    ostream& warn();
+    ostream& error();
+    ostream& alert();
+    ostream& crit();
 
   private:
+    ostream& log(char lvl);
     string_t context_;
+
+    static ostringstream sink;
 	}; // end of logger class
 
   /** @} */

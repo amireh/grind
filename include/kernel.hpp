@@ -88,6 +88,7 @@ namespace grind {
     string_t  feeder_interface; /* default: 0.0.0.0 */
     string_t  watcher_interface; /* default: 0.0.0.0 */
     string_t  watcher_port;     /* default: 11142 */
+    char      log_level;
   } kernel_cfg_t;
 
   class kernel : public logger {
@@ -97,10 +98,12 @@ namespace grind {
 
     explicit kernel();
     virtual ~kernel();
-    kernel(const kernel&) = delete;
-    kernel& operator=(const kernel&) = delete;
 
-    // bool init();
+  private:
+    kernel(const kernel&);
+    kernel& operator=(const kernel&);
+
+  public:
 
     virtual bool init(string_t const& path_to_config);
 
@@ -123,6 +126,8 @@ namespace grind {
 
     bool register_feeder(string_t const& application_group, int port);
 
+    void set_logging_threshold(char);
+
   protected:
     // friend class script_engine;
     // void broadcast(string_t const& msg);
@@ -133,8 +138,13 @@ namespace grind {
 
   private:
     typedef std::map<string_t, feeder*> feeders_t;
+    typedef std::list<connection_ptr> connections_t;
     // marks the connection as dead and will be removed sometime later
     void close(connection_ptr);
+    void do_close(connection_ptr conn);    
+
+    void do_remove_feeder(const string_t &glabel);
+
     // a thread handling io_service::run()
     void work();
 
@@ -153,7 +163,7 @@ namespace grind {
     feeders_t feeders_;
     // connection_ptr new_connection_;
     connection_ptr new_watcher_connection_;
-    std::list<connection_ptr> connections_;
+    connections_t connections_;
     // std::list<connection_ptr> paused_connections_;
     mutex_t conn_mtx_, feeder_mtx_;
 

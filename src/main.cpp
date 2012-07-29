@@ -54,6 +54,7 @@ int print_usage() {
 int main(int argc, char** argv)
 {
   using grind::string_t;
+  grind::kernel kernel;
 
   string_t config_file = "";
   if (argc > 1) {
@@ -71,6 +72,14 @@ int main(int argc, char** argv)
       else if (arg == "-h" || arg == "--help") {
         return print_usage();
       }
+      if (arg == "-l") {
+        if (argc < i + 1) {
+          std::cerr << "invalid argument '-l'; missing log level\n";
+          return 0;
+        }
+
+        kernel.cfg.log_level = *argv[++i];
+      }
     }
   }
 
@@ -80,7 +89,6 @@ int main(int argc, char** argv)
   sigset_t old_mask;
   pthread_sigmask(SIG_BLOCK, &new_mask, &old_mask);
 
-  grind::kernel kernel;
   kernel.init(config_file);
 
   if (!kernel.is_init()) {

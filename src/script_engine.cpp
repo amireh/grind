@@ -17,7 +17,7 @@ namespace grind {
   script_engine::script_engine(kernel& kernel)
   : logger("script_engine"),
     kernel_(kernel),
-    lua_(nullptr),
+    lua_(NULL),
     stopping_(false),
     running_(false)
   {
@@ -45,10 +45,13 @@ namespace grind {
     return 1;
   }
 
-  static path_t locate_file(std::vector<string_t> directories, string_t filename) {
+  typedef std::vector<string_t> directories_t;
+
+  static path_t locate_file(directories_t directories, string_t filename) {
     using boost::filesystem::is_directory;
 
-    for ( string_t const& d_str : directories ) {
+    for ( directories_t::const_iterator ditr = directories.begin(); ditr != directories.end(); ++ditr) {
+      string_t const& d_str = *ditr;
       path_t d(d_str);
 
       if (!is_directory(d))
@@ -64,11 +67,12 @@ namespace grind {
   }
   
   static path_t locate_config() {
-    return locate_file({
-      "/etc/grind",
-      "/usr/share/grind",
-      "/usr/local/share/grind"
-    }, "config.lua");
+    directories_t paths;
+    paths.push_back("/etc/grind");
+    paths.push_back("/usr/share/grind");
+    paths.push_back("/usr/local/share/grind");
+
+    return locate_file(paths, "config.lua");
   }
 
   void script_engine::start(string_t const& in_cfg_path) {
@@ -89,7 +93,7 @@ namespace grind {
     }
 
     // configure
-    log_->infoStream() << "configuring from: " << cfg_path_.string();
+    info() << "configuring from: " << cfg_path_.string() << '\n';
 
     lua_ = lua_open();
     luaL_openlibs(lua_);
@@ -98,12 +102,12 @@ namespace grind {
       return handle_error();
     }
 
-    info() << "Lua stack[initial] size is: " << lua_gettop(lua_);
+    info() << "Lua stack[initial] size is: " << lua_gettop(lua_) << '\n';
 
     // lua_getglobal(lua_, "set_paths");
     // if(!lua_isfunction(lua_, -1))
     // {
-    //   log_->errorStream() << "could not find Lua path initter! Corrupt state?";
+    //   error() << "could not find Lua path initter! Corrupt state?";
     //   return handle_error();
     // }
 
@@ -117,27 +121,29 @@ namespace grind {
 
     running_ = true;
 
-    pass_to_lua("grind.start", [&]() -> void {
-      running_ = lua_toboolean(lua_, -1);
-      lua_pop(lua_, 1);
-    }, 1, 1, "grind::kernel", &kernel_);
+    pass_to_lua("grind.start", boost::bind(&script_engine::on_grind_start, this), 1, 1, "grind::kernel", &kernel_);
 
     if (!running_)
       return;
 
-    log_->infoStream() << "grind Lua engine has started.";
+    info() << "grind Lua engine has started.\n";
+  }
+
+  void script_engine::on_grind_start() {
+    running_ = lua_toboolean(lua_, -1);
+    lua_pop(lua_, 1);
   }
 
   void script_engine::restart() {
     if (!lua_)
       return;
 
-    log_->infoStream() << "restarting the Lua state...";
+    info() << "restarting the Lua state...\n";
     // pass_to_lua("script_engine.restart", 0);
     stop();
     start(cfg_path_.string());
 
-    log_->infoStream() << "Lua state has been restarted.";
+    info() << "Lua state has been restarted.\n";
   }
 
   void script_engine::stop(bool valid_state) {
@@ -147,29 +153,29 @@ namespace grind {
 
     stopping_ = true;
 
-    log_->infoStream() << "grind Lua is stopping...";
-    info() << "Lua stack has " << lua_gettop(lua_) << " elements";
+    info() << "grind Lua is stopping...\n";
+    info() << "Lua stack has " << lua_gettop(lua_) << " elements\n";
 
     if (valid_state)
       pass_to_lua("grind.stop");
 
     lua_close(lua_);
-    lua_ = nullptr;
+    lua_ = NULL;
 
-    log_->infoStream() << "grind Lua is off.";
+    info() << "grind Lua is off.\n";
 
     stopping_ = false;
   }
 
   void script_engine::handle_error() {
     // Stk: Func(C.stp) String(error_msg)
-    info() << "Lua stack[error] has " << lua_gettop(lua_) << " elements.";
+    info() << "Lua stack[error] has " << lua_gettop(lua_) << " elements.\n";
 
     const char* error_c = lua_tostring(lua_, -1);
     string_t error;
     if (error_c) {
       error = string_t(error_c);
-      log_->errorStream() << "Lua error: " << error;
+      logger::error() << "Lua error: " << error << '\n';
       lua_pop(lua_, 1); // Stk: Func(C.stp)
     }
 
@@ -205,14 +211,14 @@ namespace grind {
         (type + " *").c_str()),0);
   }
 
-  bool script_engine::pass_to_lua(const char* in_func, std::function<void()> ret_extractor, int retc, int argc, ...) {
+  bool script_engine::pass_to_lua(const char* in_func, boost::function<void()> ret_extractor, int retc, int argc, ...) {
     scoped_lock lock(mtx_);
 
     va_list argp;
 
     int initial_size = lua_gettop(lua_);
     #ifdef DEBUG
-    info() << "Lua stack[pre_pass] has " << lua_gettop(lua_) << " elements.";
+    info() << "Lua stack[pre_pass] has " << lua_gettop(lua_) << " elements.\n";
     #endif
 
     lua_pushcfunction(lua_, stack_trace_printer);
@@ -222,7 +228,7 @@ namespace grind {
     lua_getfield(lua_, LUA_GLOBALSINDEX, "arbitrator");
     if(!lua_isfunction(lua_, -1))
     {
-      log_->errorStream() << "could not find Lua arbitrator functor!";
+      error() << "could not find Lua arbitrator functor!\n";
       handle_error();
       return false;
     }
@@ -244,7 +250,7 @@ namespace grind {
 
     // Stk: Func(C.stp) Func(lua.arb) String userdata[0]...userdata[argc]
     #ifdef DEBUG
-    info() << "Lua stack[pre_invoke] has " << lua_gettop(lua_) << " elements.";
+    info() << "Lua stack[pre_invoke] has " << lua_gettop(lua_) << " elements.\n";
     #endif
 
     int ec = lua_pcall(lua_, argc+1, retc, error_index);
@@ -271,7 +277,7 @@ namespace grind {
     // Stk:    
 
     #ifdef DEBUG
-    info() << "Lua stack[post_pass] has " << lua_gettop(lua_) << " elements.";
+    info() << "Lua stack[post_pass] has " << lua_gettop(lua_) << " elements.\n";
     #endif
 
     assert(lua_gettop(lua_) == initial_size);
@@ -282,7 +288,7 @@ namespace grind {
 
     // string_t result;
     pass_to_lua("grind.handle",
-                nullptr,
+                NULL,
                 0,
                 // [&]() -> void {
                 //   result = lua_tostring(lua_, lua_gettop(lua_));
@@ -305,7 +311,7 @@ namespace grind {
 
     // string_t result;
     pass_to_lua("grind.handle_cmd",
-                nullptr,
+                NULL,
                 0,
                 // [&]() -> void {
                 //   result = lua_tostring(lua_, lua_gettop(lua_));

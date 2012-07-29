@@ -2103,6 +2103,56 @@ fail:
 }
 
 
+static int _wrap_kernel_cfg_t_log_level_set(lua_State* L) {
+  int SWIG_arg = 0;
+  grind::kernel_cfg_t *arg1 = (grind::kernel_cfg_t *) 0 ;
+  char arg2 ;
+  
+  SWIG_check_num_args("grind::kernel_cfg_t::log_level",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("grind::kernel_cfg_t::log_level",1,"grind::kernel_cfg_t *");
+  if(!SWIG_lua_isnilstring(L,2)) SWIG_fail_arg("grind::kernel_cfg_t::log_level",2,"char");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_grind__kernel_cfg_t,0))){
+    SWIG_fail_ptr("kernel_cfg_t_log_level_set",1,SWIGTYPE_p_grind__kernel_cfg_t);
+  }
+  
+  arg2 = (lua_tostring(L, 2))[0];
+  if (arg1) (arg1)->log_level = arg2;
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
+static int _wrap_kernel_cfg_t_log_level_get(lua_State* L) {
+  int SWIG_arg = 0;
+  grind::kernel_cfg_t *arg1 = (grind::kernel_cfg_t *) 0 ;
+  char result;
+  
+  SWIG_check_num_args("grind::kernel_cfg_t::log_level",1,1)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("grind::kernel_cfg_t::log_level",1,"grind::kernel_cfg_t *");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_grind__kernel_cfg_t,0))){
+    SWIG_fail_ptr("kernel_cfg_t_log_level_get",1,SWIGTYPE_p_grind__kernel_cfg_t);
+  }
+  
+  result = (char) ((arg1)->log_level);
+  lua_pushfstring(L,"%c",result); SWIG_arg++;
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
 static int _wrap_new_kernel_cfg_t(lua_State* L) {
   int SWIG_arg = 0;
   grind::kernel_cfg_t *result = 0 ;
@@ -2131,6 +2181,7 @@ static swig_lua_attribute swig_grind_kernel_cfg_t_attributes[] = {
     { "feeder_interface", _wrap_kernel_cfg_t_feeder_interface_get, _wrap_kernel_cfg_t_feeder_interface_set},
     { "watcher_interface", _wrap_kernel_cfg_t_watcher_interface_get, _wrap_kernel_cfg_t_watcher_interface_set},
     { "watcher_port", _wrap_kernel_cfg_t_watcher_port_get, _wrap_kernel_cfg_t_watcher_port_set},
+    { "log_level", _wrap_kernel_cfg_t_log_level_get, _wrap_kernel_cfg_t_log_level_set},
     {0,0,0}
 };
 static swig_lua_class *swig_grind_kernel_cfg_t_bases[] = {0};
@@ -2301,6 +2352,32 @@ fail:
 }
 
 
+static int _wrap_kernel_set_logging_threshold(lua_State* L) {
+  int SWIG_arg = 0;
+  grind::kernel *arg1 = (grind::kernel *) 0 ;
+  char arg2 ;
+  
+  SWIG_check_num_args("grind::kernel::set_logging_threshold",2,2)
+  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("grind::kernel::set_logging_threshold",1,"grind::kernel *");
+  if(!SWIG_lua_isnilstring(L,2)) SWIG_fail_arg("grind::kernel::set_logging_threshold",2,"char");
+  
+  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_grind__kernel,0))){
+    SWIG_fail_ptr("kernel_set_logging_threshold",1,SWIGTYPE_p_grind__kernel);
+  }
+  
+  arg2 = (lua_tostring(L, 2))[0];
+  (arg1)->set_logging_threshold(arg2);
+  
+  return SWIG_arg;
+  
+  if(0) SWIG_fail;
+  
+fail:
+  lua_error(L);
+  return SWIG_arg;
+}
+
+
 static int _wrap_new_kernel(lua_State* L) {
   int SWIG_arg = 0;
   grind::kernel *result = 0 ;
@@ -2327,6 +2404,7 @@ static swig_lua_method swig_grind_kernel_methods[] = {
     {"is_port_available", _wrap_kernel_is_port_available}, 
     {"is_feeder_registered", _wrap_kernel_is_feeder_registered}, 
     {"register_feeder", _wrap_kernel_register_feeder}, 
+    {"set_logging_threshold", _wrap_kernel_set_logging_threshold}, 
     {0,0}
 };
 static swig_lua_attribute swig_grind_kernel_attributes[] = {

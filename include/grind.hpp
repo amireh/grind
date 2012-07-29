@@ -26,7 +26,6 @@
 
 #include <string>
 #include "exception.hpp"
-#include "log.hpp"
 
 namespace grind {
 

@@ -58,6 +58,10 @@ function grind.start(kernel)
     else
       kernel.cfg.watcher_port = grind.config.kernel.watcher_port
     end
+
+    if grind.config.log_level then
+      kernel:set_logging_threshold( grind.config.log_level:sub(0,1):upper() )
+    end
   end
 
   -- load the rest of the scripts

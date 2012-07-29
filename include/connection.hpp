@@ -65,7 +65,7 @@ namespace grind {
       WATCHER_CONNECTION
     };
 
-    explicit connection(boost::asio::io_service& io_service, script_engine&, int type, feeder* = nullptr);
+    explicit connection(boost::asio::io_service& io_service, script_engine&, int type, feeder* = NULL);
     virtual ~connection();
 
     boost::asio::ip::tcp::socket& socket();

@@ -44,6 +44,7 @@ namespace grind {
     cfg.feeder_interface = "0.0.0.0";
     cfg.watcher_interface = "0.0.0.0";
     cfg.watcher_port = "11142";
+    cfg.log_level = 'D';
   }
 
   kernel::~kernel()
@@ -54,10 +55,14 @@ namespace grind {
 	 *	bootstrap
 	 * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ */
 
-  bool kernel::init(string_t const& path_to_config) {
-    log_manager::singleton().init();
-    log_manager::singleton().configure();
+  void kernel::set_logging_threshold(char c) {
+    cfg.log_level = c;
+    logger::set_threshold(cfg.log_level);
+  }
 
+  bool kernel::init(string_t const& path_to_config) {
+    logger::set_threshold(cfg.log_level);
+    
     try {
       se_.start(path_to_config);
     } catch (std::exception& e) {
@@ -71,8 +76,8 @@ namespace grind {
 
   void kernel::start()
   {
-    info() << "accepting logs on: " << cfg.feeder_interface;
-    info() << "accepting watchers on: " << cfg.watcher_interface << ":" << cfg.watcher_port;
+    info() << "accepting logs on: " << cfg.feeder_interface << '\n';
+    info() << "accepting watchers on: " << cfg.watcher_interface << ":" << cfg.watcher_port << '\n';
 
     // open the client acceptor with the option to reuse the address (i.e. SO_REUSEADDR).
     {
@@ -99,18 +104,16 @@ namespace grind {
 
   void kernel::cleanup()
   {
-    info() << "cleaning up";
+    info() << "cleaning up" << '\n';
 
     if (is_running())
       stop();
 
-    for (auto pair : feeders_)
-      delete pair.second;
+    // for (auto pair : feeders_)
+    for (feeders_t::iterator pair = feeders_.begin(); pair != feeders_.end(); ++pair)
+      delete pair->second;
 
     feeders_.clear();
-
-    log_manager::singleton().cleanup();
-    delete &log_manager::singleton();
 
     init_ = false;
   }
@@ -127,20 +130,22 @@ namespace grind {
   void kernel::stop() {
     if (!is_running()) {
       warn()
-        << "attempting to stop the kernel when it's not running!";
+        << "attempting to stop the kernel when it's not running!\n";
 
       if (init_)
-        error() << "received stop() command when I'm already offline";
+        logger::error() << "received stop() command when I'm already offline\n";
 
       return;
     }
 
-    info() << "shutting down gracefully, waiting for current terminals to disengage, please wait";
+    info() << "shutting down gracefully, waiting for current terminals to disengage, please wait" << '\n';
 
-    for (auto conn : connections_)
-      conn->stop();
-    for (auto pair : feeders_)
-      pair.second->stop();
+    // for (auto conn : connections_)
+    for (connections_t::iterator conn = connections_.begin(); conn != connections_.end(); ++conn)
+      (*conn)->stop();
+
+    for (feeders_t::iterator pair = feeders_.begin(); pair != feeders_.end(); ++pair)
+      pair->second->stop();
 
     new_watcher_connection_.reset();
     connections_.clear();
@@ -149,7 +154,7 @@ namespace grind {
     
     se_.stop();
 
-    info() << "stopped";
+    info() << "stopped" << '\n';
     running_ = false;
   }
 
@@ -172,16 +177,18 @@ namespace grind {
 
       accept_watcher();
     } else {
-      error() << "couldn't accept connection! " << e;
+      logger::error() << "couldn't accept connection! " << e << '\n';
       throw std::runtime_error("unable to accept connection, see log for more info");
     }
   }
 
   void kernel::close(connection_ptr conn) {
-    strand_.post([&, conn]() -> void {
-      scoped_lock lock(conn_mtx_);
-      connections_.remove(conn);
-    });
+    strand_.post(boost::bind(&kernel::do_close, this, conn));
+  }
+
+  void kernel::do_close(connection_ptr conn) {
+    scoped_lock lock(conn_mtx_);
+    connections_.remove(conn);
   }
 
   bool kernel::is_running() const {
@@ -192,8 +199,8 @@ namespace grind {
   }
 
   bool kernel::is_port_available(int port) const {
-    for (auto pair : feeders_) {
-      feeder *f = pair.second;
+    for (feeders_t::const_iterator pair = feeders_.begin(); pair != feeders_.end(); ++pair) {
+      feeder *f = pair->second;
       if (f->port() == port) return false;
     }
 
@@ -202,9 +209,9 @@ namespace grind {
 
   bool kernel::register_feeder(string_t const& glabel, int port) {
     if (is_feeder_registered(glabel)) {
-      error()
+      logger::error()
         << "A feeder for the application group " << glabel
-        << " is already registered, ignoring.";
+        << " is already registered, ignoring.\n";
 
       return false;
     }
@@ -214,33 +221,35 @@ namespace grind {
       f->listen();
     } catch(std::exception& e) {
       error()
-        << "Feeder was unable to listen; " << e.what();
+        << "Feeder was unable to listen; " << e.what() << '\n';
 
       return false;
     }
 
     feeder_mtx_.lock();
     feeders_.insert(std::make_pair(glabel, f));
-    info() << "Feeder registered: " << f->label();
+    info() << "Feeder registered: " << f->label() << '\n';
     feeder_mtx_.unlock();
     return true;
   }
 
   void kernel::remove_feeder(const feeder* const f) {
     string_t glabel = f->label();
-    strand_.post([&, glabel]() -> void {
-      info() << "Removing feeder " << glabel;
+    strand_.post(boost::bind(&kernel::do_remove_feeder, this, glabel));
+  }
 
-      feeder_mtx_.lock();
-      delete feeders_.find(glabel)->second;
-      feeders_.erase(glabel);
-      feeder_mtx_.unlock();
-    });
+  void kernel::do_remove_feeder(const string_t &glabel) {
+    info() << "Removing feeder " << glabel << '\n';
+
+    feeder_mtx_.lock();
+    delete feeders_.find(glabel)->second;
+    feeders_.erase(glabel);
+    feeder_mtx_.unlock();    
   }
 
   bool kernel::is_feeder_registered(string_t const& glabel) {
     feeder_mtx_.lock();
-    auto iter = feeders_.find(glabel);
+    feeders_t::const_iterator iter = feeders_.find(glabel);
     feeder_mtx_.unlock();
 
     return iter != feeders_.end();
@@ -293,7 +302,7 @@ namespace grind {
 
       accept();
     } else {
-      GRIND_LOG->errorStream() << "couldn't accept connection! " << e;
+      // GRIND_LOG->error() << "couldn't accept connection! " << e;
       kernel_.remove_feeder(this);
     }
   }  
@@ -312,10 +321,9 @@ namespace grind {
   void feeder::stop() {
     scoped_lock lock(conn_mtx_);
 
-    for (auto c : connections_) {
-      c->assign_close_handler(0);
-      c->stop();
-      
+    for (connections_t::iterator conn = connections_.begin(); conn != connections_.end(); ++conn) {
+      (*conn)->assign_close_handler(0);
+      (*conn)->stop();      
     }
 
     connections_.clear();

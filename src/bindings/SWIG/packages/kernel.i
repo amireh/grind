@@ -32,6 +32,7 @@ namespace grind {
     string_t  feeder_interface; /* default: 0.0.0.0 */
     string_t  watcher_interface; /* default: 0.0.0.0 */
     string_t  watcher_port;     /* default: 11142 */
+    char      log_level;     /* default: D */
   } kernel_cfg_t;
 
   class kernel {
@@ -44,6 +45,7 @@ namespace grind {
     bool is_feeder_registered(string_t const&);
 
     bool register_feeder(string_t const& application_group, int port);
+    void set_logging_threshold(char lvl);
   };
 
 

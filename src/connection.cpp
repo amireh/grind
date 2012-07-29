@@ -62,16 +62,17 @@ namespace grind {
       remote_port_ = socket_.remote_endpoint().port();
       whois_ = remote_host_ + ":" + utility::stringify(remote_port_);
 
-      se_.pass_to_lua("grind.add_watcher", nullptr, 0, 1, "grind::connection", this);
+      se_.pass_to_lua("grind.add_watcher", NULL, 0, 1, "grind::connection", this);
     }
 
-    log_->infoStream() << "connection started from: " << whois();
+    info() << "connection started from: " << whois();
+    
     read();
   }
 
   void connection::stop() {
     if (type_ == WATCHER_CONNECTION) {
-      se_.pass_to_lua("grind.remove_watcher", nullptr, 0, 1, "grind::connection", this);
+      se_.pass_to_lua("grind.remove_watcher", NULL, 0, 1, "grind::connection", this);
     }
     
     boost::system::error_code ignored_ec;
@@ -89,8 +90,10 @@ namespace grind {
   }
 
   void connection::read() {
-    for (char& c : data_)
-      c = '\0';
+    for (int i = 0; i < BUFSZ; ++i)
+      data_[i] = '\0';
+    // for (char& c : data_)
+      // c = '\0';
 
     socket_.async_read_some(
       boost::asio::buffer(data_, BUFSZ),
