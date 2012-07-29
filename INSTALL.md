@@ -63,7 +63,7 @@ as the [luarocks](http://luarocks.org) package manager. When luarocks
 is set up, you can use it to install the Lua dependencies:
 
 * lrexlib-pcre
-* dkjson
+* lua-cjson
 * luafilesystem
 * lua_cliargs
 * luasocket - optional, needed for some tests and helper tools

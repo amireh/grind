@@ -1,5 +1,5 @@
 entry_t = {}
 
-function entry_t:new(c, raw)
+function entry_t:new(raw)
   return { meta = { raw = raw } }
 end

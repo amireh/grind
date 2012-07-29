@@ -103,26 +103,35 @@ function grind.handle(text, glabel)
   local consumed = 0
   while true do
 
-    b,e,c = signature_rex:find(text,e)
-    b2,e2,c2 = signature_rex:find(text,e)
+    local signature_captures = { signature_rex:find(text,e) }
+    b = signature_captures[1]
+    e = signature_captures[2]
+    -- b,e,c = signature_rex:find(text,e)
+    -- b2,e2,c2 = signature_rex:find(text,e)
 
-    if b == nil or b2 == nil then
+    -- if b == nil or b2 == nil then
+    if b == nil then
       break
     end
 
-    consumed = consumed + b2 - b
-    local signature_captures = { rex_pcre.find(text:sub(b, b2 - 1), signature_rex) }
-    if #signature_captures > 0 then -- strip out the match boundaries
-      table.remove(signature_captures,1)
-      table.remove(signature_captures,1)
-    end    
+    -- consumed = consumed + b2 - b
+    consumed = consumed + e
+    -- local signature_captures = { signature_rex:find(text:sub(b, b2 - 1)) }
+    -- if #signature_captures > 0 then -- strip out the match boundaries
+    --   table.remove(signature_captures,1)
+    --   table.remove(signature_captures,1)
+    -- end    
 
-    local entry = entry_t:new(nil, text:sub(e + 1, b2 - 1))
+    -- local entry = entry_t:new(nil, text:sub(e + 1, b2 - 1))
+    local entry = entry_t:new(signature_captures[#signature_captures])
+    -- print(entry.meta.raw)
     local formats = {}
-    for format, formatter in pairs(group.formatters) do
-      local captures = formatter(entry.meta.raw)
-      if #captures > 0 then
-        table.insert(formats, { format, captures })
+    for flabel, format in pairs(group.formats) do
+      if format.nr_active_klasses > 0  then
+        local captures = format.matcher(entry.meta.raw)
+        if #captures > 0 then
+          table.insert(formats, { format, captures })
+        end
       end
     end
 
@@ -130,7 +139,7 @@ function grind.handle(text, glabel)
       local format = format_and_captures[1]
       local captures = format_and_captures[2]
 
-      log:debug("Group: " .. group.label .. ", applicable format: " .. format .. " on '" .. entry.meta.raw .. "'")
+      log:debug("Group: " .. group.label .. ", applicable format: " .. format.label .. " on '" .. entry.meta.raw .. "'")
       
       -- append the signature format captures to the format captures
       for k,v in pairs(signature_captures) do 
@@ -138,12 +147,13 @@ function grind.handle(text, glabel)
       end
 
       -- get a hold on the entry structure
-      local meta = group.extractors[format](unpack(captures))
+      -- local schema = group.extractors[format](unpack(captures))
+      local schema = format.extractor(unpack(captures))
 
       -- assert(type(meta) == "table", "Group " .. group.label .. "'s extractor returned no message.meta table!")
 
       -- define the entry
-      for k,v in pairs(meta) do 
+      for k,v in pairs(schema) do 
         entry[k] = v
       end
 
@@ -153,15 +163,19 @@ function grind.handle(text, glabel)
       -- see if any eligible klass is interested in the entry
       -- TODO: this can be optimized if we link klasses directly
       -- to the formats when they bind
-      for __,klass in pairs(group.klasses) do
-        if klass:belongs_to(format) and klass.matcher(format, entry, klass.context) then
+      -- for __,klass in pairs(group.klasses) do
+      for klabel,active_views in pairs(format.active_klasses) do
+        local klass = group.klasses[klabel]
+        -- if klass:belongs_to(format) and klass.matcher(format, entry, klass.context) then
+        if klass.matcher(format.label, entry, klass.context) then
           log:indent()
           log:debug("Found an applicable klass: " .. klass.label)
 
           -- invoke the view formatters
-          for ___,view in pairs(klass.views) do
+          -- for ___,view in pairs(klass.views) do
+          for view in ilist(active_views) do
             log:indent()
-            local do_commit, formatted_entry, keep_context = view.formatter(format, view.context, entry, klass.context)
+            local do_commit, formatted_entry, keep_context = view.formatter(format.label, view.context, entry, klass.context)
 
             if do_commit and formatted_entry then
 
@@ -240,7 +254,7 @@ function grind.handle(text, glabel)
   end
 
   group.leftovers = text:sub(consumed)
-  print(consumed .. " bytes were consumed, and " .. #group.leftovers .. " bytes were left over.")
+  log:debug(consumed .. " bytes were consumed, and " .. #group.leftovers .. " bytes were left over.")
   -- print(leftovers)
 
   return nil
@@ -273,8 +287,9 @@ function grind.define_group(glabel, port, options)
     initter = initter,
     __signature_patterns = {},
     signature = nil,
-    formatters = {},
-    extractors = {},
+    -- formatters = {},
+    -- extractors = {},
+    formats = {},
     exclusive = false,
     klasses = {},
     leftovers = ""
@@ -330,17 +345,35 @@ function grind.define_format(glabel, gformat, ptrn)
   local rex = create_regex(ptrn)
   assert(rex, "Invalid formatter '" .. ptrn .. "' for group '" .. glabel .. "'")
 
+  --[[
+    format = { 
+      matcher = regex,
+      extractor = function,
+      active_klasses = {
+        [klass] = { active_views = { views } }
+      }
+    }
+    when a subscription is made
+  ]]
+
   log:info("Message format defined for " .. glabel .. ": " .. gformat .. " => " .. ptrn)
-  group.formatters[gformat] = function(message_content)
-    -- if this message does belong to us, return the
-    -- captured parts that we'll be using later to parse it
-    local capture = { rex_pcre.find(message_content, rex) }
-    if #capture > 0 then -- strip out the match boundaries
-      table.remove(capture,1)
-      table.remove(capture,1)
-    end
-    return capture
-  end
+  group.formats[gformat] = {
+    label = gformat,
+    matcher = function(message_content)
+      -- if this message does belong to us, return the
+      -- captured parts that we'll be using later to parse it
+      -- local capture = { rex_pcre.find(message_content, rex) }
+      local capture = { rex:find(message_content) }
+      if #capture > 0 then -- strip out the match boundaries
+        table.remove(capture,1)
+        table.remove(capture,1)
+      end
+      return capture
+    end,
+    extractor = nil,
+    active_klasses = {},
+    nr_active_klasses = 0
+  }
 end
 
 -- define_extractor():
@@ -397,7 +430,8 @@ function grind.define_extractor(glabel, gformat, extractor)
     end
   end
 
-  grind.groups[glabel].extractors[gformat] = extractor
+  -- grind.groups[glabel].extractors[gformat] = extractor
+  grind.groups[glabel].formats[gformat].extractor = extractor
 end
 
 -- grind.define_klass():
@@ -424,17 +458,17 @@ function grind.define_klass(glabel, gformats, clabel, matcher)
   if not matcher and type(gformats) == "string" then gformats = { gformats } end
 
   for format in ilist(gformats) do
-    assert(group.formatters[format], 
+    assert(group.formats[format], 
       "No format defined as " .. format .. " for the application group " .. glabel .. " in klass " .. ( clabel or "") )
   end
 
   local klass = { label = clabel, matcher = matcher, formats = gformats, views = {}, context = {} }
   group.klasses[clabel] = klass
   
-  function klass:belongs_to(format)
-    for f in ilist(self.formats) do if f == format then return true end end
-    return false
-  end
+  -- function klass:belongs_to(format)
+  --   for f in ilist(self.formats) do if f == format then return true end end
+  --   return false
+  -- end
 
   log:info("  Class defined: " .. glabel .. "[" .. clabel .. "]")
 end
@@ -538,7 +572,42 @@ function grind.add_watcher(watcher)
 end
 function grind.remove_watcher(watcher)
   remove_by_cond(grind.watchers, function(_,w) return w:whois() == watcher:whois() end)
+  local sub = grind.subscriptions[watcher:whois()]
+  if sub then
+    -- mark the subscription's view as inactive in the format
+    --
+    -- subscription structure:
+    -- { group.label, klass.label, view.label, watcher, filters = {} }
+    local group = grind.groups[sub[1]]
+    local klass = group.klasses[sub[2]]
+    local view_label = sub[3]
+
+    -- a klass can belong to many formats, so we have to handle them all
+    for flabel in ilist(klass.formats) do
+      local format = group.formats[flabel]
+      -- remove the view from the list of active views for this klass
+      remove_by_cond(format.active_klasses[klass.label],
+        function(_,view) return view.label == view_label end)
+      
+      -- are there no other active views remaining?
+      if #format.active_klasses[klass.label] == 0 then
+        -- mark the klass as being inactive
+        format.active_klasses[klass.label] = nil
+        format.nr_active_klasses = format.nr_active_klasses - 1
+      end
+
+      if format.nr_active_klasses == 0 then
+        log:notice("Format " .. format.label .. " is no longer active.")
+      else
+        log:notice("Format has " .. format.nr_active_klasses .. " active klasses remaining.")
+      end
+    end
+
+  end
+
+  sub = nil
   grind.subscriptions[watcher:whois()] = nil
+
   log:info("Watcher removed: " .. watcher:whois())
   log:info("Watchers: " .. #grind.watchers)
 end

@@ -110,7 +110,7 @@ namespace grind {
   {
     if (!e) {
 
-      info() << "Received " << bytes_transferred << " bytes"; 
+      // info() << "Received " << bytes_transferred << " bytes"; 
       data_[BUFSZ] = '\0';
       string_t data(data_);
 
@@ -139,7 +139,7 @@ namespace grind {
     boost::system::error_code ec;
     size_t n = boost::asio::write(socket_, boost::asio::buffer(msg.c_str(), msg.size()), boost::asio::transfer_all(), ec);
 
-    debug() << "wrote " << n << " out of " << msg.size() << " bytes";
+    // debug() << "wrote " << n << " out of " << msg.size() << " bytes";
 
     // assert(n == msg.size());
 

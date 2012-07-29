@@ -17,7 +17,8 @@ local cfg = {
 
   -- accepted log levels (ordered):
   -- debug, info, notice, warn, error, crit, alert
-  log_level = "debug",
+  -- log_level = "debug",
+  log_level = "warn",
 
   -- paths that will be searched for grind entity definitions
   -- (your group, klass, and view configuration scripts)

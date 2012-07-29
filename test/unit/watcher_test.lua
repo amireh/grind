@@ -12,7 +12,7 @@ do
   cli:add_arg("VIEW", "view identifier", "view")
   cli:add_opt("-h, --host=HOST", "the host IP on which grind is running", "host", "127.0.0.1")
   cli:add_opt("-p, --port=PORT", "the port on which grind is running", "port", 11144)
-  cli:add_opt("-t, --timeout=VALUE", "amount of milliseconds to wait before interrupting the connection", "tt", 100)
+  cli:add_opt("-t, --timeout=VALUE", "amount of milliseconds to wait before interrupting the connection", "tt", 1)
 
   args = cli:parse_args()
   if not args then
@@ -23,7 +23,7 @@ end
 local client = assert(socket.connect(args.host, args.port))
 client:setoption("keepalive", true)
 client:setoption("tcp-nodelay", true)
-client:settimeout(args.tt / 1000)
+client:settimeout(args.tt / 1000.0)
 
 local running = true
 local cleanup = function()

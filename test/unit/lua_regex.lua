@@ -5,12 +5,15 @@ local ptrn = [[(?:<\d+>)(?<timestamp>[A-Z]{1}[a-z]{2}\s+[0-9]+\s+[0-9]{2}:[0-9]{
 local ptrn = [[(?J)(?:<\d+>)(?<timestamp>[A-Z]{1}[a-z]{2}\s+[0-9]+\s+[0-9]{2}:[0-9]{2}:[0-9]{2}\s{1})?|(?<timestamp>\d{4}-\d{2}-\d{2}\s{1}\d{2}:\d{2}:\d{2}\s{1})?]]
 -- local ptrn = [[(?|(?<DN>Mon|Fri|Sun)(?:day)?|(?<DN>Tue)(?:sday)?|(?<DN>Wed)(?:nesday)?|(?<DN>Thu)(?:rsday)?|(?<DN>Sat)(?:urday)?)]]
 local ptrn = [[(?J)(?<DN>Mon|Fri|Sun)(?:day)?|(?<DN>Tue)(?:sday)?|(?<DN>Wed)(?:nesday)?|(?<DN>Thu)(?:rsday)?|(?<DN>Sat)(?:urday)?]]
+local ptrn = [[(?:(\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}) (.*))+]]
 -- local ptrn = [[(foobar) went to the (?<place>\w+)]]
 -- local ptrn = [[(foobar) went to the (?<place>\w+)]]
 -- local text = [==[<15>Jun 27 20:45:19 cornholio dakapi: [I] {012345678} handler: looking up website with APIKey: 
 -- 1234-12-12 12:12:12 
 -- ]==]
 local text = [[Sunday\GDN]]
+local text = [[2012-07-15 19:21:31 [I] GameMgr: loading Pendulum config
+2012-07-15 19:21:31 [I] GameMgr: found existing configuration, parsing...]]
 -- local text = "foobar went to the zoo and foobared some more"
 
 local rex = rex_pcre.new(ptrn)
@@ -22,9 +25,10 @@ local count = arg[1] or 10
 print("Matching " .. ptrn .. " " .. count .. " times")
 
 for i=0,count do
-  -- print(rex:find(text))
-  -- print(rex_pcre.match(text, rex))
+  print(rex:find(text))
+  print(rex_pcre.match(text, rex))
   -- print(rex_pcre.find(text, rex))
+  print(rex:exec(text))
   local b,e,captures = rex:exec(text)
   -- local e = nil
   -- print("Matched @ " .. b .. " => " .. e)

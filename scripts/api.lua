@@ -146,6 +146,16 @@ grind.command("subscribe", function(cmd, watcher)
   end
 
   grind.subscriptions[watcher:whois()] = { group.label, klass.label, view.label, watcher, filters = {} }
+  
+  -- mark the view as active inside the format its klass belongs to
+  for format in ilist(klass.formats) do
+    if not group.formats[format].active_klasses[klass.label] then
+      group.formats[format].active_klasses[klass.label] = {}
+      group.formats[format].nr_active_klasses =
+        group.formats[format].nr_active_klasses + 1
+    end
+    table.insert(group.formats[format].active_klasses[klass.label], view)
+  end
 
   log:info("Watcher#" .. watcher:whois() .. " has subscribed to " .. group.label .. ">>" .. klass.label .. ">>" .. view.label)
   return true

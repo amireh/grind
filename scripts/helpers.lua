@@ -234,6 +234,7 @@ function dirtree(dir)
 end
 
 function create_regex(ptrn)
+  -- local regex = rex_pcre.new("(?X)" .. ptrn)
   local regex = rex_pcre.new(ptrn)
   if not regex then
     return log:error("Invalid PCRE regex pattern '" .. ptrn .. "'")
