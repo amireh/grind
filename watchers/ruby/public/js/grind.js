@@ -45,24 +45,7 @@ grind = function() {
       return;
     }
 
-    // for (var i =0; i < feed.length; ++i) {
-      foreach(handlers.on_message, function(e) { e(feed); });
-    // }
-
-
-    //   var msg = feed[i];
-    //   $("table tbody").append("<tr></tr>");
-    //   var tr = $("table tbody tr:last");
-    //   tr.append("<td>" + msg.meta.timestamp + "</td>");
-    //   tr.append("<td>" + msg.meta.fqdn + "</td>");
-    //   tr.append("<td>" + msg.meta.app + "</td>");
-    //   tr.append("<td>" + msg.meta.context + "</td>");
-    //   tr.append("<td>" + msg.meta.uuid + "</td>");
-    //   tr.append("<td>" + msg.meta.module + "</td>");
-    //   tr.append("<td>" + msg.body + "</td>");
-    //   // $("#msg").append("<p>"+evt.data+"</p>");
-      
-    // }
+    foreach(handlers.on_message, function(e) { e(feed); });
   };
 
   function ws_onclose() { 
@@ -99,8 +82,6 @@ grind = function() {
   }
 
   return {
-    // log: log,
-    // this: this,
     settings: settings,
     connect: function() {
       if (connected)

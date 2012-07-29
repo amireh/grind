@@ -24,11 +24,19 @@
       
       grind.on_connected(function() {
         toggle_alterable($("#status"));
+        
+        if ($("#connect").hasClass("disconnected"))
+          toggle_alterable($("#connect"));
+
         ui.status("Connected to grind.");
         $("#clear").click();
       });
       grind.on_disconnected(function() {
         toggle_alterable($("#status"));
+
+        if ($("#connect").hasClass("connected"))
+          toggle_alterable($("#connect"));
+        
         ui.status("Disconnected from grind.");
       });
 
@@ -43,7 +51,7 @@
           ui.status("Keeper archives have been purged.");
         });
         
-        $("#connect").click();
+        // $("#connect").click();
       });
 
 
